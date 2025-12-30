@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { CartProvider } from "@/lib/cart-context";
+import Navbar from "@/components/layout/Navbar";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -15,13 +17,12 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`min-h-screen flex flex-col antialiased`}>
-                <header className="border-b p-4">E-Commerce</header>
-                <main className="flex-1 container mx-auto px-4">
-                    {children}
-                </main>
-                <footer className="border-t p-4 text-center text-sm">
-                    © 2025
-                </footer>
+                <CartProvider>
+                    <Navbar />
+                    <main className="flex-1 container mx-auto px-4">
+                        {children}
+                    </main>
+                </CartProvider>
             </body>
         </html>
     );
