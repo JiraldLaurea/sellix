@@ -1,6 +1,8 @@
 import { products } from "@/lib/mock-products";
 import { notFound } from "next/navigation";
 import ProductImageGallery from "@/components/product/ProductImageGallery";
+import { useCart } from "@/lib/cart-context";
+import AddToCartButton from "@/components/product/AddToCartButton";
 
 type Props = {
     params: Promise<{
@@ -40,16 +42,7 @@ export default async function ProductPage({ params }: Props) {
                         className="w-20 border rounded-md px-3 py-2"
                     />
 
-                    <button
-                        disabled={product.stock === 0}
-                        className={`flex-1 rounded-md py-3 transition ${
-                            product.stock === 0
-                                ? "bg-gray-400 cursor-not-allowed"
-                                : "bg-black text-white hover:bg-gray-800"
-                        }`}
-                    >
-                        {product.stock === 0 ? "Out of stock" : "Add to cart"}
-                    </button>
+                    <AddToCartButton product={product} />
                 </div>
             </div>
         </section>
