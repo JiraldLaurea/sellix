@@ -21,6 +21,18 @@ export const products: Product[] = [
     },
 
     {
+        id: "2",
+        name: "Classic Watch",
+        price: 19900,
+        description: "Timeless watch with a minimalist dial.",
+        stock: 3,
+        images: [
+            "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1503602642458-232111445657?w=800&auto=format&fit=crop",
+        ],
+    },
+
+    {
         id: "3",
         name: "Classic Watch",
         price: 19900,
