@@ -32,7 +32,7 @@ export default function CartPage() {
 
     return (
         <section className="py-8 max-w-4xl mx-auto">
-            <h1 className="text-2xl font-semibold mb-6">Your Cart</h1>
+            <h1 className="text-2xl font-medium mb-6">Your Cart</h1>
 
             <div className="space-y-6">
                 {state.items.map(({ product, quantity }) => (

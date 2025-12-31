@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/lib/mock-products";
 import { useCart } from "@/lib/cart-context";
+import { toast } from "sonner";
 
 type Props = {
     product: Product;
@@ -43,7 +44,10 @@ export default function ProductCard({ product }: Props) {
             <div className="px-4 pb-4">
                 <button
                     disabled={product.stock === 0 || isMaxedOut}
-                    onClick={() => dispatch({ type: "ADD_ITEM", product })}
+                    onClick={() => {
+                        dispatch({ type: "ADD_ITEM", product });
+                        toast.success("Added to cart");
+                    }}
                     className={`w-full rounded-md py-2 text-sm transition
             ${
                 product.stock === 0 || isMaxedOut

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
 import Navbar from "@/components/layout/Navbar";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -22,6 +23,7 @@ export default function RootLayout({
                     <main className="flex-1 container mx-auto px-4">
                         {children}
                     </main>
+                    <Toaster position="bottom-right" />
                 </CartProvider>
             </body>
         </html>
