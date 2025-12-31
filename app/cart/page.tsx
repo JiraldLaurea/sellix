@@ -58,8 +58,40 @@ export default function CartPage() {
                             </p>
 
                             <div className="flex items-center gap-3 mt-3">
-                                <span className="text-sm">Qty:</span>
-                                <span className="font-medium">{quantity}</span>
+                                <button
+                                    onClick={() =>
+                                        dispatch({
+                                            type: "DECREMENT",
+                                            productId: product.id,
+                                        })
+                                    }
+                                    className="h-8 w-8 border rounded-md hover:bg-gray-100"
+                                >
+                                    -
+                                </button>
+
+                                <span className="min-w-[24px] text-center">
+                                    {quantity}
+                                </span>
+
+                                <button
+                                    disabled={quantity >= product.stock}
+                                    onClick={() =>
+                                        dispatch({
+                                            type: "INCREMENT",
+                                            productId: product.id,
+                                        })
+                                    }
+                                    className={`h-8 w-8 border rounded-md
+                                                ${
+                                                    quantity >= product.stock
+                                                        ? "cursor-not-allowed bg-gray-200"
+                                                        : "hover:bg-gray-100"
+                                                }
+                                            `}
+                                >
+                                    +
+                                </button>
 
                                 <button
                                     onClick={() =>
