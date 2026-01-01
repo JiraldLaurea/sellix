@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
+import CheckoutDialog from "@/components/checkout/CheckoutDialog";
 
 export default function CartPage() {
     const { state, dispatch } = useCart();
@@ -124,9 +125,11 @@ export default function CartPage() {
             </div>
 
             <div className="mt-6 text-right">
-                <button className="rounded-md bg-black text-white px-6 py-3 hover:bg-gray-800 transition">
-                    Checkout
-                </button>
+                <CheckoutDialog>
+                    <button className="rounded-md bg-accent text-white px-6 py-3 hover:bg-gray-800 transition">
+                        Checkout
+                    </button>
+                </CheckoutDialog>
             </div>
         </section>
     );
