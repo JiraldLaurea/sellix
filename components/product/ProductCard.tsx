@@ -28,7 +28,7 @@ export default function ProductCard({ product }: Props) {
                         src={product.images[0]}
                         alt={product.name}
                         fill
-                        className="object-cover group-hover:scale-105 transition"
+                        className="object-cover"
                     />
                 </div>
 
