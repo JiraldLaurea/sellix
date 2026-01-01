@@ -16,6 +16,13 @@
     }
 }
 
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}
+
 @theme {
     --font-inter: "Inter", sans-serif;
     --font-inter-tight: "Inter Tight", sans-serif;
