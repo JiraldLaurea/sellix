@@ -1,8 +1,7 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "@/lib/cart-context";
 import Navbar from "@/components/layout/Navbar";
+import { CartProvider } from "@/lib/cart-context";
+import type { Metadata } from "next";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
@@ -17,7 +16,15 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`min-h-screen flex flex-col antialiased`}>
+            <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+                    rel="stylesheet"
+                />
+            </head>
+            <body className={`min-h-screen flex flex-col font-inter`}>
                 <CartProvider>
                     <Navbar />
                     <main className="flex-1 container mx-auto px-4">

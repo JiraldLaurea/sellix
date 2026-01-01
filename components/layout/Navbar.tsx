@@ -18,10 +18,10 @@ export default function Navbar() {
     );
 
     return (
-        <header className="border-b sticky top-0 z-100 bg-white">
+        <header className="border-b sticky top-0 z-50 bg-white">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                <Link href="/" className="text-lg font-semibold">
-                    E-Commerce
+                <Link href="/" className="text-lg">
+                    Ecommerce
                 </Link>
 
                 <Popover.Root>
