@@ -1,46 +1,45 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 
+/* --------------------------------------------------
+   Theme variables
+-------------------------------------------------- */
 :root {
     --background: #ffffff;
     --foreground: #171717;
 }
 
-@layer base {
-    *,
-    ::after,
-    ::before,
-    ::backdrop,
-    ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
-    }
+/* Tailwind theme tokens */
+@theme {
+    --font-inter: "Inter", sans-serif;
+    --font-inter-tight: "Inter Tight", sans-serif;
+
+    --color-accent: #000000;
 }
 
+/* Inline tokens for Tailwind utilities */
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+}
+
+/* --------------------------------------------------
+   Base styles
+-------------------------------------------------- */
 @layer base {
+    body {
+        @apply font-inter;
+    }
+
     button:not(:disabled),
     [role="button"]:not(:disabled) {
         cursor: pointer;
     }
 }
 
-@theme {
-    --font-inter: "Inter", sans-serif;
-    --font-inter-tight: "Inter Tight", sans-serif;
-}
-
-@layer base {
-    body {
-        @apply font-inter;
-    }
-}
-
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
-}
-
+/* --------------------------------------------------
+   Dark mode
+-------------------------------------------------- */
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #0a0a0a;
