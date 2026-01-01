@@ -76,15 +76,14 @@ export default function Navbar() {
                                     <span>Total</span>
                                     <span>${(total / 100).toFixed(2)}</span>
                                 </div>
-                                <Link href="/cart">
-                                    <button
-                                        className={
-                                            "w-full rounded-md py-2 text-sm transition bg-black text-white hover:bg-gray-800"
-                                        }
+                                <Popover.Close asChild>
+                                    <Link
+                                        href="/cart"
+                                        className="w-full rounded-md py-2 text-sm transition bg-accent text-white hover:bg-gray-800 text-center block"
                                     >
                                         View cart
-                                    </button>
-                                </Link>
+                                    </Link>
+                                </Popover.Close>
                             </>
                         )}
                     </Popover.Content>
