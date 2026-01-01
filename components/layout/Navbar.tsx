@@ -6,9 +6,6 @@ import { useCart } from "@/lib/cart-context";
 export default function Navbar() {
     const { state } = useCart();
 
-    console.log("NAVBAR CART:", state.items);
-    console.log("NAVBAR PROVIDER MOUNTED");
-
     const itemCount = state.items.reduce(
         (total, item) => total + item.quantity,
         0
