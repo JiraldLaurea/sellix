@@ -45,7 +45,7 @@ export default function ProductCard({ product }: Props) {
                 <button
                     disabled={product.stock === 0 || isMaxedOut}
                     onClick={() => {
-                        dispatch({ type: "ADD_ITEM", product });
+                        dispatch({ type: "ADD_ITEM", product, quantity: 1 });
                         toast.success("Added to cart");
                     }}
                     className={`w-full rounded-md py-2 text-sm transition
