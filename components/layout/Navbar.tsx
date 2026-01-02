@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import * as Popover from "@radix-ui/react-popover";
+import MobileMenu from "@/components/navbar/MobileMenu";
 
 export default function Navbar() {
     const { state } = useCart();
@@ -20,74 +21,84 @@ export default function Navbar() {
     return (
         <header className="border-b sticky top-0 z-50 bg-white">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                <Link href="/" className="text-lg">
+                {/* Logo */}
+                <Link href="/" className="text-lg font-semibold">
                     Ecommerce
                 </Link>
 
-                <Popover.Root>
-                    <Popover.Trigger asChild>
-                        <button className="relative">
-                            🛒
-                            {itemCount > 0 && (
-                                <span className="absolute -top-2 -right-3 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                                    {itemCount}
-                                </span>
+                {/* Right controls */}
+                <div className="flex items-center gap-4">
+                    {/* Mobile menu */}
+                    <MobileMenu />
+
+                    {/* Cart popover */}
+                    <Popover.Root>
+                        <Popover.Trigger asChild>
+                            <button aria-label="Open cart" className="relative">
+                                🛒
+                                {itemCount > 0 && (
+                                    <span className="absolute -top-2 -right-3 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                        {itemCount}
+                                    </span>
+                                )}
+                            </button>
+                        </Popover.Trigger>
+
+                        <Popover.Content
+                            align="end"
+                            sideOffset={8}
+                            className="w-72 bg-white border rounded-md shadow-lg p-4 z-50"
+                        >
+                            {state.items.length === 0 ? (
+                                <p className="text-sm text-gray-600">
+                                    Your cart is empty
+                                </p>
+                            ) : (
+                                <>
+                                    <p className="font-medium mb-2">Cart</p>
+
+                                    <ul className="space-y-2">
+                                        {state.items
+                                            .slice(0, 3)
+                                            .map(({ product, quantity }) => (
+                                                <li
+                                                    key={product.id}
+                                                    className="text-sm flex justify-between"
+                                                >
+                                                    <span>
+                                                        {product.name} ×{" "}
+                                                        {quantity}
+                                                    </span>
+                                                    <span>
+                                                        $
+                                                        {(
+                                                            (product.price *
+                                                                quantity) /
+                                                            100
+                                                        ).toFixed(2)}
+                                                    </span>
+                                                </li>
+                                            ))}
+                                    </ul>
+
+                                    <div className="border-t mt-3 mb-2 pt-3 flex justify-between text-sm font-medium">
+                                        <span>Total</span>
+                                        <span>${(total / 100).toFixed(2)}</span>
+                                    </div>
+
+                                    <Popover.Close asChild>
+                                        <Link
+                                            href="/cart"
+                                            className="w-full rounded-md py-2 text-sm transition bg-accent text-white hover:bg-gray-800 text-center block"
+                                        >
+                                            View cart
+                                        </Link>
+                                    </Popover.Close>
+                                </>
                             )}
-                        </button>
-                    </Popover.Trigger>
-
-                    <Popover.Content
-                        align="end"
-                        sideOffset={8}
-                        className="w-72 bg-white border rounded-md shadow-lg p-4 z-50"
-                    >
-                        {state.items.length === 0 ? (
-                            <p className="text-sm text-gray-600">
-                                Your cart is empty
-                            </p>
-                        ) : (
-                            <>
-                                <p className="font-medium mb-2">Cart</p>
-
-                                <ul className="space-y-2">
-                                    {state.items
-                                        .slice(0, 3)
-                                        .map(({ product, quantity }) => (
-                                            <li
-                                                key={product.id}
-                                                className="text-sm flex justify-between"
-                                            >
-                                                <span>
-                                                    {product.name} × {quantity}
-                                                </span>
-                                                <span>
-                                                    $
-                                                    {(
-                                                        (product.price *
-                                                            quantity) /
-                                                        100
-                                                    ).toFixed(2)}
-                                                </span>
-                                            </li>
-                                        ))}
-                                </ul>
-
-                                <div className="border-t mt-3 mb-2 pt-3 flex justify-between text-sm font-medium">
-                                    <span>Total</span>
-                                    <span>${(total / 100).toFixed(2)}</span>
-                                </div>
-                                <Popover.Close asChild>
-                                    <Link
-                                        href="/cart"
-                                        className="w-full rounded-md py-2 text-sm transition bg-accent text-white hover:bg-gray-800 text-center block"
-                                    >
-                                        View cart
-                                    </Link>
-                                </Popover.Close>
-                            </>
-                        )}
-                    </Popover.Content>
-                </Popover.Root>
+                        </Popover.Content>
+                    </Popover.Root>
+                </div>
             </div>
         </header>
     );
