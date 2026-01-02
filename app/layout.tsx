@@ -4,6 +4,7 @@ import { CartProvider } from "@/lib/cart-context";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { Providers } from "./providers";
+import { useSession } from "next-auth/react";
 
 export const metadata: Metadata = {
     title: "Create Next App",

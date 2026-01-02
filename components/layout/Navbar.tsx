@@ -10,7 +10,12 @@ import { useSession } from "next-auth/react";
 
 export default function Navbar() {
     const { state } = useCart();
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+
+    // ⛔ Hide navbar if not authenticated
+    if (status !== "authenticated") {
+        return null;
+    }
 
     const itemCount = state.items.reduce(
         (total, item) => total + (item.quantity ?? 0),
@@ -22,14 +27,8 @@ export default function Navbar() {
         0
     );
 
-    // const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    // useEffect(() => {
-    //     setIsAuthenticated(!!localStorage.getItem("user"));
-    // }, []);
-
     return (
-        <header className="border-b sticky top-0 z-50 h-16 bg-white ">
+        <header className="block border-b sticky top-0 z-50 h-16 bg-white">
             <div className="container mx-auto px-4 h-full flex items-center justify-between">
                 <div className="flex items-center space-x-6">
                     {/* Logo */}

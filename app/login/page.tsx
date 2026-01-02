@@ -17,31 +17,31 @@ export default function LoginPage() {
     // 🔁 Redirect authenticated users
     useEffect(() => {
         if (status === "authenticated") {
-            router.replace("/account/orders");
+            router.replace("/");
         }
     }, [status, router]);
 
     if (status === "loading") {
         return (
-            <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <p className="text-sm text-gray-500">Checking session…</p>
             </div>
         );
     }
 
     return (
-        <section className="min-h-[calc(100vh-64px)] pb-16 flex items-center justify-center">
+        <section className="min-h-screen flex items-center justify-center">
             <div className="border rounded-md p-6 space-y-4 text-center w-full max-w-md">
                 <h1 className="text-xl font-semibold">Sign in</h1>
 
                 {/* Demo credentials */}
                 <button
                     disabled={!!loadingProvider}
-                    onClick={() => {
+                    onClick={async () => {
                         setLoadingProvider("credentials");
-                        signIn("credentials", {
-                            email: "test@example.com",
-                            callbackUrl: "/account/orders",
+                        await signIn("credentials", {
+                            callbackUrl: "/",
+                            redirect: true,
                         });
                     }}
                     className="w-full bg-accent hover:bg-gray-800 transition text-white py-2 rounded-md disabled:opacity-60"
@@ -63,7 +63,7 @@ export default function LoginPage() {
                     onClick={() => {
                         setLoadingProvider("google");
                         signIn("google", {
-                            callbackUrl: "/account/orders",
+                            callbackUrl: "/",
                         });
                     }}
                     className="w-full flex items-center justify-center gap-3 border rounded-md py-2 hover:bg-gray-50 transition disabled:opacity-50"
@@ -82,7 +82,7 @@ export default function LoginPage() {
                     onClick={() => {
                         setLoadingProvider("github");
                         signIn("github", {
-                            callbackUrl: "/account/orders",
+                            callbackUrl: "/",
                         });
                     }}
                     className="w-full flex items-center justify-center gap-3 border rounded-md py-2 hover:bg-gray-50 transition disabled:opacity-50"

@@ -1,39 +1,49 @@
-import NextAuth from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "@/lib/prisma";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(prisma),
+
+    session: {
+        strategy: "jwt",
+    },
+
     providers: [
-        CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-                email: { label: "Email", type: "email" },
-            },
-            async authorize(credentials) {
-                if (!credentials?.email) return null;
-
-                return {
-                    id: "user_1",
-                    email: credentials.email,
-                };
-            },
-        }),
-
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            allowDangerousEmailAccountLinking: true,
         }),
+
         GitHubProvider({
             clientId: process.env.GITHUB_CLIENT_ID!,
             clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+            allowDangerousEmailAccountLinking: true,
+        }),
+
+        CredentialsProvider({
+            id: "credentials", // 👈 explicit
+            name: "Credentials",
+            credentials: {},
+            async authorize() {
+                // 🔒 TEMPORARY hardcoded user (NO Prisma)
+                return {
+                    id: "demo-user-id",
+                    email: "demo@example.com",
+                    name: "Demo User",
+                };
+            },
         }),
     ],
-    session: { strategy: "jwt" },
+
     callbacks: {
         jwt({ token, user }) {
             if (user) {
-                token.id = user.id ?? token.sub;
+                token.id = user.id;
             }
             return token;
         },
@@ -44,6 +54,7 @@ const handler = NextAuth({
             return session;
         },
     },
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
