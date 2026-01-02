@@ -47,9 +47,10 @@ export default function OrdersPage() {
 
             <div className="space-y-4">
                 {orders.map((order) => (
-                    <div
+                    <Link
                         key={order.orderNumber}
-                        className="border rounded-md p-4"
+                        href={`/account/orders/${order.orderNumber}`}
+                        className="block border rounded-md p-4 hover:bg-gray-50 transition"
                     >
                         <div className="flex justify-between mb-2">
                             <div>
@@ -72,7 +73,7 @@ export default function OrdersPage() {
                             {order.items.length} item
                             {order.items.length > 1 && "s"}
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </section>
