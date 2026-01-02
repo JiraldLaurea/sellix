@@ -62,8 +62,11 @@ export default function CheckoutDialog({
 
                         <button
                             onClick={() => {
-                                dispatch({ type: "SET_CART", items: [] });
-                                router.push("/");
+                                router.push("/order-success");
+
+                                setTimeout(() => {
+                                    dispatch({ type: "SET_CART", items: [] });
+                                }, 0);
                             }}
                             className="flex-1 bg-accent text-white rounded-md py-2 hover:bg-gray-800"
                         >
