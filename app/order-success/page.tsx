@@ -20,7 +20,7 @@ export default function OrderSuccessPage() {
                 <div className="flex flex-col gap-3 pt-4">
                     <Link
                         href="/"
-                        className="rounded-md bg-black py-3 text-white hover:bg-gray-800 transition"
+                        className="rounded-md bg-accent py-3 text-white hover:bg-gray-800 transition"
                     >
                         Continue shopping
                     </Link>
