@@ -27,7 +27,7 @@ export default function AccountMenu({ isAuthenticated = false }: Props) {
                 {isAuthenticated ? (
                     <>
                         <MenuItem href="/account">My Account</MenuItem>
-                        <MenuItem href="/orders">Orders</MenuItem>
+                        <MenuItem href="/account/orders">Orders</MenuItem>
 
                         {/* <Popover.Separator className="my-1 h-px bg-gray-200" />
 
@@ -43,7 +43,6 @@ export default function AccountMenu({ isAuthenticated = false }: Props) {
                     </>
                 ) : (
                     <>
-                        <MenuItem href="/account/orders">Orders</MenuItem>
                         <MenuItem href="/login">Sign in</MenuItem>
                         <MenuItem href="/register">Create account</MenuItem>
                     </>

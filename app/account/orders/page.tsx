@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useAuthGuard } from "@/lib/useAuthGuard";
 
 type Order = {
     orderNumber: string;
@@ -18,14 +19,30 @@ type Order = {
 };
 
 export default function OrdersPage() {
+    const isAuthenticated = useAuthGuard();
     const [orders, setOrders] = useState<Order[]>([]);
 
     useEffect(() => {
+        if (!isAuthenticated) return;
+
         const stored = localStorage.getItem("orders");
         if (stored) {
             setOrders(JSON.parse(stored));
         }
-    }, []);
+    }, [isAuthenticated]);
+
+    if (isAuthenticated === null) {
+        return (
+            <section className="py-16 text-center">
+                <p>Checking authentication…</p>
+            </section>
+        );
+    }
+
+    if (!isAuthenticated) {
+        // redirect already handled by useAuthGuard
+        return null;
+    }
 
     if (orders.length === 0) {
         return (

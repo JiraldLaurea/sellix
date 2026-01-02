@@ -5,6 +5,7 @@ import { useCart } from "@/lib/cart-context";
 import * as Popover from "@radix-ui/react-popover";
 import MobileMenu from "@/components/navbar/MobileMenu";
 import AccountMenu from "../navbar/AccountMenu";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
     const { state } = useCart();
@@ -18,6 +19,12 @@ export default function Navbar() {
         (sum, item) => sum + item.product.price * (item.quantity ?? 0),
         0
     );
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        setIsAuthenticated(!!localStorage.getItem("user"));
+    }, []);
 
     return (
         <header className="border-b sticky top-0 z-50 h-16 bg-white ">
@@ -104,7 +111,7 @@ export default function Navbar() {
                     </Popover.Root>
 
                     {/* Account menu */}
-                    <AccountMenu isAuthenticated={false} />
+                    <AccountMenu isAuthenticated={isAuthenticated} />
                 </div>
             </div>
         </header>

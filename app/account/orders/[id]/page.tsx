@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import { useAuthGuard } from "@/lib/useAuthGuard";
 
 type Order = {
     orderNumber: string;
@@ -21,16 +22,17 @@ type Order = {
 export default function OrderDetailsPage() {
     const { id } = useParams<{ id: string }>();
     const [order, setOrder] = useState<Order | null>(null);
+    const isAuthenticated = useAuthGuard();
 
     useEffect(() => {
+        if (!isAuthenticated) return;
+
         const stored = localStorage.getItem("orders");
         if (!stored) return;
 
         const orders: Order[] = JSON.parse(stored);
-        const found = orders.find((o) => o.orderNumber === id);
-
-        setOrder(found ?? null);
-    }, [id]);
+        setOrder(orders.find((o) => o.orderNumber === id) ?? null);
+    }, [isAuthenticated, id]);
 
     if (!order) {
         return (
