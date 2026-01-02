@@ -1,24 +1,54 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+type Provider = "google" | "github" | "credentials" | null;
 
 export default function LoginPage() {
+    const router = useRouter();
+    const { status } = useSession();
+    const [loadingProvider, setLoadingProvider] = useState<Provider>(null);
+
+    const googleEnabled = process.env.NEXT_PUBLIC_GOOGLE_ENABLED === "true";
+    const githubEnabled = process.env.NEXT_PUBLIC_GITHUB_ENABLED === "true";
+
+    // 🔁 Redirect authenticated users
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.replace("/account/orders");
+        }
+    }, [status, router]);
+
+    if (status === "loading") {
+        return (
+            <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+                <p className="text-sm text-gray-500">Checking session…</p>
+            </div>
+        );
+    }
+
     return (
         <section className="min-h-[calc(100vh-64px)] pb-16 flex items-center justify-center">
             <div className="border rounded-md p-6 space-y-4 text-center w-full max-w-md">
                 <h1 className="text-xl font-semibold">Sign in</h1>
 
-                {/* Demo credentials login */}
+                {/* Demo credentials */}
                 <button
-                    onClick={() =>
+                    disabled={!!loadingProvider}
+                    onClick={() => {
+                        setLoadingProvider("credentials");
                         signIn("credentials", {
                             email: "test@example.com",
                             callbackUrl: "/account/orders",
-                        })
-                    }
-                    className="w-full bg-accent hover:bg-gray-800 transition text-white py-2 rounded-md"
+                        });
+                    }}
+                    className="w-full bg-accent hover:bg-gray-800 transition text-white py-2 rounded-md disabled:opacity-60"
                 >
-                    Sign in (demo)
+                    {loadingProvider === "credentials"
+                        ? "Signing in…"
+                        : "Sign in (demo)"}
                 </button>
 
                 <div className="relative flex items-center">
@@ -27,24 +57,48 @@ export default function LoginPage() {
                     <div className="grow border-t" />
                 </div>
 
-                {/* Google OAuth login */}
+                {/* Google */}
                 <button
-                    onClick={() =>
+                    disabled={!googleEnabled || !!loadingProvider}
+                    onClick={() => {
+                        setLoadingProvider("google");
                         signIn("google", {
                             callbackUrl: "/account/orders",
-                        })
-                    }
-                    className="w-full flex items-center justify-center gap-3 border rounded-md py-2 hover:bg-gray-50 transition"
+                        });
+                    }}
+                    className="w-full flex items-center justify-center gap-3 border rounded-md py-2 hover:bg-gray-50 transition disabled:opacity-50"
                 >
                     <GoogleLogo />
-                    <span>Sign in with Google</span>
+                    <span>
+                        {loadingProvider === "google"
+                            ? "Redirecting…"
+                            : "Sign in with Google"}
+                    </span>
+                </button>
+
+                {/* GitHub */}
+                <button
+                    disabled={!githubEnabled || !!loadingProvider}
+                    onClick={() => {
+                        setLoadingProvider("github");
+                        signIn("github", {
+                            callbackUrl: "/account/orders",
+                        });
+                    }}
+                    className="w-full flex items-center justify-center gap-3 border rounded-md py-2 hover:bg-gray-50 transition disabled:opacity-50"
+                >
+                    <GitHubLogo />
+                    <span>
+                        {loadingProvider === "github"
+                            ? "Redirecting…"
+                            : "Sign in with GitHub"}
+                    </span>
                 </button>
             </div>
         </section>
     );
 }
 
-/* Inline SVG = no network request, always crisp */
 function GoogleLogo() {
     return (
         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -64,6 +118,20 @@ function GoogleLogo() {
                 fill="#34A853"
                 d="M24 48c6.33 0 11.65-2.08 15.53-5.66l-7.2-5.6c-2 1.35-4.56 2.16-8.33 2.16-6.15 0-11.44-3.76-13.38-8.9l-7.95 6.18C6.6 42.62 14.62 48 24 48z"
             />
+        </svg>
+    );
+}
+
+function GitHubLogo() {
+    return (
+        <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+        >
+            <path d="M12 .5C5.73.5.5 5.74.5 12.02c0 5.1 3.29 9.42 7.86 10.95.58.11.79-.25.79-.56v-2.02c-3.2.7-3.87-1.54-3.87-1.54-.53-1.35-1.29-1.71-1.29-1.71-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.04 1.78 2.73 1.27 3.4.97.11-.76.41-1.27.75-1.56-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.8 0c2.2-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.41-5.27 5.69.42.36.8 1.08.8 2.18v3.24c0 .31.21.68.8.56a11.52 11.52 0 007.86-10.95C23.5 5.74 18.27.5 12 .5z" />
         </svg>
     );
 }
