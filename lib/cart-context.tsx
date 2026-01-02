@@ -19,11 +19,16 @@ type CartState = {
 };
 
 type CartAction =
-    | { type: "ADD_ITEM"; product: Product }
+    | { type: "ADD_ITEM"; product: Product; quantity: number }
     | { type: "REMOVE_ITEM"; productId: string }
     | { type: "INCREMENT"; productId: string }
     | { type: "DECREMENT"; productId: string }
-    | { type: "SET_CART"; items: CartItem[] };
+    | { type: "SET_CART"; items: CartItem[] }
+    | {
+          type: "SET_QUANTITY";
+          productId: string;
+          quantity: number;
+      };
 
 const CartContext = createContext<{
     state: CartState;
@@ -33,6 +38,8 @@ const CartContext = createContext<{
 function cartReducer(state: CartState, action: CartAction): CartState {
     switch (action.type) {
         case "ADD_ITEM": {
+            const qty = Math.max(1, action.quantity ?? 1);
+
             const existing = state.items.find(
                 (item) => item.product.id === action.product.id
             );
@@ -40,9 +47,14 @@ function cartReducer(state: CartState, action: CartAction): CartState {
             if (existing) {
                 return {
                     items: state.items.map((item) =>
-                        item.product.id === action.product.id &&
-                        item.quantity < item.product.stock
-                            ? { ...item, quantity: item.quantity + 1 }
+                        item.product.id === action.product.id
+                            ? {
+                                  ...item,
+                                  quantity: Math.min(
+                                      item.quantity + qty,
+                                      item.product.stock
+                                  ),
+                              }
                             : item
                     ),
                 };
@@ -51,7 +63,10 @@ function cartReducer(state: CartState, action: CartAction): CartState {
             return {
                 items: [
                     ...state.items,
-                    { product: action.product, quantity: 1 },
+                    {
+                        product: action.product,
+                        quantity: Math.min(qty, action.product.stock),
+                    },
                 ],
             };
         }
@@ -92,6 +107,22 @@ function cartReducer(state: CartState, action: CartAction): CartState {
             return {
                 items: action.items,
             };
+
+        case "SET_QUANTITY": {
+            return {
+                items: state.items.map((item) =>
+                    item.product.id === action.productId
+                        ? {
+                              ...item,
+                              quantity: Math.max(
+                                  1,
+                                  Math.min(action.quantity, item.product.stock)
+                              ),
+                          }
+                        : item
+                ),
+            };
+        }
 
         default:
             return state;

@@ -9,12 +9,12 @@ export default function Navbar() {
     const { state } = useCart();
 
     const itemCount = state.items.reduce(
-        (total, item) => total + item.quantity,
+        (total, item) => total + (item.quantity ?? 0),
         0
     );
 
     const total = state.items.reduce(
-        (sum, item) => sum + item.product.price * item.quantity,
+        (sum, item) => sum + item.product.price * (item.quantity ?? 0),
         0
     );
 
@@ -66,8 +66,8 @@ export default function Navbar() {
                                                     className="text-sm flex justify-between"
                                                 >
                                                     <span>
-                                                        {product.name} ×{" "}
-                                                        {quantity}
+                                                        {product.name} x
+                                                        {quantity ?? 1}
                                                     </span>
                                                     <span>
                                                         $

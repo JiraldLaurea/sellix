@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import QuantityPicker from "@/components/cart/QuantityPicker";
 import { useCart } from "@/lib/cart-context";
 import CheckoutDialog from "@/components/checkout/CheckoutDialog";
 
@@ -52,65 +53,43 @@ export default function CartPage() {
                         </div>
 
                         {/* Info */}
-                        <div className="flex-1">
+                        <div className="grow">
                             <h3 className="font-medium">{product.name}</h3>
                             <p className="text-sm text-gray-600">
                                 ${(product.price / 100).toFixed(2)}
                             </p>
 
                             <div className="flex items-center gap-3 mt-3">
-                                <button
-                                    onClick={() =>
+                                <QuantityPicker
+                                    quantity={quantity}
+                                    max={product.stock}
+                                    onChange={(next) =>
                                         dispatch({
-                                            type: "DECREMENT",
+                                            type: "SET_QUANTITY",
                                             productId: product.id,
+                                            quantity: next,
                                         })
                                     }
-                                    className="h-8 w-8 border rounded-md hover:bg-gray-100"
-                                >
-                                    -
-                                </button>
-
-                                <span className="min-w-[24px] text-center">
-                                    {quantity}
-                                </span>
-
-                                <button
-                                    disabled={quantity >= product.stock}
-                                    onClick={() =>
-                                        dispatch({
-                                            type: "INCREMENT",
-                                            productId: product.id,
-                                        })
-                                    }
-                                    className={`h-8 w-8 border rounded-md
-                                                ${
-                                                    quantity >= product.stock
-                                                        ? "cursor-not-allowed bg-gray-200"
-                                                        : "hover:bg-gray-100"
-                                                }
-                                            `}
-                                >
-                                    +
-                                </button>
-
-                                <button
-                                    onClick={() =>
-                                        dispatch({
-                                            type: "REMOVE_ITEM",
-                                            productId: product.id,
-                                        })
-                                    }
-                                    className="ml-4 text-sm text-red-600 hover:underline"
-                                >
-                                    Remove
-                                </button>
+                                />
                             </div>
                         </div>
 
-                        {/* Item total */}
-                        <div className="font-medium">
-                            ${((product.price * quantity) / 100).toFixed(2)}
+                        <div className="flex flex-col justify-between flex-none items-end">
+                            {/* Item total */}
+                            <div className="font-medium">
+                                ${((product.price * quantity) / 100).toFixed(2)}
+                            </div>
+                            <button
+                                onClick={() =>
+                                    dispatch({
+                                        type: "REMOVE_ITEM",
+                                        productId: product.id,
+                                    })
+                                }
+                                className="text-sm text-white bg-red-500 px-2 py-1 rounded-md"
+                            >
+                                Remove
+                            </button>
                         </div>
                     </div>
                 ))}
