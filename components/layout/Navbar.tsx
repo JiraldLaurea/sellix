@@ -6,6 +6,7 @@ import * as Popover from "@radix-ui/react-popover";
 import MobileMenu from "@/components/navbar/MobileMenu";
 import AccountMenu from "../navbar/AccountMenu";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
     const { state } = useCart();
@@ -20,11 +21,11 @@ export default function Navbar() {
         0
     );
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    useEffect(() => {
-        setIsAuthenticated(!!localStorage.getItem("user"));
-    }, []);
+    // useEffect(() => {
+    //     setIsAuthenticated(!!localStorage.getItem("user"));
+    // }, []);
 
     return (
         <header className="border-b sticky top-0 z-50 h-16 bg-white ">
@@ -111,7 +112,7 @@ export default function Navbar() {
                     </Popover.Root>
 
                     {/* Account menu */}
-                    <AccountMenu isAuthenticated={isAuthenticated} />
+                    <AccountMenu />
                 </div>
             </div>
         </header>

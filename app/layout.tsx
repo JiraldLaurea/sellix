@@ -3,6 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import { CartProvider } from "@/lib/cart-context";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -25,13 +26,15 @@ export default function RootLayout({
                 />
             </head>
             <body className={`min-h-screen flex flex-col font-inter`}>
-                <CartProvider>
-                    <Navbar />
-                    <main className="flex-1 container mx-auto px-4">
-                        {children}
-                    </main>
-                    <Toaster position="bottom-right" />
-                </CartProvider>
+                <Providers>
+                    <CartProvider>
+                        <Navbar />
+                        <main className="flex-1 container mx-auto px-4">
+                            {children}
+                        </main>
+                        <Toaster position="bottom-right" />
+                    </CartProvider>
+                </Providers>
             </body>
         </html>
     );

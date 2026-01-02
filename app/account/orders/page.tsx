@@ -19,19 +19,21 @@ type Order = {
 };
 
 export default function OrdersPage() {
-    const isAuthenticated = useAuthGuard();
+    const authStatus = useAuthGuard();
     const [orders, setOrders] = useState<Order[]>([]);
+    const status = useAuthGuard();
 
     useEffect(() => {
-        if (!isAuthenticated) return;
-
+        if (status !== "authenticated") {
+            return;
+        }
         const stored = localStorage.getItem("orders");
         if (stored) {
             setOrders(JSON.parse(stored));
         }
-    }, [isAuthenticated]);
+    }, [authStatus]);
 
-    if (isAuthenticated === null) {
+    if (authStatus === null) {
         return (
             <section className="py-16 text-center">
                 <p>Checking authentication…</p>
@@ -39,8 +41,15 @@ export default function OrdersPage() {
         );
     }
 
-    if (!isAuthenticated) {
-        // redirect already handled by useAuthGuard
+    if (status === "loading") {
+        return (
+            <div className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)] justify-center">
+                <p className="text-center">Loading…</p>
+            </div>
+        );
+    }
+
+    if (status !== "authenticated") {
         return null;
     }
 

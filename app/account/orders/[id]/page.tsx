@@ -22,21 +22,30 @@ type Order = {
 export default function OrderDetailsPage() {
     const { id } = useParams<{ id: string }>();
     const [order, setOrder] = useState<Order | null>(null);
-    const isAuthenticated = useAuthGuard();
+
+    const authStatus = useAuthGuard();
 
     useEffect(() => {
-        if (!isAuthenticated) return;
+        if (authStatus !== "authenticated") return;
 
         const stored = localStorage.getItem("orders");
         if (!stored) return;
 
         const orders: Order[] = JSON.parse(stored);
         setOrder(orders.find((o) => o.orderNumber === id) ?? null);
-    }, [isAuthenticated, id]);
+    }, [authStatus, id]);
+
+    if (authStatus === "loading") {
+        return (
+            <section className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)] justify-center">
+                <p>Loading order…</p>
+            </section>
+        );
+    }
 
     if (!order) {
         return (
-            <section className="py-16 text-center">
+            <section className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)] justify-center">
                 <h1 className="text-xl mb-4">Order not found</h1>
                 <Link href="/account/orders" className="underline">
                     Back to orders

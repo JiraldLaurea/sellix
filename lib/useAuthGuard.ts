@@ -1,24 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function useAuthGuard() {
+    const { status } = useSession();
     const router = useRouter();
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
-        null
-    );
 
     useEffect(() => {
-        const user = localStorage.getItem("user");
-
-        if (!user) {
+        if (status === "unauthenticated") {
             router.replace("/login");
-            setIsAuthenticated(false);
-        } else {
-            setIsAuthenticated(true);
         }
-    }, [router]);
+    }, [status, router]);
 
-    return isAuthenticated;
+    return status;
 }

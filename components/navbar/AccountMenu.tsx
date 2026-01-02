@@ -2,12 +2,11 @@
 
 import * as Popover from "@radix-ui/react-popover";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 
-type Props = {
-    isAuthenticated?: boolean;
-};
+export default function AccountMenu() {
+    const { status } = useSession();
 
-export default function AccountMenu({ isAuthenticated = false }: Props) {
     return (
         <Popover.Root>
             <Popover.Trigger asChild>
@@ -24,29 +23,27 @@ export default function AccountMenu({ isAuthenticated = false }: Props) {
                 sideOffset={8}
                 className="w-44 rounded-md border bg-white p-2 shadow-md"
             >
-                {isAuthenticated ? (
+                {status === "authenticated" ? (
                     <>
                         <MenuItem href="/account/profile">Profile</MenuItem>
-
                         <MenuItem href="/account">My Account</MenuItem>
                         <MenuItem href="/account/orders">Orders</MenuItem>
 
-                        {/* <Popover.Separator className="my-1 h-px bg-gray-200" />
-
-                        <Popover.Item
-                            className="cursor-pointer rounded-md px-3 py-2 text-sm text-red-600 hover:bg-gray-100"
-                            onClick={() => {
-                                // later: logout()
-                                console.log("logout");
-                            }}
+                        <button
+                            onClick={() =>
+                                signOut({
+                                    callbackUrl: "/",
+                                })
+                            }
+                            className="w-full text-left rounded-md px-3 py-2 text-sm text-red-600 hover:bg-gray-100"
                         >
                             Sign out
-                        </Popover.Item> */}
+                        </button>
+                        {/* <Popover.Separator className="my-1 h-px bg-gray-200" /> */}
                     </>
                 ) : (
                     <>
                         <MenuItem href="/login">Sign in</MenuItem>
-                        <MenuItem href="/register">Create account</MenuItem>
                     </>
                 )}
             </Popover.Content>
