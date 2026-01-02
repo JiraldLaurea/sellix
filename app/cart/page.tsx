@@ -54,16 +54,18 @@ export default function CartPage() {
                         </div>
 
                         {/* Info */}
-                        <div className="grow">
-                            <Link
-                                className="font-medium"
-                                href={`/product/${product.id}`}
-                            >
-                                {product.name}
-                            </Link>
-                            <p className="text-sm text-gray-600">
-                                ${(product.price / 100).toFixed(2)}
-                            </p>
+                        <div className="grow flex flex-col justify-between">
+                            <div>
+                                <Link
+                                    className="font-medium"
+                                    href={`/product/${product.id}`}
+                                >
+                                    {product.name}
+                                </Link>
+                                <p className="text-sm text-gray-600">
+                                    ${(product.price / 100).toFixed(2)}
+                                </p>
+                            </div>
 
                             <div className="flex items-center gap-3 mt-3">
                                 <QuantityPicker

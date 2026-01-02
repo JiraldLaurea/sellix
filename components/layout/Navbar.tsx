@@ -76,9 +76,8 @@ export default function Navbar() {
                                     <p className="font-medium mb-2">Cart</p>
 
                                     <ul className="space-y-2">
-                                        {state.items
-                                            .slice(0, 3)
-                                            .map(({ product, quantity }) => (
+                                        {state.items.map(
+                                            ({ product, quantity }) => (
                                                 <li
                                                     key={product.id}
                                                     className="text-sm flex justify-between"
@@ -96,7 +95,8 @@ export default function Navbar() {
                                                         ).toFixed(2)}
                                                     </span>
                                                 </li>
-                                            ))}
+                                            )
+                                        )}
                                     </ul>
 
                                     <div className="border-t mt-3 mb-2 pt-3 flex justify-between text-sm font-medium">

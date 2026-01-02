@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
 export default function AccountMenu() {
-    const { status } = useSession();
+    const { data: session, status } = useSession();
 
     return (
         <Popover.Root>
@@ -25,6 +25,12 @@ export default function AccountMenu() {
             >
                 {status === "authenticated" ? (
                     <>
+                        <div className="flex flex-col items-center space-y-2 mb-4 p-2">
+                            <div className="rounded-full select-none border h-9 w-9 flex items-center justify-center">
+                                👤
+                            </div>
+                            <p className="text-sm">{session?.user?.email}</p>
+                        </div>
                         <MenuItem href="/account/profile">Profile</MenuItem>
                         <MenuItem href="/account">My Account</MenuItem>
                         <MenuItem href="/account/orders">Orders</MenuItem>
