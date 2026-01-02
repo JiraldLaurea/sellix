@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCart } from "@/lib/cart-context";
 import * as Popover from "@radix-ui/react-popover";
 import MobileMenu from "@/components/navbar/MobileMenu";
+import AccountMenu from "../navbar/AccountMenu";
 
 export default function Navbar() {
     const { state } = useCart();
@@ -37,7 +38,7 @@ export default function Navbar() {
                             <button aria-label="Open cart" className="relative">
                                 🛒
                                 {itemCount > 0 && (
-                                    <span className="absolute -top-2 -right-3 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    <span className="absolute select-none -top-2 -right-3 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                                         {itemCount}
                                     </span>
                                 )}
@@ -98,6 +99,9 @@ export default function Navbar() {
                             )}
                         </Popover.Content>
                     </Popover.Root>
+
+                    {/* Account menu */}
+                    <AccountMenu isAuthenticated={false} />
                 </div>
             </div>
         </header>
