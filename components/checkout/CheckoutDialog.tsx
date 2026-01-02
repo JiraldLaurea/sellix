@@ -80,6 +80,20 @@ export default function CheckoutDialog({
                                     createdAt: new Date().toISOString(),
                                 };
 
+                                const existingOrders = JSON.parse(
+                                    localStorage.getItem("orders") || "[]"
+                                );
+
+                                const updatedOrders = [
+                                    lastOrder,
+                                    ...existingOrders,
+                                ];
+
+                                localStorage.setItem(
+                                    "orders",
+                                    JSON.stringify(updatedOrders)
+                                );
+
                                 localStorage.setItem(
                                     "lastOrder",
                                     JSON.stringify(lastOrder)

@@ -43,6 +43,7 @@ export default function AccountMenu({ isAuthenticated = false }: Props) {
                     </>
                 ) : (
                     <>
+                        <MenuItem href="/account/orders">Orders</MenuItem>
                         <MenuItem href="/login">Sign in</MenuItem>
                         <MenuItem href="/register">Create account</MenuItem>
                     </>
