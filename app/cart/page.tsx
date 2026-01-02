@@ -9,16 +9,18 @@ import CheckoutDialog from "@/components/checkout/CheckoutDialog";
 export default function CartPage() {
     const { state, dispatch } = useCart();
 
-    console.log(state);
-
-    const total = state.items.reduce(
+    const subtotal = state.items.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
         0
     );
 
+    // For now total === subtotal (future: shipping, tax)
+    const total = subtotal;
+
+    // ✅ Empty state (unchanged)
     if (state.items.length === 0) {
         return (
-            <section className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)]  justify-center">
+            <section className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)] justify-center">
                 <h1 className="text-2xl mb-4">Your cart is empty</h1>
                 <Link
                     href="/"
@@ -34,6 +36,7 @@ export default function CartPage() {
         <section className="py-8 max-w-4xl mx-auto">
             <h1 className="text-2xl font-medium mb-6">Your Cart</h1>
 
+            {/* Cart items */}
             <div className="space-y-6">
                 {state.items.map(({ product, quantity }) => (
                     <div
@@ -52,7 +55,12 @@ export default function CartPage() {
 
                         {/* Info */}
                         <div className="grow">
-                            <h3 className="font-medium">{product.name}</h3>
+                            <Link
+                                className="font-medium"
+                                href={`/product/${product.id}`}
+                            >
+                                {product.name}
+                            </Link>
                             <p className="text-sm text-gray-600">
                                 ${(product.price / 100).toFixed(2)}
                             </p>
@@ -72,11 +80,12 @@ export default function CartPage() {
                             </div>
                         </div>
 
-                        <div className="flex flex-col justify-between flex-none items-end">
-                            {/* Item total */}
+                        {/* Item total + remove */}
+                        <div className="flex flex-col justify-between items-end">
                             <div className="font-medium">
                                 ${((product.price * quantity) / 100).toFixed(2)}
                             </div>
+
                             <button
                                 onClick={() =>
                                     dispatch({
@@ -84,7 +93,7 @@ export default function CartPage() {
                                         productId: product.id,
                                     })
                                 }
-                                className="text-sm text-white bg-red-500 px-2 py-1 rounded-md"
+                                className="text-sm text-red-600 hover:underline"
                             >
                                 Remove
                             </button>
@@ -94,19 +103,34 @@ export default function CartPage() {
             </div>
 
             {/* Cart summary */}
-            <div className="mt-8 flex justify-between items-center border-t pt-6">
-                <span className="text-lg font-semibold">Total</span>
-                <span className="text-lg font-semibold">
-                    ${(total / 100).toFixed(2)}
-                </span>
-            </div>
+            <div className="mt-10 border-t pt-6 space-y-4">
+                <div>
+                    <div className="flex justify-between text-base">
+                        <span className="text-gray-600">Subtotal</span>
+                        <span className="font-medium">
+                            ${(subtotal / 100).toFixed(2)}
+                        </span>
+                    </div>
 
-            <div className="mt-6 text-right">
-                <CheckoutDialog>
-                    <button className="rounded-md bg-accent text-white px-6 py-3 hover:bg-gray-800 transition">
-                        Checkout
-                    </button>
-                </CheckoutDialog>
+                    <p className="text-sm text-gray-500">
+                        Shipping and taxes calculated at checkout.
+                    </p>
+                </div>
+
+                <div>
+                    <div className="flex mb-6 justify-between text-lg font-semibold">
+                        <span>Total</span>
+                        <span>${(total / 100).toFixed(2)}</span>
+                    </div>
+
+                    <div className="flex justify-end">
+                        <CheckoutDialog>
+                            <button className="rounded-md bg-accent text-white px-6 py-2 hover:bg-gray-800 transition">
+                                Proceed to Checkout
+                            </button>
+                        </CheckoutDialog>
+                    </div>
+                </div>
             </div>
         </section>
     );
