@@ -26,6 +26,8 @@ export default function AccountMenu({ isAuthenticated = false }: Props) {
             >
                 {isAuthenticated ? (
                     <>
+                        <MenuItem href="/account/profile">Profile</MenuItem>
+
                         <MenuItem href="/account">My Account</MenuItem>
                         <MenuItem href="/account/orders">Orders</MenuItem>
 
