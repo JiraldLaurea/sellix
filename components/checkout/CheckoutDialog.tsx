@@ -3,19 +3,24 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useCart } from "@/lib/cart-context";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function CheckoutDialog({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const { state, dispatch } = useCart();
+    const { state } = useCart();
     const router = useRouter();
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const total = state.items.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
         0
     );
+
+    const generateOrderNumber = () =>
+        "ORD-" + Math.random().toString(36).substring(2, 8).toUpperCase();
 
     return (
         <Dialog.Root>
@@ -59,18 +64,32 @@ export default function CheckoutDialog({
                                 Cancel
                             </button>
                         </Dialog.Close>
-
                         <button
+                            disabled={isProcessing}
                             onClick={() => {
-                                router.push("/order-success");
+                                if (isProcessing) return;
 
-                                setTimeout(() => {
-                                    dispatch({ type: "SET_CART", items: [] });
-                                }, 0);
+                                setIsProcessing(true);
+
+                                const orderNumber = generateOrderNumber();
+
+                                const lastOrder = {
+                                    orderNumber,
+                                    items: state.items,
+                                    total,
+                                    createdAt: new Date().toISOString(),
+                                };
+
+                                localStorage.setItem(
+                                    "lastOrder",
+                                    JSON.stringify(lastOrder)
+                                );
+
+                                router.push("/order-success");
                             }}
-                            className="flex-1 bg-accent text-white rounded-md py-2 hover:bg-gray-800"
+                            className="flex-1 bg-accent text-white rounded-md py-2 hover:bg-gray-800 disabled:opacity-50"
                         >
-                            Place order
+                            {isProcessing ? "Placing order…" : "Place order"}
                         </button>
                     </div>
                 </Dialog.Content>
