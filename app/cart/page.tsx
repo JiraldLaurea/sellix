@@ -18,13 +18,11 @@ export default function CartPage() {
 
     if (state.items.length === 0) {
         return (
-            <section className="py-12 text-center">
-                <h1 className="text-2xl font-semibold mb-4">
-                    Your cart is empty
-                </h1>
+            <section className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)]  justify-center">
+                <h1 className="text-2xl mb-4">Your cart is empty</h1>
                 <Link
                     href="/"
-                    className="inline-block rounded-md bg-black text-white px-6 py-3 hover:bg-gray-800 transition"
+                    className="inline-block rounded-md bg-accent text-white px-6 py-3 hover:bg-gray-800 transition"
                 >
                     Continue shopping
                 </Link>

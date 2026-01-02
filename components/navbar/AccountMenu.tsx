@@ -13,7 +13,7 @@ export default function AccountMenu({ isAuthenticated = false }: Props) {
             <Popover.Trigger asChild>
                 <button
                     aria-label="Account menu"
-                    className="rounded-full select-none border h-8 w-8 flex items-center justify-center text-sm hover:bg-gray-100"
+                    className="rounded-full select-none border h-9 w-9 flex items-center justify-center text-sm hover:bg-gray-100"
                 >
                     👤
                 </button>

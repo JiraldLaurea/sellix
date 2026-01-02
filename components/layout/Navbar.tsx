@@ -20,10 +20,10 @@ export default function Navbar() {
     );
 
     return (
-        <header className="border-b sticky top-0 z-50 bg-white">
-            <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <header className="border-b sticky top-0 z-50 h-16 bg-white ">
+            <div className="container mx-auto px-4 h-full flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="text-lg font-semibold">
+                <Link href="/" className="text-lg">
                     Ecommerce
                 </Link>
 
@@ -35,10 +35,13 @@ export default function Navbar() {
                     {/* Cart popover */}
                     <Popover.Root>
                         <Popover.Trigger asChild>
-                            <button aria-label="Open cart" className="relative">
+                            <button
+                                aria-label="Open cart"
+                                className="relative w-9 h-9"
+                            >
                                 🛒
                                 {itemCount > 0 && (
-                                    <span className="absolute select-none -top-2 -right-3 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    <span className="absolute select-none -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                                         {itemCount}
                                     </span>
                                 )}
