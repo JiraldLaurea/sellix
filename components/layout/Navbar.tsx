@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 
 export default function Navbar() {
     const { state } = useCart();
+    const { data: session } = useSession();
 
     const itemCount = state.items.reduce(
         (total, item) => total + (item.quantity ?? 0),
@@ -30,10 +31,15 @@ export default function Navbar() {
     return (
         <header className="border-b sticky top-0 z-50 h-16 bg-white ">
             <div className="container mx-auto px-4 h-full flex items-center justify-between">
-                {/* Logo */}
-                <Link href="/" className="text-lg">
-                    Ecommerce
-                </Link>
+                <div className="flex items-center space-x-6">
+                    {/* Logo */}
+                    <Link href="/" className="text-lg">
+                        Ecommerce
+                    </Link>
+                    <p className="text-sm">
+                        Signed in as: {session?.user?.email}
+                    </p>
+                </div>
 
                 {/* Right controls */}
                 <div className="flex items-center gap-4">
