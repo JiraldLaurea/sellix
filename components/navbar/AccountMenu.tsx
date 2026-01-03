@@ -29,8 +29,9 @@ export default function AccountMenu() {
                             <div className="rounded-full select-none border h-9 w-9 flex items-center justify-center">
                                 👤
                             </div>
-                            <p className="text-sm">{session?.user?.email}</p>
+                            <p className="text-xs">{session?.user?.email}</p>
                         </div>
+
                         <MenuItem href="/account/profile">Profile</MenuItem>
                         {/* <MenuItem href="/account">My Account</MenuItem> */}
                         <MenuItem href="/account/orders">Orders</MenuItem>
@@ -45,6 +46,7 @@ export default function AccountMenu() {
                         >
                             Sign out
                         </button>
+
                         {/* <Popover.Separator className="my-1 h-px bg-gray-200" /> */}
                     </>
                 ) : (
@@ -65,11 +67,13 @@ function MenuItem({
     children: React.ReactNode;
 }) {
     return (
-        <Link
-            href={href}
-            className="block rounded-md px-3 py-2 text-sm hover:bg-gray-100 focus:outline-none"
-        >
-            {children}
-        </Link>
+        <Popover.Close asChild>
+            <Link
+                href={href}
+                className="block rounded-md px-3 py-2 text-sm hover:bg-gray-100 focus:outline-none"
+            >
+                {children}
+            </Link>
+        </Popover.Close>
     );
 }

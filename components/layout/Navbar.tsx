@@ -35,9 +35,6 @@ export default function Navbar() {
                     <Link href="/" className="text-lg">
                         Ecommerce
                     </Link>
-                    <p className="text-sm">
-                        Signed in as: {session?.user?.email}
-                    </p>
                 </div>
 
                 {/* Right controls */}
