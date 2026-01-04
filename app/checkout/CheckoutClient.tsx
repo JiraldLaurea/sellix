@@ -96,7 +96,7 @@ export default function CheckoutClient() {
                         disabled={loading}
                         className="mt-6 w-full rounded bg-accent py-3 text-white disabled:opacity-50 hover:bg-gray-800 transition"
                     >
-                        {loading ? "Preparing payment…" : "Place Order"}
+                        {loading ? "Preparing payment…" : "Proceed to Payment"}
                     </button>
                 </>
             )}
