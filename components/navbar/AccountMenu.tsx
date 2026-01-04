@@ -3,6 +3,7 @@
 import * as Popover from "@radix-ui/react-popover";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
+import Image from "next/image";
 
 export default function AccountMenu() {
     const { data: session, status } = useSession();
@@ -10,25 +11,33 @@ export default function AccountMenu() {
     return (
         <Popover.Root>
             <Popover.Trigger asChild>
-                <button
-                    aria-label="Account menu"
-                    className="rounded-full select-none border h-9 w-9 flex items-center justify-center text-sm hover:bg-gray-100"
-                >
-                    👤
-                </button>
+                <Image
+                    src={session?.user?.image ?? "/img/avatar_placeholder.jpg"}
+                    width={36}
+                    height={36}
+                    alt="Avatar"
+                    className="rounded-full cursor-pointer"
+                />
             </Popover.Trigger>
 
             <Popover.Content
                 align="end"
                 sideOffset={8}
-                className="w-44 rounded-md border bg-white p-2 shadow-md"
+                className="w-48 rounded-md border bg-white p-2 shadow-md"
             >
                 {status === "authenticated" ? (
                     <>
                         <div className="flex flex-col items-center space-y-2 mb-4 p-2">
-                            <div className="rounded-full select-none border h-9 w-9 flex items-center justify-center">
-                                👤
-                            </div>
+                            <Image
+                                src={
+                                    session?.user?.image ??
+                                    "/img/avatar_placeholder.jpg"
+                                }
+                                width={36}
+                                height={36}
+                                alt="Avatar"
+                                className="rounded-full"
+                            />
                             <p className="text-xs">{session?.user?.email}</p>
                         </div>
 

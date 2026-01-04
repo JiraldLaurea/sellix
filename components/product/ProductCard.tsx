@@ -20,9 +20,9 @@ export default function ProductCard({ product }: Props) {
     const isMaxedOut = quantityInCart >= product.stock;
 
     return (
-        <div className="group border rounded-lg overflow-hidden hover:shadow-md transition">
+        <div className="group border flex flex-col rounded-lg overflow-hidden hover:shadow-md transition">
             {/* Clickable area */}
-            <Link href={`/product/${product.id}`}>
+            <Link href={`/product/${product.id}`} className="grow">
                 <div className="relative aspect-square bg-gray-100">
                     <Image
                         src={product.images[0]}
@@ -32,7 +32,7 @@ export default function ProductCard({ product }: Props) {
                     />
                 </div>
 
-                <div className="p-4 space-y-2">
+                <div className="p-4 space-y-2 ">
                     <h3 className="font-medium">{product.name}</h3>
                     <p className="text-sm text-gray-600">
                         ${(product.price / 100).toFixed(2)}

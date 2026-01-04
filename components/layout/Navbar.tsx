@@ -1,12 +1,12 @@
 "use client";
 
-import Link from "next/link";
+import MobileMenu from "@/components/navbar/MobileMenu";
 import { useCart } from "@/lib/cart-context";
 import * as Popover from "@radix-ui/react-popover";
-import MobileMenu from "@/components/navbar/MobileMenu";
-import AccountMenu from "../navbar/AccountMenu";
-import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import AccountMenu from "../navbar/AccountMenu";
 
 export default function Navbar() {
     const { state } = useCart();
@@ -30,11 +30,20 @@ export default function Navbar() {
     return (
         <header className="block border-b sticky top-0 z-50 h-16 bg-white">
             <div className="container mx-auto px-4 h-full flex items-center justify-between">
-                <div className="flex items-center space-x-6">
-                    {/* Logo */}
-                    <Link href="/" className="text-lg">
-                        Ecommerce
+                <div className="">
+                    <Link href="/">
+                        <Image
+                            src={"/img/brand_logo.png"}
+                            alt={"Brand Logo"}
+                            width={0}
+                            height={0}
+                            sizes="100px"
+                            style={{ width: "100px", height: "auto" }}
+                            className="object-contain"
+                        />
                     </Link>
+
+                    {/* Logo */}
                 </div>
 
                 {/* Right controls */}
