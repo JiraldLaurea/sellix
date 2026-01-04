@@ -76,12 +76,13 @@ model Order {
   items       OrderItem[]
 
   createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@index([userId])
 }
 
 model OrderItem {
-  id         String  @id @default(cuid())
+  id        String  @id @default(cuid())
   orderId   String
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
