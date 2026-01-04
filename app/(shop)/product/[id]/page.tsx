@@ -1,7 +1,7 @@
-import { products } from "@/lib/mock-products";
 import { notFound } from "next/navigation";
 import ProductImageGallery from "@/components/product/ProductImageGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
+import { getProductById } from "@/lib/getProductById";
 
 type Props = {
     params: Promise<{
@@ -10,9 +10,9 @@ type Props = {
 };
 
 export default async function ProductPage({ params }: Props) {
-    const { id } = await params;
+    const productId = (await params).id;
 
-    const product = products.find((p) => p.id === id);
+    const product = await getProductById(productId);
 
     if (!product) {
         notFound();
