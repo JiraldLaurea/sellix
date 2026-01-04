@@ -1,57 +1,27 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { getServerSession } from "next-auth";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 import Link from "next/link";
-import { useAuthGuard } from "@/lib/useAuthGuard";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-type Order = {
-    orderNumber: string;
-    items: {
-        product: {
-            id: string;
-            name: string;
-            price: number;
-        };
-        quantity: number;
-    }[];
-    total: number;
-    createdAt: string;
-};
+export default async function OrdersPage() {
+    const session = await getServerSession(authOptions);
 
-export default function OrdersPage() {
-    const authStatus = useAuthGuard();
-    const [orders, setOrders] = useState<Order[]>([]);
-    const status = useAuthGuard();
-
-    useEffect(() => {
-        if (status !== "authenticated") {
-            return;
-        }
-        const stored = localStorage.getItem("orders");
-        if (stored) {
-            setOrders(JSON.parse(stored));
-        }
-    }, [authStatus]);
-
-    if (authStatus === null) {
-        return (
-            <section className="py-16 text-center">
-                <p>Checking authentication…</p>
-            </section>
-        );
+    if (!session?.user?.id) {
+        redirect("/login");
     }
 
-    if (status === "loading") {
-        return (
-            <div className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)] justify-center">
-                <p className="text-center">Loading…</p>
-            </div>
-        );
-    }
-
-    if (status !== "authenticated") {
-        return null;
-    }
+    const orders = await prisma.order.findMany({
+        where: {
+            userId: session.user.id,
+        },
+        include: {
+            items: true,
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
 
     if (orders.length === 0) {
         return (
@@ -73,15 +43,11 @@ export default function OrdersPage() {
 
             <div className="space-y-4">
                 {orders.map((order) => (
-                    <Link
-                        key={order.orderNumber}
-                        href={`/account/orders/${order.orderNumber}`}
-                        className="block border rounded-md p-4 hover:bg-gray-50 transition"
-                    >
+                    <div key={order.id} className="border rounded-md p-4">
                         <div className="flex justify-between mb-2">
                             <div>
                                 <p className="font-medium">
-                                    Order {order.orderNumber}
+                                    Order #{order.orderNumber}
                                 </p>
                                 <p className="text-sm text-gray-500">
                                     {new Date(
@@ -95,11 +61,14 @@ export default function OrdersPage() {
                             </p>
                         </div>
 
-                        <div className="text-sm text-gray-600">
-                            {order.items.length} item
-                            {order.items.length > 1 && "s"}
-                        </div>
-                    </Link>
+                        <ul className="text-sm text-gray-600">
+                            {order.items.map((item) => (
+                                <li key={item.id}>
+                                    {item.quantity}× {item.name}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 ))}
             </div>
         </section>
