@@ -4,20 +4,15 @@ import * as Popover from "@radix-ui/react-popover";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
+import Avatar from "./Avatar";
 
 export default function AccountMenu() {
     const { data: session, status } = useSession();
 
     return (
         <Popover.Root>
-            <Popover.Trigger asChild>
-                <Image
-                    src={session?.user?.image ?? "/img/avatar_placeholder.jpg"}
-                    width={36}
-                    height={36}
-                    alt="Avatar"
-                    className="rounded-full cursor-pointer"
-                />
+            <Popover.Trigger>
+                <Avatar session={session} />
             </Popover.Trigger>
 
             <Popover.Content
@@ -28,16 +23,7 @@ export default function AccountMenu() {
                 {status === "authenticated" ? (
                     <>
                         <div className="flex flex-col items-center space-y-2 mb-4 p-2">
-                            <Image
-                                src={
-                                    session?.user?.image ??
-                                    "/img/avatar_placeholder.jpg"
-                                }
-                                width={36}
-                                height={36}
-                                alt="Avatar"
-                                className="rounded-full"
-                            />
+                            <Avatar session={session} hasDefaultCursor />
                             <p className="text-xs">{session?.user?.email}</p>
                         </div>
 
