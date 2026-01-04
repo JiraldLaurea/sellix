@@ -1,5 +1,6 @@
 "use client";
 
+import { Product } from "@/app/types/product";
 import {
     createContext,
     useContext,
@@ -7,7 +8,6 @@ import {
     ReactNode,
     useEffect,
 } from "react";
-import { Product } from "@/lib/mock-products";
 
 type CartItem = {
     product: Product;
@@ -28,7 +28,8 @@ type CartAction =
           type: "SET_QUANTITY";
           productId: string;
           quantity: number;
-      };
+      }
+    | { type: "CLEAR_CART" };
 
 const CartContext = createContext<{
     state: CartState;
@@ -123,6 +124,9 @@ function cartReducer(state: CartState, action: CartAction): CartState {
                 ),
             };
         }
+
+        case "CLEAR_CART":
+            return { items: [] };
 
         default:
             return state;
