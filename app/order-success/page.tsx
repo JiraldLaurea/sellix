@@ -21,8 +21,6 @@ export default async function OrderSuccessPage({ searchParams }: Props) {
     const sp = await searchParams;
     const orderNumber = sp.order;
 
-    console.log("ORDER PARAM:", orderNumber);
-
     if (!orderNumber) {
         redirect("/account/orders");
     }

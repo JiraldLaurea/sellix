@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
+import { stripe } from "@/lib/stripe";
 
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
@@ -17,11 +18,13 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
 
+    // 1️⃣ Create order FIRST (source of truth)
     const order = await prisma.order.create({
         data: {
             orderNumber: crypto.randomUUID(),
             total: total,
             userId: session.user.id,
+            status: "PENDING",
             items: {
                 create: items.map((item: any) => ({
                     productId: item.product.id,
@@ -36,5 +39,31 @@ export async function POST(req: Request) {
         },
     });
 
-    return NextResponse.json(order);
+    // 2️⃣ Create Stripe PaymentIntent
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: order.total, // ✅ cents (matches DB)
+        currency: "usd",
+        metadata: {
+            orderId: order.id,
+            orderNumber: order.orderNumber,
+            userId: session.user.id,
+        },
+        automatic_payment_methods: {
+            enabled: true,
+        },
+    });
+
+    // 3️⃣ Persist PaymentIntent ID
+    await prisma.order.update({
+        where: { id: order.id },
+        data: {
+            paymentIntentId: paymentIntent.id,
+        },
+    });
+
+    // 4️⃣ Return safe client data
+    return NextResponse.json({
+        orderNumber: order.orderNumber,
+        clientSecret: paymentIntent.client_secret,
+    });
 }

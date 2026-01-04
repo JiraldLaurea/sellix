@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import QuantityPicker from "@/components/cart/QuantityPicker";
 import { useCart } from "@/lib/cart-context";
-import CheckoutDialog from "@/components/checkout/CheckoutDialog";
 
 export default function CartPage() {
     const { state, dispatch } = useCart();
@@ -126,11 +125,11 @@ export default function CartPage() {
                     </div>
 
                     <div className="flex justify-end">
-                        <CheckoutDialog>
+                        <Link href="/checkout">
                             <button className="rounded-md bg-accent text-white px-6 py-2 hover:bg-gray-800 transition">
                                 Proceed to Checkout
                             </button>
-                        </CheckoutDialog>
+                        </Link>
                     </div>
                 </div>
             </div>

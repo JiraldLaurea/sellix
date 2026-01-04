@@ -70,6 +70,11 @@ model Order {
   orderNumber String      @unique
   total       Int
 
+  status           OrderStatus @default(PENDING)
+
+  paymentIntentId String? @unique
+  paidAt          DateTime?
+
   userId      String
   user        User        @relation(fields: [userId], references: [id])
 
@@ -79,6 +84,13 @@ model Order {
   updatedAt   DateTime    @updatedAt
 
   @@index([userId])
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  FULFILLED
+  REFUNDED
 }
 
 model OrderItem {

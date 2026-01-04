@@ -2,8 +2,9 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { useCart } from "@/lib/cart-context";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import StripeProvider from "@/components/StripeProvider";
+import PaymentForm from "@/components/PaymentForm";
 
 export default function CheckoutDialog({
     children,
@@ -11,8 +12,10 @@ export default function CheckoutDialog({
     children: React.ReactNode;
 }) {
     const { state, dispatch } = useCart();
-    const router = useRouter();
+
     const [isProcessing, setIsProcessing] = useState(false);
+    const [clientSecret, setClientSecret] = useState<string | null>(null);
+    const [orderNumber, setOrderNumber] = useState<string | null>(null);
 
     const total = state.items.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
@@ -27,9 +30,7 @@ export default function CheckoutDialog({
         try {
             const res = await fetch("/api/checkout", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     items: state.items,
                     total,
@@ -40,13 +41,13 @@ export default function CheckoutDialog({
                 throw new Error("Checkout failed");
             }
 
-            // ✅ parse response JSON
             const data = await res.json();
 
-            // ✅ Order is now persisted in DB
-            dispatch({ type: "CLEAR_CART" });
+            // ✅ switch dialog into payment mode
+            setClientSecret(data.clientSecret);
+            setOrderNumber(data.orderNumber);
 
-            router.push(`/order-success?order=${data.orderNumber}`);
+            // ❗ DO NOT clear cart yet
         } catch (error) {
             console.error(error);
             setIsProcessing(false);
@@ -60,53 +61,79 @@ export default function CheckoutDialog({
             <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 bg-black/40 z-50" />
 
-                <Dialog.Content className="fixed z-100 top-1/2 left-1/2 w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg">
-                    <Dialog.Title className="text-lg font-semibold mb-4">
-                        Confirm checkout
-                    </Dialog.Title>
+                <Dialog.Content className="fixed z-50 top-1/2 left-1/2 w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg p-6 shadow-lg">
+                    {/* 🟢 STEP 1 — Order Review */}
+                    {!clientSecret && (
+                        <>
+                            <Dialog.Title className="text-lg font-semibold mb-4">
+                                Confirm checkout
+                            </Dialog.Title>
 
-                    <ul className="space-y-2 text-sm">
-                        {state.items.map(({ product, quantity }) => (
-                            <li
-                                key={product.id}
-                                className="flex justify-between"
-                            >
-                                <span>
-                                    {product.name} x {quantity}
-                                </span>
-                                <span>
-                                    $
-                                    {((product.price * quantity) / 100).toFixed(
-                                        2
-                                    )}
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
+                            <ul className="space-y-2 text-sm">
+                                {state.items.map(({ product, quantity }) => (
+                                    <li
+                                        key={product.id}
+                                        className="flex justify-between"
+                                    >
+                                        <span>
+                                            {product.name} × {quantity}
+                                        </span>
+                                        <span>
+                                            $
+                                            {(
+                                                (product.price * quantity) /
+                                                100
+                                            ).toFixed(2)}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
 
-                    <div className="border-t mt-4 pt-4 flex justify-between font-medium">
-                        <span>Total</span>
-                        <span>${(total / 100).toFixed(2)}</span>
-                    </div>
+                            <div className="border-t mt-4 pt-4 flex justify-between font-medium">
+                                <span>Total</span>
+                                <span>${(total / 100).toFixed(2)}</span>
+                            </div>
 
-                    <div className="mt-6 flex gap-3">
-                        <Dialog.Close asChild>
-                            <button
-                                disabled={isProcessing}
-                                className="flex-1 border rounded-md py-2"
-                            >
-                                Cancel
-                            </button>
-                        </Dialog.Close>
+                            <div className="mt-6 flex gap-3">
+                                <Dialog.Close asChild>
+                                    <button
+                                        disabled={isProcessing}
+                                        className="flex-1 border rounded-md py-2"
+                                    >
+                                        Cancel
+                                    </button>
+                                </Dialog.Close>
 
-                        <button
-                            disabled={isProcessing}
-                            onClick={handleCheckout}
-                            className="flex-1 bg-accent text-white rounded-md py-2 hover:bg-gray-800 disabled:opacity-50"
-                        >
-                            {isProcessing ? "Placing order…" : "Place order"}
-                        </button>
-                    </div>
+                                <button
+                                    disabled={isProcessing}
+                                    onClick={handleCheckout}
+                                    className="flex-1 bg-accent text-white rounded-md py-2 hover:bg-gray-800 disabled:opacity-50"
+                                >
+                                    {isProcessing
+                                        ? "Preparing payment…"
+                                        : "Continue to payment"}
+                                </button>
+                            </div>
+                        </>
+                    )}
+
+                    {/* 🟢 STEP 2 — Stripe Payment Element */}
+                    {clientSecret && orderNumber && (
+                        <>
+                            <Dialog.Title className="text-lg font-semibold mb-4">
+                                Payment
+                            </Dialog.Title>
+
+                            <StripeProvider clientSecret={clientSecret}>
+                                <PaymentForm
+                                    orderNumber={orderNumber}
+                                    onSuccess={() => {
+                                        dispatch({ type: "CLEAR_CART" });
+                                    }}
+                                />
+                            </StripeProvider>
+                        </>
+                    )}
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
