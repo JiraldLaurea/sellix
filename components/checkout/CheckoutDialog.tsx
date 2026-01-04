@@ -10,7 +10,7 @@ export default function CheckoutDialog({
 }: {
     children: React.ReactNode;
 }) {
-    const { state } = useCart();
+    const { state, dispatch } = useCart();
     const router = useRouter();
     const [isProcessing, setIsProcessing] = useState(false);
 
@@ -19,8 +19,39 @@ export default function CheckoutDialog({
         0
     );
 
-    const generateOrderNumber = () =>
-        "ORD-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const handleCheckout = async () => {
+        if (isProcessing) return;
+
+        setIsProcessing(true);
+
+        try {
+            const res = await fetch("/api/checkout", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    items: state.items,
+                    total,
+                }),
+            });
+
+            if (!res.ok) {
+                throw new Error("Checkout failed");
+            }
+
+            // ✅ parse response JSON
+            const data = await res.json();
+
+            // ✅ Order is now persisted in DB
+            dispatch({ type: "CLEAR_CART" });
+
+            router.push(`/order-success?order=${data.orderNumber}`);
+        } catch (error) {
+            console.error(error);
+            setIsProcessing(false);
+        }
+    };
 
     return (
         <Dialog.Root>
@@ -41,7 +72,7 @@ export default function CheckoutDialog({
                                 className="flex justify-between"
                             >
                                 <span>
-                                    {product.name} × {quantity}
+                                    {product.name} x {quantity}
                                 </span>
                                 <span>
                                     $
@@ -60,47 +91,17 @@ export default function CheckoutDialog({
 
                     <div className="mt-6 flex gap-3">
                         <Dialog.Close asChild>
-                            <button className="flex-1 border rounded-md py-2">
+                            <button
+                                disabled={isProcessing}
+                                className="flex-1 border rounded-md py-2"
+                            >
                                 Cancel
                             </button>
                         </Dialog.Close>
+
                         <button
                             disabled={isProcessing}
-                            onClick={() => {
-                                if (isProcessing) return;
-
-                                setIsProcessing(true);
-
-                                const orderNumber = generateOrderNumber();
-
-                                const lastOrder = {
-                                    orderNumber,
-                                    items: state.items,
-                                    total,
-                                    createdAt: new Date().toISOString(),
-                                };
-
-                                const existingOrders = JSON.parse(
-                                    localStorage.getItem("orders") || "[]"
-                                );
-
-                                const updatedOrders = [
-                                    lastOrder,
-                                    ...existingOrders,
-                                ];
-
-                                localStorage.setItem(
-                                    "orders",
-                                    JSON.stringify(updatedOrders)
-                                );
-
-                                localStorage.setItem(
-                                    "lastOrder",
-                                    JSON.stringify(lastOrder)
-                                );
-
-                                router.push("/order-success");
-                            }}
+                            onClick={handleCheckout}
                             className="flex-1 bg-accent text-white rounded-md py-2 hover:bg-gray-800 disabled:opacity-50"
                         >
                             {isProcessing ? "Placing order…" : "Place order"}
