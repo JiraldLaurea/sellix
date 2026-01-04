@@ -1,4 +1,4 @@
-import { Product } from "@/lib/mock-products";
+import { Product } from "@/app/types/product";
 
 type CartItem = {
     product: Product;

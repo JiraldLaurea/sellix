@@ -5,8 +5,6 @@ export async function getProductById(id: string): Promise<Product | null> {
         cache: "no-store", // always fresh
     });
 
-    console.log("RESPONSE", res);
-
     if (!res.ok) {
         return null;
     }
