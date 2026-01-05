@@ -1,23 +1,37 @@
 "use client";
 
-import Link from "next/link";
+import { Product } from "@/app/types/product";
 import Image from "next/image";
-import { Product } from "@/lib/mock-products";
-import { useCart } from "@/lib/cart-context";
-import { toast } from "sonner";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import AddToCartButton from "./AddToCartButton";
 
 type Props = {
     product: Product;
 };
 
 export default function ProductCard({ product }: Props) {
-    const { state, dispatch } = useCart();
+    const router = useRouter();
+    // const { state } = useCart();
 
-    const itemInCart = state.items.find(
-        (item) => item.product.id === product.id
-    );
-    const quantityInCart = itemInCart?.quantity ?? 0;
-    const isMaxedOut = quantityInCart >= product.stock;
+    // console.log("STATE", state);
+
+    // const itemInCart = state.items.find(
+    //     (item) => item.product.id === product.id
+    // );
+
+    // const quantityInCart = itemInCart?.quantity ?? 0;
+    // const isMaxedOut = quantityInCart >= product.stock;
+
+    const [quantity, setQuantity] = useState(1);
+
+    // Clamp quantity to available stock (UX only)
+    useEffect(() => {
+        if (quantity > product.stock) {
+            setQuantity(Math.max(1, product.stock));
+        }
+    }, [quantity, product.stock]);
 
     return (
         <div className="group border flex flex-col rounded-lg overflow-hidden hover:shadow-md transition">
@@ -42,26 +56,11 @@ export default function ProductCard({ product }: Props) {
 
             {/* Action area */}
             <div className="px-4 pb-4">
-                <button
-                    disabled={product.stock === 0 || isMaxedOut}
-                    onClick={() => {
-                        dispatch({ type: "ADD_ITEM", product, quantity: 1 });
-                        toast.success("Added to cart");
-                    }}
-                    className={`w-full rounded-md py-2 text-sm transition
-            ${
-                product.stock === 0 || isMaxedOut
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-accent text-white hover:bg-gray-800"
-            }
-          `}
-                >
-                    {product.stock === 0
-                        ? "Out of stock"
-                        : isMaxedOut
-                        ? "Max quantity reached"
-                        : "Add to cart"}
-                </button>
+                <AddToCartButton
+                    product={product}
+                    quantity={quantity}
+                    className="w-full"
+                />
             </div>
         </div>
     );

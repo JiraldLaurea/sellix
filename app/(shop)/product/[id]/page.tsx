@@ -1,7 +1,7 @@
-import { notFound } from "next/navigation";
 import ProductImageGallery from "@/components/product/ProductImageGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
 import { getProductById } from "@/lib/getProductById";
+import { notFound } from "next/navigation";
 
 type Props = {
     params: Promise<{

@@ -7,7 +7,7 @@ import PaymentForm from "@/components/PaymentForm";
 import { useRouter } from "next/navigation";
 
 export default function CheckoutClient() {
-    const { state, dispatch } = useCart();
+    const { state } = useCart();
     const router = useRouter();
 
     const [clientSecret, setClientSecret] = useState<string | null>(null);

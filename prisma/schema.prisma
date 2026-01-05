@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  engineType = "binary"
 }
 
 datasource db {
@@ -20,6 +21,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   orders        Order[]
+
+  cart          Cart?    // 👈 ADD THIS
 
   createdAt     DateTime @default(now())
 }
@@ -99,9 +102,53 @@ model OrderItem {
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   productId String
+  product   Product @relation(fields: [productId], references: [id])
   name      String
   price     Int
   quantity  Int
 
   @@index([orderId])
 }
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+
+  quantity  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, productId])
+}
+
+model Product {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  price       Int        // stored in cents
+  stock       Int
+
+  images      String[]   // simple approach for now
+
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+

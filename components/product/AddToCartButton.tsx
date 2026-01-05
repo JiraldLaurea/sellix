@@ -1,45 +1,70 @@
 "use client";
 
-import { Product } from "@/lib/mock-products";
+import { Product } from "@/app/types/product";
 import { useCart } from "@/lib/cart-context";
+import { addToCart } from "@/lib/cart/add-to-cart";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type Props = {
     product: Product;
     quantity: number;
+    className?: string;
 };
 
-export default function AddToCartButton({ product, quantity }: Props) {
-    const { state, dispatch } = useCart();
+export default function AddToCartButton({
+    product,
+    quantity,
+    className,
+}: Props) {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const { refreshCart } = useCart();
 
-    const itemInCart = state.items.find(
-        (item) => item.product.id === product.id
-    );
-    const quantityInCart = itemInCart?.quantity ?? 0;
-    const isMaxedOut = quantityInCart >= product.stock;
+    async function handleAddToCart() {
+        setLoading(true);
+
+        const result = await addToCart(product.id, quantity);
+
+        setLoading(false);
+
+        if (!result.success) {
+            if (result.status === 401) {
+                router.push("/login");
+                return;
+            }
+
+            if (result.error === "Max stock reached") {
+                toast.error("You've reached the maximum available stock");
+                return;
+            }
+
+            toast.error("Unable to add to cart");
+            return;
+        }
+
+        await refreshCart();
+        toast.success("Added to cart");
+    }
+
+    const disabled = product.stock === 0 || loading;
 
     return (
         <button
-            disabled={product.stock === 0 || isMaxedOut}
-            onClick={() => {
-                dispatch({
-                    type: "ADD_ITEM",
-                    product,
-                    quantity,
-                });
-                toast.success("Added to cart");
-            }}
-            className={`rounded-md px-6 py-2
-                        ${
-                            product.stock === 0 || isMaxedOut
-                                ? "bg-gray-400 cursor-not-allowed"
-                                : "bg-accent text-white hover:bg-gray-800"
-                        } `}
+            disabled={disabled}
+            onClick={handleAddToCart}
+            className={`rounded-md px-6 py-2 transition
+        ${
+            disabled
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-accent text-white hover:bg-gray-800"
+        } ${className}`}
         >
             {product.stock === 0
                 ? "Out of stock"
-                : isMaxedOut
-                ? "Max quantity reached"
+                : loading
+                ? "Adding..."
                 : "Add to cart"}
         </button>
     );

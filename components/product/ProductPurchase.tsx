@@ -1,34 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Product } from "@/lib/mock-products";
+import { useState } from "react";
 import QuantityPicker from "@/components/cart/QuantityPicker";
 import AddToCartButton from "@/components/product/AddToCartButton";
-import { useCart } from "@/lib/cart-context";
-import { getRemainingStock } from "@/lib/cart-selectors";
+import { Product } from "@/app/types/product";
+import { toast } from "sonner";
 
 type Props = {
     product: Product;
 };
 
 export default function ProductPurchase({ product }: Props) {
-    const { state } = useCart();
-    const [quantity, setQuantity] = useState(1);
+    const max = product.stock;
 
-    const remainingStock = getRemainingStock(product, state.items);
+    console.log("MAX", max);
 
-    useEffect(() => {
-        if (quantity > remainingStock) {
-            setQuantity(Math.max(1, remainingStock));
+    const [quantity, setQuantity] = useState(max > 0 ? 1 : 0);
+
+    // ✅ CLAMP HERE — not in useEffect
+    const handleQuantityChange = (next: number) => {
+        if (max === 0) {
+            setQuantity(0);
+            return;
         }
-    }, [remainingStock]);
+
+        if (next < 1) {
+            setQuantity(1);
+            return;
+        }
+
+        if (next > max) {
+            setQuantity(max);
+            toast.error("No more stock available");
+            return;
+        }
+
+        setQuantity(next);
+    };
 
     return (
         <div className="flex items-center gap-4 pt-4">
             <QuantityPicker
                 quantity={quantity}
-                max={remainingStock}
-                onChange={setQuantity}
+                max={max}
+                onChange={handleQuantityChange}
             />
 
             <AddToCartButton product={product} quantity={quantity} />
