@@ -1,40 +1,23 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import ProductCard from "@/components/product/ProductCard";
-import { useAuthGuard } from "@/lib/useAuthGuard";
 import { getProducts } from "@/lib/getProducts";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
-export type Product = {
-    id: string;
-    name: string;
-    price: number; // cents
-    description: string;
-    stock: number;
-    images: string[];
-};
+export default async function ShopPage() {
+    const session = await getServerSession(authOptions);
 
-export default function ShopPage() {
-    const status = useAuthGuard();
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
+    if (!session) {
+        redirect("/login");
+    }
 
-    useEffect(() => {
-        if (status !== "authenticated") return;
-
-        getProducts(20)
-            .then(setProducts)
-            .catch(console.error)
-            .finally(() => setLoading(false));
-    }, [status]);
-
-    if (status !== "authenticated") return null;
+    const products = await getProducts(20);
 
     return (
         <section className="py-8">
             <h1 className="mb-4 text-4xl font-semibold">Products</h1>
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {products && !loading ? (
+                {products ? (
                     <>
                         {products.map((product) => (
                             <ProductCard key={product.id} product={product} />

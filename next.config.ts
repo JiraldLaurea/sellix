@@ -28,6 +28,10 @@ const nextConfig: NextConfig = {
                 protocol: "https",
                 hostname: "api.escuelajs.co",
             },
+            {
+                protocol: "https",
+                hostname: "placeimg.com",
+            },
         ],
     },
 };
