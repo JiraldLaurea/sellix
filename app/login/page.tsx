@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -30,31 +31,22 @@ export default function LoginPage() {
     }
 
     return (
-        <section className="min-h-screen flex items-center justify-center">
+        <section className="min-h-screen flex flex-col items-center justify-center space-y-6">
+            <Image
+                src={"/img/brand_logo.png"}
+                alt={"Brand Logo"}
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "200px", height: "auto" }}
+                className="object-contain"
+            />
             <div className="border rounded-md p-6 space-y-4 text-center w-full max-w-md">
-                <h1 className="text-xl font-semibold">Sign in</h1>
-
-                {/* Demo credentials */}
-                <button
-                    disabled={!!loadingProvider}
-                    onClick={async () => {
-                        setLoadingProvider("credentials");
-                        await signIn("credentials", {
-                            callbackUrl: "/",
-                            redirect: true,
-                        });
-                    }}
-                    className="w-full bg-accent hover:bg-gray-800 transition text-white py-2 rounded-md disabled:opacity-60"
-                >
-                    {loadingProvider === "credentials"
-                        ? "Signing in…"
-                        : "Sign in (demo)"}
-                </button>
-
-                <div className="relative flex items-center">
-                    <div className="grow border-t" />
-                    <span className="mx-2 text-sm text-gray-500">or</span>
-                    <div className="grow border-t" />
+                <div className="text-left space-y-2 mb-6">
+                    <h1 className="text-3xl font-semibold">Sign in</h1>
+                    <p className="text-gray-600">
+                        Welcome! Let's sign in to your account.
+                    </p>
                 </div>
 
                 {/* Google */}
@@ -93,6 +85,29 @@ export default function LoginPage() {
                             ? "Redirecting…"
                             : "Sign in with GitHub"}
                     </span>
+                </button>
+
+                <div className="relative flex items-center">
+                    <div className="grow border-t" />
+                    <span className="mx-2 text-sm text-gray-500">or</span>
+                    <div className="grow border-t" />
+                </div>
+
+                {/* Demo credentials */}
+                <button
+                    disabled={!!loadingProvider}
+                    onClick={async () => {
+                        setLoadingProvider("credentials");
+                        await signIn("credentials", {
+                            callbackUrl: "/",
+                            redirect: true,
+                        });
+                    }}
+                    className="w-full bg-accent hover:bg-gray-800 transition text-white py-2 rounded-md disabled:opacity-60"
+                >
+                    {loadingProvider === "credentials"
+                        ? "Signing in…"
+                        : "Sign in (demo)"}
                 </button>
             </div>
         </section>
