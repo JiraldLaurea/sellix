@@ -47,12 +47,34 @@ export async function POST(req: Request) {
             return new Response(null, { status: 200 });
         }
 
-        // 1️⃣ Mark order as PAID
+        /* ----------------------------------------------
+           ✅ Fetch Charge using latest_charge ID
+        ---------------------------------------------- */
+
+        let receiptUrl: string | null = null;
+
+        if (typeof intent.latest_charge === "string") {
+            try {
+                const charge = await stripe.charges.retrieve(
+                    intent.latest_charge
+                );
+                receiptUrl = charge.receipt_url ?? null;
+            } catch (err) {
+                console.warn(
+                    "⚠️ Failed to retrieve charge for receipt URL",
+                    intent.latest_charge,
+                    err
+                );
+            }
+        }
+
+        // 1️⃣ Mark order as PAID + store receipt
         await prisma.order.update({
             where: { id: orderId },
             data: {
                 status: "PAID",
                 paidAt: new Date(),
+                receiptUrl: receiptUrl,
             },
         });
 
