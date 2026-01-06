@@ -2,9 +2,9 @@
 
 import { useCart } from "@/lib/cart-context";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import StripeProvider from "@/components/StripeProvider";
 import PaymentForm from "@/components/PaymentForm";
-import { useRouter } from "next/navigation";
 
 export default function CheckoutClient() {
     const { state } = useCart();
@@ -36,18 +36,27 @@ export default function CheckoutClient() {
                 }),
             });
 
-            if (!res.ok) throw new Error("Checkout failed");
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                throw new Error(data.error || "Checkout failed");
+            }
 
             const data = await res.json();
 
+            // ✅ This triggers Stripe Elements rendering
             setClientSecret(data.clientSecret);
             setOrderNumber(data.orderNumber);
         } catch (err) {
-            setError("Something went wrong. Please try again.");
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Something went wrong. Please try again."
+            );
             setLoading(false);
         }
     }
 
+    // ⛔ Redirect if cart empty and no payment in progress
     useEffect(() => {
         if (state.items.length === 0 && !clientSecret) {
             router.replace("/cart");
@@ -59,7 +68,10 @@ export default function CheckoutClient() {
     }
 
     return (
-        <div className="w-full max-w-3xl bg-white p-8 rounded-lg">
+        <div className="w-full max-w-xl bg-white border p-8 rounded-lg">
+            {/* =========================
+                STEP 1 — ORDER SUMMARY
+            ========================== */}
             {!clientSecret && (
                 <>
                     <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
@@ -91,27 +103,26 @@ export default function CheckoutClient() {
                     {error && (
                         <p className="mt-4 text-sm text-red-500">{error}</p>
                     )}
+
                     <button
                         onClick={handleCheckout}
                         disabled={loading}
-                        className="mt-6 w-full rounded bg-accent py-3 text-white disabled:opacity-50 hover:bg-gray-800 transition"
+                        className="mt-6 w-full rounded-md bg-accent py-3 text-white disabled:opacity-50 hover:bg-gray-800 transition"
                     >
                         {loading ? "Preparing payment…" : "Proceed to Payment"}
                     </button>
                 </>
             )}
 
+            {/* =========================
+                STEP 2 — STRIPE PAYMENT
+            ========================== */}
             {clientSecret && orderNumber && (
                 <>
                     <h1 className="text-2xl font-semibold mb-6">Payment</h1>
 
                     <StripeProvider clientSecret={clientSecret}>
-                        <PaymentForm
-                            orderNumber={orderNumber}
-                            onSuccess={() => {
-                                dispatch({ type: "CLEAR_CART" });
-                            }}
-                        />
+                        <PaymentForm orderNumber={orderNumber} />
                     </StripeProvider>
                 </>
             )}
