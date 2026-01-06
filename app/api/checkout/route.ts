@@ -4,11 +4,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import crypto from "crypto";
-import { Prisma } from "@prisma/client";
+import type { CartItem, Product } from "@prisma/client";
 
-type CartItemWithProduct = Prisma.CartItemGetPayload<{
-    include: { product: true };
-}>;
+type CartItemWithProduct = CartItem & {
+    product: Product;
+};
 
 export async function POST() {
     const session = await getServerSession(authOptions);
