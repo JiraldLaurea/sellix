@@ -112,6 +112,14 @@ export default async function OrderDetailPage({ params }: Props) {
                         View Stripe receipt
                     </Link>
                 )}
+                {order.status === "PENDING" && (
+                    <Link
+                        href={`/account/orders/${order.orderNumber}/pay`}
+                        className="mt-4 rounded-md bg-black px-6 py-3 text-white hover:bg-gray-800"
+                    >
+                        Complete payment
+                    </Link>
+                )}
             </div>
         </section>
     );
