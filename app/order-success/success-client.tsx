@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/lib/cart-context";
 
 type OrderStatus = "PENDING" | "PAID" | "FULFILLED" | "REFUNDED";
 
@@ -26,6 +27,7 @@ export default function SuccessClient({
     const router = useRouter();
     const [order, setOrder] = useState<Order | null>(null);
     const [attempts, setAttempts] = useState(0);
+    const { refreshCart } = useCart();
 
     useEffect(() => {
         const interval = setInterval(async () => {
@@ -40,6 +42,7 @@ export default function SuccessClient({
                 setOrder(data);
 
                 if (data.status === "PAID" || data.status === "FULFILLED") {
+                    refreshCart();
                     clearInterval(interval);
                 }
             } catch {
@@ -85,7 +88,7 @@ export default function SuccessClient({
     // ✅ PAID — render YOUR ORIGINAL JSX
     return (
         <section className="min-h-[calc(100vh-64px)] flex items-center justify-center py-6">
-            <div className="max-w-md w-full space-y-6 text-center">
+            <div className="max-w-xl w-full space-y-6 text-center">
                 <div className="text-5xl">✅</div>
 
                 <h1 className="text-2xl font-semibold">Order confirmed</h1>
@@ -121,10 +124,10 @@ export default function SuccessClient({
 
                 <div className="space-y-2">
                     <Link
-                        href="/account/orders"
+                        href={`account/orders/${orderNumber}`}
                         className="block rounded-md border py-3 hover:bg-gray-50 transition"
                     >
-                        View orders
+                        View order details
                     </Link>
 
                     <Link
