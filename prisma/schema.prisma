@@ -83,6 +83,8 @@ model Order {
 
   items       OrderItem[]
 
+  receiptUrl  String?
+
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
