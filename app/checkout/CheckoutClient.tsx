@@ -15,6 +15,18 @@ export default function CheckoutClient() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    type PendingOrderItem = {
+        id: string;
+        name: string;
+        price: number;
+        quantity: number;
+    };
+
+    const [pendingOrder, setPendingOrder] = useState<string | null>(null);
+    const [pendingItems, setPendingItems] = useState<PendingOrderItem[]>([]);
+    const [pendingTotal, setPendingTotal] = useState<number>(0);
+    const [cancelling, setCancelling] = useState(false);
+
     const total = state.items.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
         0
@@ -43,6 +55,20 @@ export default function CheckoutClient() {
 
             const data = await res.json();
 
+            if (data.hasPendingOrder) {
+                setPendingOrder(data.orderNumber);
+
+                // 🔄 Fetch pending order details
+                const res = await fetch(`/api/orders/${data.orderNumber}`);
+                const order = await res.json();
+
+                setPendingItems(order.items);
+                setPendingTotal(order.total);
+
+                setLoading(false);
+                return;
+            }
+
             // ✅ This triggers Stripe Elements rendering
             setClientSecret(data.clientSecret);
             setOrderNumber(data.orderNumber);
@@ -67,8 +93,91 @@ export default function CheckoutClient() {
         return null;
     }
 
+    if (pendingOrder) {
+        return (
+            <div className="w-full max-w-xl bg-white border p-8 rounded-lg space-y-6 my-6">
+                <div>
+                    <h1 className="text-2xl font-semibold mb-4">
+                        Pending payment detected
+                    </h1>
+                    <p className="text-sm text-amber-600">
+                        You have an unfinished payment with the following items.
+                        You can continue payment or cancel and start a new
+                        checkout.
+                    </p>
+                </div>
+
+                {/* 🧾 Pending order items */}
+                <div className="border rounded-md p-4 space-y-2 text-sm">
+                    {pendingItems.map((item) => (
+                        <div key={item.id} className="flex justify-between">
+                            <span>
+                                {item.name} × {item.quantity}
+                            </span>
+                            <span>
+                                $
+                                {((item.price * item.quantity) / 100).toFixed(
+                                    2
+                                )}
+                            </span>
+                        </div>
+                    ))}
+
+                    <div className="border-t pt-2 flex justify-between font-medium">
+                        <span>Total</span>
+                        <span>${(pendingTotal / 100).toFixed(2)}</span>
+                    </div>
+                </div>
+
+                {/* 🔘 Actions */}
+                <div className="space-y-3">
+                    <button
+                        disabled={cancelling}
+                        onClick={() =>
+                            router.push(`/account/orders/${pendingOrder}/pay`)
+                        }
+                        className="w-full rounded-md bg-accent py-3 text-white hover:bg-gray-800 transition disabled:opacity-50"
+                    >
+                        Continue Payment
+                    </button>
+
+                    <button
+                        disabled={cancelling}
+                        onClick={async () => {
+                            setCancelling(true);
+
+                            await fetch(`/api/orders/${pendingOrder}/cancel`, {
+                                method: "POST",
+                            });
+
+                            // Reset pending state
+                            setPendingOrder(null);
+                            setPendingItems([]);
+                            setPendingTotal(0);
+                            setCancelling(false);
+
+                            // // 🔁 Resume checkout flow automatically
+                            // handleCheckout();
+                        }}
+                        className="w-full rounded-md border py-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                    >
+                        {cancelling ? "Cancelling…" : "Cancel and Start New"}
+                    </button>
+
+                    <button
+                        disabled={cancelling}
+                        onClick={() => router.push("/account/orders")}
+                        className="w-full rounded-md border py-3 hover:bg-gray-100 transition-colors"
+                    >
+                        View my Orders
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="w-full max-w-xl bg-white border p-8 rounded-lg">
+        <div className="w-full max-w-xl bg-white border p-8 rounded-lg my-6">
             {/* =========================
                 STEP 1 — ORDER SUMMARY
             ========================== */}

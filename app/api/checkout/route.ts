@@ -12,7 +12,29 @@ export async function POST() {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // 1️⃣ Fetch cart from DB (SOURCE OF TRUTH)
+    /* ======================================================
+       0️⃣ Check for existing PENDING order
+    ====================================================== */
+    const existingPendingOrder = await prisma.order.findFirst({
+        where: {
+            userId: session.user.id,
+            status: "PENDING",
+        },
+    });
+
+    if (existingPendingOrder) {
+        return NextResponse.json(
+            {
+                hasPendingOrder: true,
+                orderNumber: existingPendingOrder.orderNumber,
+            },
+            { status: 200 }
+        );
+    }
+
+    /* ======================================================
+       1️⃣ Fetch cart from DB (SOURCE OF TRUTH)
+    ====================================================== */
     const cart = await prisma.cart.findUnique({
         where: { userId: session.user.id },
         include: {
@@ -28,7 +50,9 @@ export async function POST() {
         return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
     }
 
-    // 2️⃣ Revalidate stock (CRITICAL)
+    /* ======================================================
+       2️⃣ Revalidate stock (CRITICAL)
+    ====================================================== */
     for (const item of cart.items) {
         if (item.quantity > item.product.stock) {
             return NextResponse.json(
@@ -43,7 +67,9 @@ export async function POST() {
         0
     );
 
-    // 3️⃣ Create order
+    /* ======================================================
+       3️⃣ Create order
+    ====================================================== */
     const order = await prisma.order.create({
         data: {
             orderNumber: crypto.randomUUID(),
@@ -61,7 +87,9 @@ export async function POST() {
         },
     });
 
-    // 4️⃣ Create Stripe PaymentIntent
+    /* ======================================================
+       4️⃣ Create Stripe PaymentIntent
+    ====================================================== */
     const paymentIntent = await stripe.paymentIntents.create({
         amount: order.total, // cents
         currency: "usd",
@@ -73,7 +101,9 @@ export async function POST() {
         automatic_payment_methods: { enabled: true },
     });
 
-    // 5️⃣ Save paymentIntentId
+    /* ======================================================
+       5️⃣ Save paymentIntentId
+    ====================================================== */
     await prisma.order.update({
         where: { id: order.id },
         data: {
@@ -81,8 +111,11 @@ export async function POST() {
         },
     });
 
-    // 6️⃣ Return Stripe client data
+    /* ======================================================
+       6️⃣ Return Stripe client data
+    ====================================================== */
     return NextResponse.json({
+        hasPendingOrder: false,
         orderNumber: order.orderNumber,
         clientSecret: paymentIntent.client_secret,
     });

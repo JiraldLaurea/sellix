@@ -96,6 +96,7 @@ enum OrderStatus {
   PAID
   FULFILLED
   REFUNDED
+  CANCELLED
 }
 
 model OrderItem {
