@@ -46,7 +46,7 @@ export default async function OrdersPage() {
                 {orders.map((order) => (
                     <Link
                         key={order.id}
-                        href={`/account/orders/${order.orderNumber}`}
+                        href={`/orders/${order.orderNumber}`}
                         className="block border rounded-md p-4 hover:bg-gray-50 transition"
                     >
                         <div className="flex justify-between items-start mb-2">

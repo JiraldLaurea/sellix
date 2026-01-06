@@ -29,7 +29,7 @@ export default function AccountMenu() {
 
                         <MenuItem href="/account/profile">Profile</MenuItem>
                         {/* <MenuItem href="/account">My Account</MenuItem> */}
-                        <MenuItem href="/account/orders">Orders</MenuItem>
+                        <MenuItem href="/orders/">Orders</MenuItem>
 
                         <button
                             onClick={() =>

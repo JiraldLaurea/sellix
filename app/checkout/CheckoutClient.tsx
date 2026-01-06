@@ -134,7 +134,7 @@ export default function CheckoutClient() {
                     <button
                         disabled={cancelling}
                         onClick={() =>
-                            router.push(`/account/orders/${pendingOrder}/pay`)
+                            router.push(`/orders//${pendingOrder}/pay`)
                         }
                         className="w-full rounded-md bg-accent py-3 text-white hover:bg-gray-800 transition disabled:opacity-50"
                     >
@@ -166,7 +166,7 @@ export default function CheckoutClient() {
 
                     <button
                         disabled={cancelling}
-                        onClick={() => router.push("/account/orders")}
+                        onClick={() => router.push("/orders/")}
                         className="w-full rounded-md border py-3 hover:bg-gray-100 transition-colors"
                     >
                         View my Orders

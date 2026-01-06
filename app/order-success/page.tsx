@@ -22,7 +22,7 @@ export default async function OrderSuccessPage({ searchParams }: Props) {
     const orderNumber = sp.order;
 
     if (!orderNumber) {
-        redirect("/account/orders");
+        redirect("/orders/");
     }
 
     const order = await prisma.order.findUnique({
@@ -36,7 +36,7 @@ export default async function OrderSuccessPage({ searchParams }: Props) {
     });
 
     if (!order) {
-        redirect("/account/orders");
+        redirect("/orders/");
     }
 
     return <SuccessClient orderNumber={orderNumber} />;

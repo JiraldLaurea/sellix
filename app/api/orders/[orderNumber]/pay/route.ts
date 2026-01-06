@@ -5,10 +5,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 
 export async function POST(
-    req: Request,
-    { params }: { params: { orderNumber: string } }
+    _: Request,
+    { params }: { params: Promise<{ orderNumber: string }> }
 ) {
     const session = await getServerSession(authOptions);
+    const { orderNumber } = await params;
 
     if (!session?.user?.id) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -16,7 +17,7 @@ export async function POST(
 
     const order = await prisma.order.findFirst({
         where: {
-            orderNumber: params.orderNumber,
+            orderNumber: orderNumber,
             userId: session.user.id,
             status: "PENDING",
         },

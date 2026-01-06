@@ -29,13 +29,13 @@ export default async function RetryPaymentPage({ params }: Props) {
     });
 
     if (!order || !order.paymentIntentId) {
-        redirect("/account/orders");
+        redirect("/orders/");
     }
 
     const intent = await stripe.paymentIntents.retrieve(order.paymentIntentId);
 
     if (!intent.client_secret) {
-        redirect("/account/orders");
+        redirect("/orders/");
     }
 
     return (

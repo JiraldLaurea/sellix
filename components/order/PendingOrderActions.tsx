@@ -22,7 +22,7 @@ export default function PendingOrderActions({
         });
 
         toast.success("Order Cancelled Successfully");
-        router.push("/account/orders");
+        router.push("/orders/");
     }
 
     return (
@@ -36,9 +36,7 @@ export default function PendingOrderActions({
             </button>
             <button
                 disabled={loading}
-                onClick={() =>
-                    router.push(`/account/orders/${orderNumber}/pay`)
-                }
+                onClick={() => router.push(`/orders//${orderNumber}/pay`)}
                 className="rounded-md bg-black px-6 py-2 text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
             >
                 Complete Payment

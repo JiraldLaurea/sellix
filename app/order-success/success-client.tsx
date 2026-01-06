@@ -62,7 +62,7 @@ export default function SuccessClient({
             order?.status !== "PAID" &&
             order?.status !== "FULFILLED"
         ) {
-            router.replace("/account/orders");
+            router.replace("/orders/");
         }
     }, [attempts, order?.status, router]);
 
@@ -124,7 +124,7 @@ export default function SuccessClient({
 
                 <div className="space-y-2">
                     <Link
-                        href={`account/orders/${orderNumber}`}
+                        href={`/orders/${orderNumber}`}
                         className="block rounded-md border py-3 hover:bg-gray-50 transition"
                     >
                         View order details

@@ -39,7 +39,7 @@ export default async function OrderDetailPage({ params }: Props) {
     return (
         <section className="max-w-3xl mx-auto py-10">
             <Link
-                href="/account/orders"
+                href="/orders"
                 className="text-gray-600 hover:underline flex items-center w-fit"
             >
                 <IoIosArrowBack size={24} />
