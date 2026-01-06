@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import getStatusStyles from "@/lib/order/getStatusStyles";
+import { Product } from "../types/product";
+import { OrderItem } from "../types";
 
 export default async function OrdersPage() {
     const session = await getServerSession(authOptions);
@@ -78,7 +80,7 @@ export default async function OrdersPage() {
                         </div>
 
                         <ul className="text-sm text-gray-600">
-                            {order.items.map((item) => (
+                            {order.items.map((item: OrderItem) => (
                                 <li key={item.id}>
                                     {item.quantity} x {item.name}
                                 </li>
