@@ -4,6 +4,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import crypto from "crypto";
+import { Prisma } from "@prisma/client";
+
+type CartItemWithProduct = Prisma.CartItemGetPayload<{
+    include: { product: true };
+}>;
 
 export async function POST() {
     const session = await getServerSession(authOptions);
@@ -63,7 +68,8 @@ export async function POST() {
     }
 
     const total = cart.items.reduce(
-        (sum: number, item) => sum + item.product.price * item.quantity,
+        (sum: number, item: CartItemWithProduct) =>
+            sum + item.product.price * item.quantity,
         0
     );
 
