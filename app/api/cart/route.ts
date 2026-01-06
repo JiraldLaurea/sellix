@@ -17,6 +17,9 @@ export async function GET() {
         },
         include: {
             items: {
+                orderBy: {
+                    createdAt: "desc", // newest first
+                },
                 include: {
                     product: true,
                 },
