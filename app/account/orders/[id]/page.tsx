@@ -1,28 +1,17 @@
-import { getServerSession } from "next-auth";
-import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { redirect } from "next/navigation";
+import PendingOrderActions from "@/components/order/PendingOrderActions";
+import getStatusStyles from "@/lib/order/getStatusStyles";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { IoIosArrowBack } from "react-icons/io";
 
 type Props = {
     params: Promise<{
         id: string;
     }>;
 };
-
-function getStatusStyles(status: string) {
-    switch (status) {
-        case "PAID":
-            return "bg-green-100 text-green-700";
-        case "PENDING":
-            return "bg-amber-100 text-amber-700";
-        case "FAILED":
-        case "CANCELED":
-            return "bg-red-100 text-red-700";
-        default:
-            return "bg-gray-100 text-gray-700";
-    }
-}
 
 export default async function OrderDetailPage({ params }: Props) {
     const session = await getServerSession(authOptions);
@@ -49,7 +38,14 @@ export default async function OrderDetailPage({ params }: Props) {
 
     return (
         <section className="max-w-3xl mx-auto py-10">
-            <div className="mb-6 flex justify-between items-start">
+            <Link
+                href="/account/orders"
+                className="text-gray-600 hover:underline flex items-center w-fit"
+            >
+                <IoIosArrowBack size={24} />
+                <p>Orders</p>
+            </Link>
+            <div className="my-6 flex justify-between items-start">
                 <div>
                     <h1 className="text-2xl font-semibold">
                         Order #{order.orderNumber}
@@ -61,7 +57,7 @@ export default async function OrderDetailPage({ params }: Props) {
                 </div>
 
                 <span
-                    className={`px-3 py-1 text-sm rounded-full ${getStatusStyles(
+                    className={`px-3 py-1 text-sm rounded-full border ${getStatusStyles(
                         order.status
                     )}`}
                 >
@@ -95,30 +91,18 @@ export default async function OrderDetailPage({ params }: Props) {
                 </div>
             </div>
 
-            <div className="flex gap-4 justify-between items-center">
-                <Link
-                    href="/account/orders"
-                    className="text-sm text-gray-600 hover:underline"
-                >
-                    ← Back to orders
-                </Link>
-
+            <div className="flex gap-4 justify-end items-center">
                 {order.status === "PAID" && order.receiptUrl && (
                     <Link
                         href={order.receiptUrl}
                         target="_blank"
                         className="block rounded-md bg-black px-6 py-2 text-white hover:bg-gray-800 transition"
                     >
-                        View Stripe receipt
+                        View Stripe Receipt
                     </Link>
                 )}
                 {order.status === "PENDING" && (
-                    <Link
-                        href={`/account/orders/${order.orderNumber}/pay`}
-                        className="mt-4 rounded-md bg-black px-6 py-3 text-white hover:bg-gray-800"
-                    >
-                        Complete payment
-                    </Link>
+                    <PendingOrderActions orderNumber={order.orderNumber} />
                 )}
             </div>
         </section>

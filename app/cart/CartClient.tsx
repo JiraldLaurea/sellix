@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { updateCartQuantity } from "@/lib/cart/update-cart-quantity";
 import { toast } from "sonner";
 import { useCart } from "@/lib/cart-context";
+import { IoIosArrowBack } from "react-icons/io";
 
 type CartClientProps = {
     cart: any; // we’ll type this later
@@ -62,15 +63,26 @@ export default function CartClient({ cart }: CartClientProps) {
         router.refresh();
     }
 
-    return (
-        <section className="py-8 max-w-3xl mx-auto">
-            <h1 className="text-2xl font-medium mb-6">Your Cart</h1>
+    console.log("LENGTH", items.length);
 
-            <div className="space-y-6">
-                {cart.items.map((item: any) => (
+    return (
+        <section className="p-8 max-w-3xl mx-auto rounded-lg my-6">
+            <div
+                onClick={() => router.back()}
+                className="text-gray-600 cursor-pointer hover:underline flex items-center w-fit mb-6"
+            >
+                <IoIosArrowBack size={24} />
+                <p>Back</p>
+            </div>
+            <h1 className="text-2xl font-semibold mb-6">Your Cart</h1>
+
+            <div className="space-y-4">
+                {cart.items.map((item: any, index: number) => (
                     <div
                         key={item.id}
-                        className="flex gap-4 border rounded-lg p-4"
+                        className={`flex gap-4  pb-4 ${
+                            index === items.length - 1 ? "" : "border-b"
+                        }`}
                     >
                         <div className="relative w-24 h-24 bg-gray-100 rounded-md overflow-hidden">
                             <Image
@@ -123,7 +135,7 @@ export default function CartClient({ cart }: CartClientProps) {
                 ))}
             </div>
 
-            <div className="mt-10 border-t pt-6 space-y-6">
+            <div className="border-t pt-6 space-y-6">
                 <div className="space-y-2">
                     <div className="flex justify-between text-base">
                         <span className="text-gray-600">Subtotal</span>
