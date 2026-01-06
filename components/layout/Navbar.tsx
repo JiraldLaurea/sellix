@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import AccountMenu from "../navbar/AccountMenu";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 export default function Navbar() {
     const { state } = useCart();
@@ -56,11 +57,11 @@ export default function Navbar() {
                         <Popover.Trigger asChild>
                             <button
                                 aria-label="Open cart"
-                                className="relative w-9 h-9"
+                                className="relative w-10 h-10 hover:bg-gray-100 rounded-lg flex items-center justify-center transition"
                             >
-                                🛒
+                                <HiOutlineShoppingBag size={30} />
                                 {itemCount > 0 && (
-                                    <span className="absolute select-none -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    <span className="absolute select-none top-0 -right-1 bg-red-500 text-white text-[10px] leading-0 rounded-full h-4 w-4 flex items-center justify-center">
                                         {itemCount}
                                     </span>
                                 )}
@@ -70,7 +71,7 @@ export default function Navbar() {
                         <Popover.Content
                             align="end"
                             sideOffset={8}
-                            className="w-72 bg-white border rounded-md shadow-lg p-4 z-50"
+                            className="w-80 bg-white border rounded-md shadow-lg p-4 z-50"
                         >
                             {state.items.length === 0 ? (
                                 <p className="text-sm text-gray-600">

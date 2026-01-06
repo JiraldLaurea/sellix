@@ -10,8 +10,8 @@ const Avatar = ({ session, hasDefaultCursor }: Props) => {
     return (
         <Image
             src={session?.user?.image ?? "/img/avatar_placeholder.jpg"}
-            width={36}
-            height={36}
+            width={40}
+            height={40}
             alt="Avatar"
             className={`rounded-full  ${
                 session?.user.image === undefined && "border"

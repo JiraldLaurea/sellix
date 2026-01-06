@@ -63,7 +63,7 @@ export default function CartClient({ cart }: CartClientProps) {
     }
 
     return (
-        <section className="py-8 max-w-4xl mx-auto">
+        <section className="py-8 max-w-3xl mx-auto">
             <h1 className="text-2xl font-medium mb-6">Your Cart</h1>
 
             <div className="space-y-6">
@@ -123,22 +123,23 @@ export default function CartClient({ cart }: CartClientProps) {
                 ))}
             </div>
 
-            <div className="mt-10 border-t pt-6 space-y-4">
-                <div className="flex justify-between text-base">
-                    <span className="text-gray-600">Subtotal</span>
-                    <span className="font-medium">
-                        ${(subtotal / 100).toFixed(2)}
-                    </span>
+            <div className="mt-10 border-t pt-6 space-y-6">
+                <div className="space-y-2">
+                    <div className="flex justify-between text-base">
+                        <span className="text-gray-600">Subtotal</span>
+                        <span className="font-medium">
+                            ${(subtotal / 100).toFixed(2)}
+                        </span>
+                    </div>
+                    <div className="flex justify-between text-lg font-semibold">
+                        <span>Total</span>
+                        <span>${(total / 100).toFixed(2)}</span>
+                    </div>
                 </div>
 
-                <div className="flex justify-between text-lg font-semibold">
-                    <span>Total</span>
-                    <span>${(total / 100).toFixed(2)}</span>
-                </div>
-
-                <div className="flex justify-end">
+                <div className="sm:flex sm:justify-end">
                     <Link href="/checkout">
-                        <button className="rounded-md bg-accent text-white px-6 py-2 hover:bg-gray-800 transition">
+                        <button className="rounded-md w-full sm:w-fit bg-accent text-white px-6 py-3 hover:bg-gray-800 transition">
                             Proceed to Checkout
                         </button>
                     </Link>

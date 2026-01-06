@@ -13,8 +13,6 @@ type Props = {
 export default function ProductPurchase({ product }: Props) {
     const max = product.stock;
 
-    console.log("MAX", max);
-
     const [quantity, setQuantity] = useState(max > 0 ? 1 : 0);
 
     // ✅ CLAMP HERE — not in useEffect
@@ -39,14 +37,18 @@ export default function ProductPurchase({ product }: Props) {
     };
 
     return (
-        <div className="flex items-center gap-4 pt-4">
+        <div className="pt-4 space-y-4">
             <QuantityPicker
                 quantity={quantity}
                 max={max}
                 onChange={handleQuantityChange}
             />
 
-            <AddToCartButton product={product} quantity={quantity} />
+            <AddToCartButton
+                product={product}
+                quantity={quantity}
+                className="w-full sm:w-fit"
+            />
         </div>
     );
 }

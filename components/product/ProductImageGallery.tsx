@@ -27,8 +27,8 @@ export default function ProductImageGallery({ images, alt }: Props) {
                     <button
                         key={img}
                         onClick={() => setActiveImage(img)}
-                        className={`relative h-20 w-20 rounded-md overflow-hidden border
-              ${activeImage === img ? "border-black" : "border-transparent"}
+                        className={`relative h-20 w-20 rounded-md overflow-hidden outline-2
+              ${activeImage === img ? "outline-black" : "outline-transparent"}
             `}
                     >
                         <Image src={img} alt="" fill className="object-cover" />

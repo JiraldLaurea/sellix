@@ -23,8 +23,6 @@ export default async function CartPage() {
         },
     });
 
-    console.log("RES", res);
-
     const cart = await res.json();
 
     return <CartClient cart={cart} />;

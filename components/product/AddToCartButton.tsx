@@ -56,7 +56,7 @@ export default function AddToCartButton({
             onClick={handleAddToCart}
             className={`rounded-md px-6 py-2 transition
         ${
-            disabled
+            disabled && !loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-accent text-white hover:bg-gray-800"
         } ${className}`}
