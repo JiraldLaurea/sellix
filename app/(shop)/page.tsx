@@ -3,6 +3,7 @@ import { getProducts } from "@/lib/getProducts";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import { Product } from "../types/product";
 
 export default async function ShopPage() {
     const session = await getServerSession(authOptions);
@@ -19,7 +20,7 @@ export default async function ShopPage() {
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {products ? (
                     <>
-                        {products.map((product) => (
+                        {products.map((product: Product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
                     </>
