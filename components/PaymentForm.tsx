@@ -35,7 +35,7 @@ export default function PaymentForm({ orderNumber }: { orderNumber: string }) {
             return;
         }
 
-        // 2️⃣ Confirm payment WITHOUT auto redirect
+        // 2️⃣ Confirm payment
         const { error, paymentIntent } = await stripe.confirmPayment({
             elements,
             redirect: "if_required",
