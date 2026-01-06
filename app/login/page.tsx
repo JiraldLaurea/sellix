@@ -87,14 +87,15 @@ export default function LoginPage() {
                     </span>
                 </button>
 
-                <div className="relative flex items-center">
+                {/* <div className="relative flex items-center">
                     <div className="grow border-t" />
                     <span className="mx-2 text-sm text-gray-500">or</span>
                     <div className="grow border-t" />
-                </div>
+                </div> */}
 
                 {/* Demo credentials */}
-                <button
+                {/* TODO */}
+                {/* <button
                     disabled={!!loadingProvider}
                     onClick={async () => {
                         setLoadingProvider("credentials");
@@ -108,7 +109,7 @@ export default function LoginPage() {
                     {loadingProvider === "credentials"
                         ? "Signing in…"
                         : "Sign in (demo)"}
-                </button>
+                </button> */}
             </div>
         </section>
     );
