@@ -3,20 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-
-function getStatusStyles(status: string) {
-    switch (status) {
-        case "PAID":
-            return "bg-green-100 text-green-700";
-        case "PENDING":
-            return "bg-amber-100 text-amber-700";
-        case "FAILED":
-        case "CANCELED":
-            return "bg-red-100 text-red-700";
-        default:
-            return "bg-gray-100 text-gray-700";
-    }
-}
+import getStatusStyles from "@/lib/order/getStatusStyles";
 
 export default async function OrdersPage() {
     const session = await getServerSession(authOptions);
@@ -79,7 +66,7 @@ export default async function OrdersPage() {
                                     ${(order.total / 100).toFixed(2)}
                                 </p>
                                 <span
-                                    className={`inline-block mt-1 px-2 py-0.5 text-xs rounded-full ${getStatusStyles(
+                                    className={`inline-block mt-1 px-2 py-0.5 text-xs rounded-full border ${getStatusStyles(
                                         order.status
                                     )}`}
                                 >

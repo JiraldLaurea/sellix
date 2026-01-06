@@ -65,7 +65,7 @@ export default function AddToCartButton({
                 ? "Out of stock"
                 : loading
                 ? "Adding..."
-                : "Add to cart"}
+                : "Add to Cart"}
         </button>
     );
 }

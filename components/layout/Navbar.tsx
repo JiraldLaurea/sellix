@@ -86,12 +86,15 @@ export default function Navbar() {
                                             ({ product, quantity }) => (
                                                 <li
                                                     key={product.id}
-                                                    className="text-sm flex justify-between"
+                                                    className="text-sm flex justify-between space-x-2"
                                                 >
-                                                    <span>
-                                                        {product.name} x
-                                                        {quantity ?? 1}
+                                                    <span className="truncate grow">
+                                                        {product.name}
                                                     </span>
+                                                    <span className="text-clip">
+                                                        x{quantity ?? 1}
+                                                    </span>
+
                                                     <span>
                                                         $
                                                         {(
@@ -115,7 +118,7 @@ export default function Navbar() {
                                             href="/cart"
                                             className="w-full rounded-md py-2 text-sm transition bg-accent text-white hover:bg-gray-800 text-center block"
                                         >
-                                            View cart
+                                            View Cart
                                         </Link>
                                     </Popover.Close>
                                 </>
