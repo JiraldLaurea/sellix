@@ -83,7 +83,7 @@ export async function POST() {
             userId: session.user.id,
             status: "PENDING",
             items: {
-                create: cart.items.map((item) => ({
+                create: cart.items.map((item: CartItemWithProduct) => ({
                     productId: item.productId,
                     name: item.product.name,
                     price: item.product.price,
