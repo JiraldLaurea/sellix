@@ -4,11 +4,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import crypto from "crypto";
-import type { CartItem, Product } from "@prisma/client";
-
-type CartItemWithProduct = CartItem & {
-    product: Product;
-};
 
 export async function POST() {
     const session = await getServerSession(authOptions);
@@ -66,6 +61,11 @@ export async function POST() {
             );
         }
     }
+
+    /* ======================================================
+       2.5️⃣ Infer cart item type (TS-safe)
+    ====================================================== */
+    type CartItemWithProduct = (typeof cart.items)[number];
 
     const total = cart.items.reduce(
         (sum: number, item: CartItemWithProduct) =>
