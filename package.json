@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "typecheck": "tsc --noEmit",
+        "typecheck": "tsc --noEmit --pretty false",
         "build": "next build",
         "start": "next start",
         "lint": "eslint"

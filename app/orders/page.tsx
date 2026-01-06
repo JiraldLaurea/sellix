@@ -38,12 +38,14 @@ export default async function OrdersPage() {
         );
     }
 
+    type Order = (typeof orders)[number];
+
     return (
         <section className="max-w-3xl mx-auto py-10">
             <h1 className="text-2xl font-semibold mb-6">Your Orders</h1>
 
             <div className="space-y-4">
-                {orders.map((order) => (
+                {orders.map((order: Order) => (
                     <Link
                         key={order.id}
                         href={`/orders/${order.orderNumber}`}

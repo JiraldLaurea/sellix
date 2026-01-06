@@ -9,8 +9,24 @@ import { toast } from "sonner";
 import { useCart } from "@/lib/cart-context";
 import { IoIosArrowBack } from "react-icons/io";
 
+type CartItem = {
+    id: string;
+    quantity: number;
+    product: {
+        id: string;
+        name: string;
+        price: number;
+        stock: number;
+        images: string[];
+    };
+};
+
+type Cart = {
+    items: CartItem[];
+};
+
 type CartClientProps = {
-    cart: any; // we’ll type this later
+    cart: Cart | null;
 };
 
 export default function CartClient({ cart }: CartClientProps) {
@@ -33,8 +49,8 @@ export default function CartClient({ cart }: CartClientProps) {
         );
     }
 
-    const subtotal = cart.items.reduce(
-        (sum: number, item: any) => sum + item.product.price * item.quantity,
+    const subtotal = items.reduce(
+        (sum, item) => sum + item.product.price * item.quantity,
         0
     );
 
@@ -63,8 +79,6 @@ export default function CartClient({ cart }: CartClientProps) {
         router.refresh();
     }
 
-    console.log("LENGTH", items.length);
-
     return (
         <section className="p-8 max-w-3xl mx-auto rounded-lg my-6">
             <div
@@ -77,7 +91,7 @@ export default function CartClient({ cart }: CartClientProps) {
             <h1 className="text-2xl font-semibold mb-6">Your Cart</h1>
 
             <div className="space-y-4">
-                {cart.items.map((item: any, index: number) => (
+                {items.map((item, index) => (
                     <div
                         key={item.id}
                         className={`flex gap-4  pb-4 ${

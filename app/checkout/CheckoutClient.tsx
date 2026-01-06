@@ -28,7 +28,7 @@ export default function CheckoutClient() {
     const [cancelling, setCancelling] = useState(false);
 
     const total = state.items.reduce(
-        (sum, item) => sum + item.product.price * item.quantity,
+        (sum: number, item) => sum + item.product.price * item.quantity,
         0
     );
 
@@ -109,10 +109,10 @@ export default function CheckoutClient() {
 
                 {/* 🧾 Pending order items */}
                 <div className="border rounded-md p-4 space-y-2 text-sm">
-                    {pendingItems.map((item) => (
+                    {pendingItems.map((item: PendingOrderItem) => (
                         <div key={item.id} className="flex justify-between">
                             <span>
-                                {item.name} × {item.quantity}
+                                {item.name} x {item.quantity}
                             </span>
                             <span>
                                 $
@@ -186,19 +186,20 @@ export default function CheckoutClient() {
                     <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
 
                     <ul className="space-y-3 text-sm">
-                        {state.items.map(({ product, quantity }) => (
+                        {state.items.map((item) => (
                             <li
-                                key={product.id}
+                                key={item.product.id}
                                 className="flex justify-between"
                             >
                                 <span>
-                                    {product.name} x {quantity}
+                                    {item.product.name} x {item.quantity}
                                 </span>
                                 <span>
                                     $
-                                    {((product.price * quantity) / 100).toFixed(
-                                        2
-                                    )}
+                                    {(
+                                        (item.product.price * item.quantity) /
+                                        100
+                                    ).toFixed(2)}
                                 </span>
                             </li>
                         ))}
