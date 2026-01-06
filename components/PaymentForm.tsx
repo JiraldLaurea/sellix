@@ -2,19 +2,13 @@
 
 import {
     PaymentElement,
-    useStripe,
     useElements,
+    useStripe,
 } from "@stripe/react-stripe-js";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default function PaymentForm({
-    orderNumber,
-    onSuccess,
-}: {
-    orderNumber: string;
-    onSuccess: () => void;
-}) {
+export default function PaymentForm({ orderNumber }: { orderNumber: string }) {
     const stripe = useStripe();
     const elements = useElements();
     const router = useRouter();
@@ -25,15 +19,25 @@ export default function PaymentForm({
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
-        if (!stripe || !elements) return;
+        if (!stripe || !elements) {
+            setError("Stripe not ready");
+            return;
+        }
 
         setLoading(true);
+        setError(null);
 
-        const { error } = await stripe.confirmPayment({
+        // 1️⃣ Validate PaymentElement
+        const { error: submitError } = await elements.submit();
+        if (submitError) {
+            setError(submitError.message ?? "Payment validation failed");
+            setLoading(false);
+            return;
+        }
+
+        // 2️⃣ Confirm payment WITHOUT auto redirect
+        const { error, paymentIntent } = await stripe.confirmPayment({
             elements,
-            confirmParams: {
-                return_url: `${window.location.origin}/order/success?order=${orderNumber}`,
-            },
             redirect: "if_required",
         });
 
@@ -43,15 +47,14 @@ export default function PaymentForm({
             return;
         }
 
-        // If no redirect was needed, manually push
-        if (!error) {
-            onSuccess();
+        // 3️⃣ Payment succeeded → refresh cart UI
+        if (paymentIntent?.status === "succeeded") {
             router.push(`/order-success?order=${orderNumber}`);
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-6">
             <PaymentElement />
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -59,7 +62,7 @@ export default function PaymentForm({
             <button
                 type="submit"
                 disabled={!stripe || loading}
-                className="mt-6 w-full rounded bg-accent py-3 text-white disabled:opacity-50 hover:bg-gray-800 transition"
+                className="w-full rounded-md bg-accent py-3 text-white disabled:opacity-50 hover:bg-gray-800 transition"
             >
                 {loading ? "Processing…" : "Pay now"}
             </button>
