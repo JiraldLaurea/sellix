@@ -1,66 +1,58 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 import Link from "next/link";
-import { useAuthGuard } from "@/lib/useAuthGuard";
 
-type Order = {
-    orderNumber: string;
-    items: {
-        product: {
-            id: string;
-            name: string;
-            price: number;
-        };
-        quantity: number;
-    }[];
-    total: number;
-    createdAt: string;
+type Props = {
+    params: Promise<{
+        id: string;
+    }>;
 };
 
-export default function OrderDetailsPage() {
-    const { id } = useParams<{ id: string }>();
-    const [order, setOrder] = useState<Order | null>(null);
+function getStatusStyles(status: string) {
+    switch (status) {
+        case "PAID":
+            return "bg-green-100 text-green-700";
+        case "PENDING":
+            return "bg-amber-100 text-amber-700";
+        case "FAILED":
+        case "CANCELED":
+            return "bg-red-100 text-red-700";
+        default:
+            return "bg-gray-100 text-gray-700";
+    }
+}
 
-    const authStatus = useAuthGuard();
+export default async function OrderDetailPage({ params }: Props) {
+    const session = await getServerSession(authOptions);
+    const { id } = await params;
+    const orderNumber = id;
 
-    useEffect(() => {
-        if (authStatus !== "authenticated") return;
-
-        const stored = localStorage.getItem("orders");
-        if (!stored) return;
-
-        const orders: Order[] = JSON.parse(stored);
-        setOrder(orders.find((o) => o.orderNumber === id) ?? null);
-    }, [authStatus, id]);
-
-    if (authStatus === "loading") {
-        return (
-            <section className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)] justify-center">
-                <p>Loading order…</p>
-            </section>
-        );
+    if (!session?.user?.id) {
+        redirect("/login");
     }
 
+    const order = await prisma.order.findFirst({
+        where: {
+            orderNumber: orderNumber,
+            userId: session.user.id, // 🔐 security boundary
+        },
+        include: {
+            items: true,
+        },
+    });
+
     if (!order) {
-        return (
-            <section className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)] justify-center">
-                <h1 className="text-xl mb-4">Order not found</h1>
-                <Link href="/account/orders" className="underline">
-                    Back to orders
-                </Link>
-            </section>
-        );
+        redirect("/orders");
     }
 
     return (
-        <section className="max-w-3xl mx-auto py-10 space-y-6">
-            {/* Header */}
-            <div className="flex justify-between items-center">
+        <section className="max-w-3xl mx-auto py-10">
+            <div className="mb-6 flex justify-between items-start">
                 <div>
                     <h1 className="text-2xl font-semibold">
-                        Order {order.orderNumber}
+                        Order #{order.orderNumber}
                     </h1>
                     <p className="text-sm text-gray-500">
                         Placed on{" "}
@@ -68,35 +60,58 @@ export default function OrderDetailsPage() {
                     </p>
                 </div>
 
+                <span
+                    className={`px-3 py-1 text-sm rounded-full ${getStatusStyles(
+                        order.status
+                    )}`}
+                >
+                    {order.status}
+                </span>
+            </div>
+
+            <div className="border rounded-md p-4 mb-6">
+                <ul className="space-y-2">
+                    {order.items.map((item) => (
+                        <li
+                            key={item.id}
+                            className="flex justify-between text-sm"
+                        >
+                            <span>
+                                {item.quantity} x {item.name}
+                            </span>
+                            <span>
+                                $
+                                {((item.price * item.quantity) / 100).toFixed(
+                                    2
+                                )}
+                            </span>
+                        </li>
+                    ))}
+                </ul>
+
+                <div className="border-t mt-4 pt-4 flex justify-between font-medium">
+                    <span>Total</span>
+                    <span>${(order.total / 100).toFixed(2)}</span>
+                </div>
+            </div>
+
+            <div className="flex gap-4 justify-between items-center">
                 <Link
                     href="/account/orders"
                     className="text-sm text-gray-600 hover:underline"
                 >
-                    Back to orders
+                    ← Back to orders
                 </Link>
-            </div>
 
-            {/* Items */}
-            <div className="border rounded-md p-4 space-y-3">
-                {order.items.map(({ product, quantity }) => (
-                    <div
-                        key={product.id}
-                        className="flex justify-between text-sm"
+                {order.status === "PAID" && order.receiptUrl && (
+                    <Link
+                        href={order.receiptUrl}
+                        target="_blank"
+                        className="block rounded-md bg-black px-6 py-2 text-white hover:bg-gray-800 transition"
                     >
-                        <span>
-                            {product.name} × {quantity}
-                        </span>
-                        <span>
-                            ${((product.price * quantity) / 100).toFixed(2)}
-                        </span>
-                    </div>
-                ))}
-            </div>
-
-            {/* Total */}
-            <div className="flex justify-between text-lg font-medium border-t pt-4">
-                <span>Total</span>
-                <span>${(order.total / 100).toFixed(2)}</span>
+                        View Stripe receipt
+                    </Link>
+                )}
             </div>
         </section>
     );

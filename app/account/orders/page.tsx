@@ -4,6 +4,20 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+function getStatusStyles(status: string) {
+    switch (status) {
+        case "PAID":
+            return "bg-green-100 text-green-700";
+        case "PENDING":
+            return "bg-amber-100 text-amber-700";
+        case "FAILED":
+        case "CANCELED":
+            return "bg-red-100 text-red-700";
+        default:
+            return "bg-gray-100 text-gray-700";
+    }
+}
+
 export default async function OrdersPage() {
     const session = await getServerSession(authOptions);
 
@@ -43,8 +57,12 @@ export default async function OrdersPage() {
 
             <div className="space-y-4">
                 {orders.map((order) => (
-                    <div key={order.id} className="border rounded-md p-4">
-                        <div className="flex justify-between mb-2">
+                    <Link
+                        key={order.id}
+                        href={`/account/orders/${order.orderNumber}`}
+                        className="block border rounded-md p-4 hover:bg-gray-50 transition"
+                    >
+                        <div className="flex justify-between items-start mb-2">
                             <div>
                                 <p className="font-medium">
                                     Order #{order.orderNumber}
@@ -56,19 +74,28 @@ export default async function OrdersPage() {
                                 </p>
                             </div>
 
-                            <p className="font-medium">
-                                ${(order.total / 100).toFixed(2)}
-                            </p>
+                            <div className="text-right">
+                                <p className="font-medium">
+                                    ${(order.total / 100).toFixed(2)}
+                                </p>
+                                <span
+                                    className={`inline-block mt-1 px-2 py-0.5 text-xs rounded-full ${getStatusStyles(
+                                        order.status
+                                    )}`}
+                                >
+                                    {order.status}
+                                </span>
+                            </div>
                         </div>
 
                         <ul className="text-sm text-gray-600">
                             {order.items.map((item) => (
                                 <li key={item.id}>
-                                    {item.quantity}× {item.name}
+                                    {item.quantity} x {item.name}
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </section>
