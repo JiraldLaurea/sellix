@@ -36,6 +36,8 @@ export default async function OrderDetailPage({ params }: Props) {
         redirect("/orders");
     }
 
+    type OrderItem = (typeof order.items)[number];
+
     return (
         <section className="max-w-3xl mx-auto py-10">
             <Link
@@ -67,7 +69,7 @@ export default async function OrderDetailPage({ params }: Props) {
 
             <div className="border rounded-md p-4 mb-6">
                 <ul className="space-y-2">
-                    {order.items.map((item) => (
+                    {order.items.map((item: OrderItem) => (
                         <li
                             key={item.id}
                             className="flex justify-between text-sm"
