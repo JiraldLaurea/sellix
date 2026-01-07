@@ -63,23 +63,32 @@ export async function POST() {
     }
 
     /* ======================================================
-       2.5️⃣ Infer cart item type (TS-safe)
+       3️⃣ Calculate pricing (AUTHORITATIVE)
     ====================================================== */
     type CartItemWithProduct = (typeof cart.items)[number];
 
-    const total = cart.items.reduce(
+    const SHIPPING_FEE = 1500; // $15.00
+    const TAX_RATE = 0.07;
+
+    const subtotal = cart.items.reduce(
         (sum: number, item: CartItemWithProduct) =>
             sum + item.product.price * item.quantity,
         0
     );
 
+    const tax = Math.round(subtotal * TAX_RATE);
+    const total = subtotal + SHIPPING_FEE + tax;
+
     /* ======================================================
-       3️⃣ Create order
+       4️⃣ Create order (LOCK TOTALS)
     ====================================================== */
     const order = await prisma.order.create({
         data: {
             orderNumber: crypto.randomUUID(),
-            total,
+            subtotal: subtotal,
+            shipping: SHIPPING_FEE,
+            tax: tax,
+            total: total,
             userId: session.user.id,
             status: "PENDING",
             items: {
@@ -94,10 +103,10 @@ export async function POST() {
     });
 
     /* ======================================================
-       4️⃣ Create Stripe PaymentIntent
+       5️⃣ Create Stripe PaymentIntent
     ====================================================== */
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: order.total, // cents
+        amount: order.total, // MUST match DB
         currency: "usd",
         metadata: {
             orderId: order.id,
@@ -108,7 +117,7 @@ export async function POST() {
     });
 
     /* ======================================================
-       5️⃣ Save paymentIntentId
+       6️⃣ Save paymentIntentId
     ====================================================== */
     await prisma.order.update({
         where: { id: order.id },
@@ -118,7 +127,7 @@ export async function POST() {
     });
 
     /* ======================================================
-       6️⃣ Return Stripe client data
+       7️⃣ Return Stripe client data
     ====================================================== */
     return NextResponse.json({
         hasPendingOrder: false,

@@ -4,13 +4,19 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/cart-context";
+import { formatMoney } from "@/lib/formatMoney";
 
 type OrderStatus = "PENDING" | "PAID" | "FULFILLED" | "REFUNDED";
 
 type Order = {
     orderNumber: string;
-    total: number;
     status: OrderStatus;
+
+    subtotal: number;
+    shipping: number;
+    tax: number;
+    total: number;
+
     items: {
         id: string;
         name: string;
@@ -29,6 +35,9 @@ export default function SuccessClient({
     const [attempts, setAttempts] = useState(0);
     const { refreshCart } = useCart();
 
+    /* ======================================================
+       Poll order until webhook confirms payment
+    ====================================================== */
     useEffect(() => {
         const interval = setInterval(async () => {
             try {
@@ -53,20 +62,24 @@ export default function SuccessClient({
         }, 1500);
 
         return () => clearInterval(interval);
-    }, [orderNumber]);
+    }, [orderNumber, refreshCart]);
 
-    // 🔐 Lock page if webhook never confirms
+    /* ======================================================
+       Lock page if webhook never confirms
+    ====================================================== */
     useEffect(() => {
         if (
             attempts > 20 &&
             order?.status !== "PAID" &&
             order?.status !== "FULFILLED"
         ) {
-            router.replace("/orders/");
+            router.replace("/orders");
         }
     }, [attempts, order?.status, router]);
 
-    // 🟡 Loading while webhook confirms
+    /* ======================================================
+       Loading while webhook confirms
+    ====================================================== */
     if (!order || order.status === "PENDING") {
         return (
             <section className="min-h-[calc(100vh-64px)] flex items-center justify-center">
@@ -80,12 +93,27 @@ export default function SuccessClient({
         );
     }
 
-    // ❌ Not paid → no access
+    /* ======================================================
+       Not paid → no access
+    ====================================================== */
     if (order.status !== "PAID" && order.status !== "FULFILLED") {
         return null;
     }
 
-    // ✅ PAID — render YOUR ORIGINAL JSX
+    const SHIPPING_FEE = 1500; // $15.00
+    const TAX_RATE = 0.07;
+
+    const computedSubtotal =
+        order.subtotal ??
+        order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    const computedShipping = order.shipping ?? SHIPPING_FEE;
+
+    const computedTax = order.tax ?? Math.round(computedSubtotal * TAX_RATE);
+
+    /* ======================================================
+       PAID / FULFILLED
+    ====================================================== */
     return (
         <section className="min-h-[calc(100vh-64px)] flex items-center justify-center py-6">
             <div className="max-w-xl w-full space-y-6 text-center">
@@ -98,12 +126,10 @@ export default function SuccessClient({
                     <p className="text-lg">{order.orderNumber}</p>
                 </div>
 
-                <div className="border rounded-md p-4 text-left space-y-2">
+                {/* Items */}
+                <div className="border rounded-md p-4 text-left space-y-2 text-sm">
                     {order.items.map((item) => (
-                        <div
-                            key={item.id}
-                            className="flex justify-between text-sm"
-                        >
+                        <div key={item.id} className="flex justify-between">
                             <span>
                                 {item.name} x {item.quantity}
                             </span>
@@ -116,12 +142,31 @@ export default function SuccessClient({
                         </div>
                     ))}
 
-                    <div className="border-t pt-2 flex justify-between font-medium">
-                        <span>Total</span>
-                        <span>${(order.total / 100).toFixed(2)}</span>
+                    {/* Breakdown */}
+                    <div className="border-t pt-3 space-y-1">
+                        <div className="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span>{formatMoney(computedSubtotal)}</span>
+                        </div>
+
+                        <div className="flex justify-between text-gray-600">
+                            <span>Shipping</span>
+                            <span>{formatMoney(computedShipping)}</span>
+                        </div>
+
+                        <div className="flex justify-between text-gray-600">
+                            <span>Tax</span>
+                            <span>{formatMoney(computedTax)}</span>
+                        </div>
+
+                        <div className="border-t pt-2 flex justify-between font-medium text-base">
+                            <span>Total</span>
+                            <span>{formatMoney(order.total)}</span>
+                        </div>
                     </div>
                 </div>
 
+                {/* Actions */}
                 <div className="space-y-2">
                     <Link
                         href={`/orders/${orderNumber}`}

@@ -30,13 +30,7 @@ export default function QuantityPicker({
     const isDisabled = max === 0;
 
     return (
-        <div className="flex flex-col gap-1">
-            {/* Optional helper text */}
-            {quantity >= max && max > 0 && (
-                <span className="text-xs text-amber-500">
-                    Max available stock reached
-                </span>
-            )}
+        <div className="flex relative flex-col gap-1 justify-center">
             <div className="flex w-fit items-center border rounded-md overflow-hidden">
                 <button
                     onClick={decrement}
@@ -60,6 +54,12 @@ export default function QuantityPicker({
                     +
                 </button>
             </div>
+            {/* Optional helper text */}
+            {quantity >= max && max > 0 && (
+                <span className="absolute -bottom-4 text-xs text-amber-500">
+                    Max qty reached
+                </span>
+            )}
         </div>
     );
 }

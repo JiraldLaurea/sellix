@@ -27,11 +27,23 @@ export default function CheckoutClient() {
     const [pendingTotal, setPendingTotal] = useState<number>(0);
     const [cancelling, setCancelling] = useState(false);
 
-    const total = state.items.reduce(
+    /* ======================================================
+       Pricing (DISPLAY ONLY — server is source of truth)
+    ====================================================== */
+    const SHIPPING_FEE = 1500; // $15.00
+    const TAX_RATE = 0.07;
+
+    const subtotal = state.items.reduce(
         (sum: number, item) => sum + item.product.price * item.quantity,
         0
     );
 
+    const tax = Math.round(subtotal * TAX_RATE);
+    const total = subtotal + SHIPPING_FEE + tax;
+
+    /* ======================================================
+       Checkout
+    ====================================================== */
     async function handleCheckout() {
         if (loading) return;
 
@@ -42,10 +54,6 @@ export default function CheckoutClient() {
             const res = await fetch("/api/checkout", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    items: state.items,
-                    total,
-                }),
             });
 
             if (!res.ok) {
@@ -58,7 +66,6 @@ export default function CheckoutClient() {
             if (data.hasPendingOrder) {
                 setPendingOrder(data.orderNumber);
 
-                // 🔄 Fetch pending order details
                 const res = await fetch(`/api/orders/${data.orderNumber}`);
                 const order = await res.json();
 
@@ -69,7 +76,6 @@ export default function CheckoutClient() {
                 return;
             }
 
-            // ✅ This triggers Stripe Elements rendering
             setClientSecret(data.clientSecret);
             setOrderNumber(data.orderNumber);
         } catch (err) {
@@ -82,7 +88,9 @@ export default function CheckoutClient() {
         }
     }
 
-    // ⛔ Redirect if cart empty and no payment in progress
+    /* ======================================================
+       Redirect if cart empty
+    ====================================================== */
     useEffect(() => {
         if (state.items.length === 0 && !clientSecret) {
             router.replace("/cart");
@@ -93,6 +101,9 @@ export default function CheckoutClient() {
         return null;
     }
 
+    /* ======================================================
+       Pending order UI (unchanged)
+    ====================================================== */
     if (pendingOrder) {
         return (
             <div className="w-full max-w-xl bg-white border p-8 rounded-lg space-y-6 my-6">
@@ -100,16 +111,15 @@ export default function CheckoutClient() {
                     <h1 className="text-2xl font-semibold mb-4">
                         Pending payment detected
                     </h1>
-                    <p className="text-sm text-amber-600">
+                    <p className="text-sm text-amber-500">
                         You have an unfinished payment with the following items.
                         You can continue payment or cancel and start a new
                         checkout.
                     </p>
                 </div>
 
-                {/* 🧾 Pending order items */}
                 <div className="border rounded-md p-4 space-y-2 text-sm">
-                    {pendingItems.map((item: PendingOrderItem) => (
+                    {pendingItems.map((item) => (
                         <div key={item.id} className="flex justify-between">
                             <span>
                                 {item.name} x {item.quantity}
@@ -129,12 +139,11 @@ export default function CheckoutClient() {
                     </div>
                 </div>
 
-                {/* 🔘 Actions */}
                 <div className="space-y-3">
                     <button
                         disabled={cancelling}
                         onClick={() =>
-                            router.push(`/orders//${pendingOrder}/pay`)
+                            router.push(`/orders/${pendingOrder}/pay`)
                         }
                         className="w-full rounded-md bg-accent py-3 text-white hover:bg-gray-800 transition disabled:opacity-50"
                     >
@@ -145,19 +154,13 @@ export default function CheckoutClient() {
                         disabled={cancelling}
                         onClick={async () => {
                             setCancelling(true);
-
                             await fetch(`/api/orders/${pendingOrder}/cancel`, {
                                 method: "POST",
                             });
-
-                            // Reset pending state
                             setPendingOrder(null);
                             setPendingItems([]);
                             setPendingTotal(0);
                             setCancelling(false);
-
-                            // // 🔁 Resume checkout flow automatically
-                            // handleCheckout();
                         }}
                         className="w-full rounded-md border py-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
                     >
@@ -165,22 +168,27 @@ export default function CheckoutClient() {
                     </button>
 
                     <button
-                        disabled={cancelling}
-                        onClick={() => router.push("/orders/")}
-                        className="w-full rounded-md border py-3 hover:bg-gray-100 transition-colors"
+                        onClick={() => router.push("/orders")}
+                        className="w-full rounded-md border py-3 hover:bg-gray-100"
                     >
                         View my Orders
+                    </button>
+                    <button
+                        onClick={() => router.push("/cart")}
+                        className="w-full rounded-md border py-3 hover:bg-gray-100"
+                    >
+                        View Cart
                     </button>
                 </div>
             </div>
         );
     }
 
+    /* ======================================================
+       Checkout UI
+    ====================================================== */
     return (
         <div className="w-full max-w-xl bg-white border p-8 rounded-lg my-6">
-            {/* =========================
-                STEP 1 — ORDER SUMMARY
-            ========================== */}
             {!clientSecret && (
                 <>
                     <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
@@ -205,9 +213,23 @@ export default function CheckoutClient() {
                         ))}
                     </ul>
 
-                    <div className="border-t mt-6 pt-4 flex justify-between font-medium">
-                        <span>Total</span>
-                        <span>${(total / 100).toFixed(2)}</span>
+                    <div className="border-t mt-6 pt-4 space-y-2 text-sm">
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Subtotal</span>
+                            <span>${(subtotal / 100).toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Shipping</span>
+                            <span>${(SHIPPING_FEE / 100).toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Tax (7%)</span>
+                            <span>${(tax / 100).toFixed(2)}</span>
+                        </div>
+                        <div className="border-t pt-3 flex justify-between font-medium text-base">
+                            <span>Total</span>
+                            <span>${(total / 100).toFixed(2)}</span>
+                        </div>
                     </div>
 
                     {error && (
@@ -224,9 +246,6 @@ export default function CheckoutClient() {
                 </>
             )}
 
-            {/* =========================
-                STEP 2 — STRIPE PAYMENT
-            ========================== */}
             {clientSecret && orderNumber && (
                 <>
                     <h1 className="text-2xl font-semibold mb-6">Payment</h1>
