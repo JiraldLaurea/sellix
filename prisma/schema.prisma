@@ -70,9 +70,13 @@ model VerificationToken {
 model Order {
   id          String      @id @default(cuid())
   orderNumber String      @unique
+
+  subtotal    Int
+  shipping    Int
+  tax         Int
   total       Int
 
-  status           OrderStatus @default(PENDING)
+  status      OrderStatus @default(PENDING)
 
   paymentIntentId String? @unique
   paidAt          DateTime?
