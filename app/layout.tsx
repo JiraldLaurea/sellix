@@ -7,7 +7,7 @@ import { Providers } from "./providers";
 
 export const metadata: Metadata = {
     icons: {
-        icon: "/brand_logo_noText.ico",
+        icon: "/favicon.ico",
     },
     title: "Sellix",
     description: "Sellix - Quality in every order",
