@@ -16,7 +16,7 @@ export default async function ShopPage() {
 
     return (
         <section className="py-8">
-            <h1 className="mb-4 text-4xl font-semibold">Products</h1>
+            <h1 className="mb-4 text-4xl font-semibold">Products List</h1>
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {products ? (
                     <>
