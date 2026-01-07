@@ -109,8 +109,8 @@ export default function CartClient({ cart }: CartClientProps) {
                         <div className="min-w-160">
                             {/* Header */}
                             <div className="grid grid-cols-[80px_1fr_140px_120px_40px] h-8 border-b gap-4 text-sm text-gray-600">
-                                <span />
                                 <span>Items</span>
+                                <span />
                                 <span className="text-center">Qty</span>
                                 <span className="text-right">Subtotal</span>
                                 <span />
