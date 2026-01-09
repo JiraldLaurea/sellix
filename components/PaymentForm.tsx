@@ -56,10 +56,9 @@ export default function PaymentForm({ orderNumber }: { orderNumber: string }) {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6 text-sm">
+            <h1 className="text-2xl font-semibold mb-6">Payment</h1>
             <PaymentElement />
-
             {error && <p className="text-red-500">{error}</p>}
-
             <Button buttonType="submit" disabled={!stripe || loading}>
                 {loading ? "Processing…" : "Pay now"}
             </Button>

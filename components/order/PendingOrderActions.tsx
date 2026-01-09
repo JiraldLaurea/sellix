@@ -27,9 +27,9 @@ export default function PendingOrderActions({
     }
 
     return (
-        <div className="flex gap-3 justify-end">
+        <div className="flex gap-3 justify-end w-full">
             <Button
-                className="w-fit!"
+                className="sm:w-fit!"
                 variant="secondary"
                 disabled={loading}
                 onClick={handleCancel}
@@ -37,7 +37,7 @@ export default function PendingOrderActions({
                 {loading ? "Cancelling…" : "Cancel Order"}
             </Button>
             <Button
-                className="w-fit!"
+                className="sm:w-fit!"
                 disabled={loading}
                 onClick={() => router.push(`/orders//${orderNumber}/pay`)}
             >
