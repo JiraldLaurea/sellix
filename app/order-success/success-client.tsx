@@ -138,17 +138,18 @@ export default function SuccessClient({
                     <h1 className="text-2xl font-semibold mb-4 text-left">
                         Ordered Items
                     </h1>
-                    {order.items.map((item) => (
-                        <div key={item.id} className="flex justify-between">
-                            <span>
-                                {item.name} x {item.quantity}
-                            </span>
-                            <span>
-                                {formatMoney(item.price * item.quantity)}
-                            </span>
-                        </div>
-                    ))}
-
+                    <ul className="space-y-2">
+                        {order.items.map((item) => (
+                            <li key={item.id} className="flex justify-between">
+                                <span>
+                                    {item.name} x {item.quantity}
+                                </span>
+                                <span>
+                                    {formatMoney(item.price * item.quantity)}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
                     {/* Breakdown */}
                     <OrderBreakdown
                         subtotal={computedSubtotal}
