@@ -26,6 +26,9 @@ export default function CheckoutClient() {
 
     const [pendingOrder, setPendingOrder] = useState<string | null>(null);
     const [pendingItems, setPendingItems] = useState<PendingOrderItem[]>([]);
+    const [pendingSubtotal, setPendingSubtotal] = useState<number>(0);
+    const [pendingShipping, setPendingShipping] = useState<number>(0);
+    const [pendingTax, setPendingTax] = useState<number>(0);
     const [pendingTotal, setPendingTotal] = useState<number>(0);
     const [cancelling, setCancelling] = useState(false);
 
@@ -72,6 +75,9 @@ export default function CheckoutClient() {
                 const order = await res.json();
 
                 setPendingItems(order.items);
+                setPendingSubtotal(order.subtotal);
+                setPendingShipping(order.shipping);
+                setPendingTax(order.tax);
                 setPendingTotal(order.total);
 
                 setLoading(false);
@@ -113,25 +119,24 @@ export default function CheckoutClient() {
                     <h1 className="text-2xl font-semibold mb-4">
                         Pending payment detected
                     </h1>
-                    <p className="text-sm text-amber-500">
+                    <p className="text-sm text-amber-600 bg-amber-100 p-4 rounded-lg">
                         You have an unfinished payment with the following items.
                         You can continue payment or cancel and start a new
                         checkout.
                     </p>
                 </div>
 
-                <div className="border rounded-md p-4 space-y-2 text-sm">
-                    {pendingItems.map((item) => (
-                        <div key={item.id} className="flex justify-between">
-                            <span>
-                                {item.name} x {item.quantity}
-                            </span>
-                            <span>
-                                {formatMoney(item.price * item.quantity) / 100).toFixed(
-                                    2
-                                )}
-                            </span>
-</li>
+                <div className="space-y-2 text-sm border rounded-lg p-4">
+                    <ul className="space-y-3">
+                        {pendingItems.map((item) => (
+                            <li key={item.id} className="flex justify-between">
+                                <span>
+                                    {item.name} x {item.quantity}
+                                </span>
+                                <span>
+                                    {formatMoney(item.price * item.quantity)}
+                                </span>
+                            </li>
                         ))}
                     </ul>
 
@@ -152,10 +157,11 @@ export default function CheckoutClient() {
                             <span className="text-gray-600">Tax</span>
                             <span>{formatMoney(pendingTax)}</span>
                         </div>
-                    ))}
 
-                    <div className="border-t pt-2 flex justify-between font-medium">
-                        <span>Total</span>
+                        <hr className="my-4" />
+
+                        <div className="flex justify-between font-medium text-base">
+                            <span>Total</span>
                             <span>{formatMoney(pendingTotal)}</span>
                         </div>
                     </div>
@@ -167,7 +173,7 @@ export default function CheckoutClient() {
                         onClick={() =>
                             router.push(`/orders/${pendingOrder}/pay`)
                         }
-                        className="w-full rounded-md bg-accent py-3 text-white hover:bg-gray-800 transition disabled:opacity-50"
+                        className="w-full rounded-lg bg-accent py-3 text-white hover:bg-gray-800 transition disabled:opacity-50"
                     >
                         Continue Payment
                     </button>
@@ -183,21 +189,24 @@ export default function CheckoutClient() {
                             setPendingItems([]);
                             setPendingTotal(0);
                             setCancelling(false);
+                            toast.success("Order Cancelled Successfully");
                         }}
-                        className="w-full rounded-md border py-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                        className="w-full rounded-lg border py-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
                     >
                         {cancelling ? "Cancelling…" : "Cancel and Start New"}
                     </button>
 
                     <button
+                        disabled={cancelling}
                         onClick={() => router.push("/orders")}
-                        className="w-full rounded-md border py-3 hover:bg-gray-100"
+                        className="w-full rounded-lg border py-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
                     >
                         View my Orders
                     </button>
                     <button
+                        disabled={cancelling}
                         onClick={() => router.push("/cart")}
-                        className="w-full rounded-md border py-3 hover:bg-gray-100"
+                        className="w-full rounded-lg border py-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
                     >
                         View Cart
                     </button>
@@ -226,15 +235,16 @@ export default function CheckoutClient() {
                                 </span>
                                 <span>
                                     {formatMoney(
-item.product.price * item.quantity) /
-                                        100
-                                    ).toFixed(2)}
+                                        item.product.price * item.quantity
+                                    )}
                                 </span>
                             </li>
                         ))}
                     </ul>
 
-                    <div className="border-t mt-6 pt-4 space-y-2 text-sm">
+                    <hr className="my-4" />
+
+                    <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                             <span className="text-gray-600">Subtotal</span>
                             <span>{formatMoney(subtotal)}</span>
@@ -247,7 +257,8 @@ item.product.price * item.quantity) /
                             <span className="text-gray-600">Tax (7%)</span>
                             <span>{formatMoney(tax)}</span>
                         </div>
-                        <div className="border-t pt-3 flex justify-between font-medium text-base">
+                        <hr className="my-4" />
+                        <div className="flex justify-between font-medium text-base">
                             <span>Total</span>
                             <span>{formatMoney(total)}</span>
                         </div>
