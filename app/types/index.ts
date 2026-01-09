@@ -1,3 +1,5 @@
+import { IconType } from "react-icons/lib";
+
 export type Product = {
     id: string;
     name: string;
@@ -16,4 +18,12 @@ export type OrderItem = {
     quantity: number;
     orderId: string;
     price: number;
+};
+
+export type MenuItemProps = {
+    Icon: IconType;
+    href: string;
+    text: string;
+    extraClassName?: string;
+    onClick?: () => void;
 };
