@@ -1,15 +1,15 @@
 "use client";
 
-import { useCart } from "@/lib/cart-context";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import StripeProvider from "@/components/StripeProvider";
-import PaymentForm from "@/components/PaymentForm";
-import { formatMoney } from "@/lib/formatMoney";
-import { toast } from "sonner";
-import { IoIosWarning } from "react-icons/io";
 import OrderBreakdown from "@/components/order/OrderBreakdown";
+import PaymentForm from "@/components/PaymentForm";
+import StripeProvider from "@/components/StripeProvider";
 import { Button } from "@/components/ui/Button";
+import { useCart } from "@/lib/cart-context";
+import { formatMoney } from "@/lib/formatMoney";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { IoIosWarning } from "react-icons/io";
+import { toast } from "sonner";
 
 export default function CheckoutClient() {
     const { state } = useCart();
