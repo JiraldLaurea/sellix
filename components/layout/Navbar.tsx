@@ -30,7 +30,7 @@ export default function Navbar() {
 
     return (
         <header className="block border-b sticky top-0 z-50 h-16 bg-white">
-            <div className="container mx-auto px-4 h-full flex items-center justify-between">
+            <div className="container mx-auto px-4 max-w-6xl h-full flex items-center justify-between">
                 <div className="">
                     {/* Logo */}
                     <Link href="/">
