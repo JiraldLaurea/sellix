@@ -29,7 +29,7 @@ export function Button({
             className={`w-full rounded-lg text-sm px-6 py-3 disabled:opacity-50 transition-colors flex items-center justify-center gap-2
                 ${
                     variant === "primary"
-                        ? "bg-accent text-white hover:bg-gray-800 disabled:hover:bg-accent"
+                        ? "bg-accent text-white hover:bg-gray-700 disabled:hover:bg-accent"
                         : "border hover:bg-gray-100 disabled:hover:bg-inherit"
                 }
                 ${className}`}

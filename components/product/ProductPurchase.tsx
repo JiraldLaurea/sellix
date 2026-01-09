@@ -5,20 +5,26 @@ import QuantityPicker from "@/components/cart/QuantityPicker";
 import AddToCartButton from "@/components/product/AddToCartButton";
 import { Product } from "@/app/types/product";
 import { toast } from "sonner";
+import { useCart } from "@/lib/cart-context";
 
 type Props = {
     product: Product;
 };
 
 export default function ProductPurchase({ product }: Props) {
-    const max = product.stock;
+    const { state } = useCart();
 
-    const [quantity, setQuantity] = useState(max > 0 ? 1 : 0);
+    const cartItem = state.items.find((item) => item.product.id === product.id);
+    const quantityInCart = cartItem?.quantity ?? 0;
+    const remainingStock = Math.max(product.stock - quantityInCart, 0);
 
-    // ✅ CLAMP HERE — not in useEffect
+    const max = remainingStock;
+
+    const [quantity, setQuantity] = useState(remainingStock > 0 ? 1 : 0);
     const handleQuantityChange = (next: number) => {
-        if (max === 0) {
+        if (remainingStock === 0) {
             setQuantity(0);
+            toast.error("No more stock available");
             return;
         }
 
@@ -27,27 +33,25 @@ export default function ProductPurchase({ product }: Props) {
             return;
         }
 
-        if (next > max) {
-            setQuantity(max);
+        if (next > remainingStock) {
+            setQuantity(remainingStock);
             toast.error("No more stock available");
             return;
         }
-
         setQuantity(next);
     };
 
     return (
-        <div className="pt-4 space-y-4">
+        <div className="pt-4 flex items-center space-x-4">
             <QuantityPicker
                 quantity={quantity}
                 max={max}
                 onChange={handleQuantityChange}
             />
-
             <AddToCartButton
                 product={product}
                 quantity={quantity}
-                className="w-full sm:w-fit"
+                className="w-full h-10"
             />
         </div>
     );

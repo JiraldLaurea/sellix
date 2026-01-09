@@ -54,7 +54,7 @@ export default function AddToCartButton({
         <button
             disabled={disabled}
             onClick={handleAddToCart}
-            className={`rounded-md text-sm bg-accent text-white hover:bg-gray-800 px-6 py-2 transition disabled:opacity-50 disabled:hover:bg-accent
+            className={`rounded-md text-sm bg-accent text-white hover:bg-gray-800 px-6 transition disabled:opacity-50 disabled:hover:bg-accent
             ${className}`}
         >
             {product.stock === 0
