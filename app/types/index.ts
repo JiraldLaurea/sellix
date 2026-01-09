@@ -34,3 +34,19 @@ export type MenuItemProps = {
     extraClassName?: string;
     onClick?: () => void;
 };
+
+export type CartItem = {
+    id: string;
+    quantity: number;
+    product: {
+        id: string;
+        name: string;
+        price: number;
+        stock: number;
+        images: string[];
+    };
+};
+
+export type CartState = {
+    items: CartItem[];
+};
