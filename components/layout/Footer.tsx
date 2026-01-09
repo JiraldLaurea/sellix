@@ -1,5 +1,15 @@
 "use client";
+
+import { useSession } from "next-auth/react";
+
 export default function Footer() {
+    const { status } = useSession();
+
+    // Hide footer if not authenticated
+    if (status !== "authenticated") {
+        return null;
+    }
+
     return (
         <div className="flex justify-center py-10 border-t bg-gray-50">
             <div className="flex flex-col-reverse items-center justify-center w-full max-w-6xl px-4 sm:justify-between sm:flex-row">
