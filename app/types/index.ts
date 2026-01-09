@@ -20,6 +20,13 @@ export type OrderItem = {
     price: number;
 };
 
+export type OrderBreakDownProps = {
+    subtotal: number;
+    shippingFee: number;
+    tax: number;
+    total: number;
+};
+
 export type MenuItemProps = {
     Icon: IconType;
     href: string;
