@@ -29,6 +29,9 @@ export async function GET(
             orderNumber: true,
             status: true,
             paidAt: true,
+            subtotal: true,
+            shipping: true,
+            tax: true,
             total: true,
             items: {
                 select: {
