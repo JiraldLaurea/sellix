@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { Providers } from "./providers";
+import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
     icons: {
@@ -28,14 +29,15 @@ export default function RootLayout({
                     rel="stylesheet"
                 />
             </head>
-            <body className={`min-h-screen flex flex-col font-inter`}>
+            <body className={`min-h-screen font-inter`}>
                 <Providers>
                     <CartProvider>
                         <Navbar />
-                        <main className="flex-1 container mx-auto px-4">
+                        <main className="container max-w-6xl mx-auto px-4">
                             {children}
                         </main>
                         <Toaster position="bottom-right" />
+                        <Footer />
                     </CartProvider>
                 </Providers>
             </body>
