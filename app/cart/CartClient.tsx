@@ -3,14 +3,13 @@
 import QuantityPicker from "@/components/cart/QuantityPicker";
 import { Button } from "@/components/ui/Button";
 import { useCart } from "@/lib/cart-context";
-import { updateCartQuantity } from "@/lib/cart/update-cart-quantity";
 import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { IoIosArrowBack } from "react-icons/io";
-import { toast } from "sonner";
 
 type CartItem = {
     id: string;
@@ -34,9 +33,16 @@ type CartClientProps = {
 
 export default function CartClient({ cart }: CartClientProps) {
     const router = useRouter();
-    const { refreshCart, clearCart, state } = useCart();
+    const { refreshCart, clearCart, state, updateQuantity, hydrateCart } =
+        useCart();
 
-    const items = cart?.items ?? [];
+    const items = state.items;
+
+    useEffect(() => {
+        if (cart?.items) {
+            hydrateCart(cart.items);
+        }
+    }, []);
 
     if (items.length === 0) {
         return (
@@ -73,18 +79,6 @@ export default function CartClient({ cart }: CartClientProps) {
 
     const tax = Math.round(subtotal * TAX_RATE);
     const total = subtotal + SHIPPING_FEE + tax;
-
-    async function updateQuantity(cartItemId: string, quantity: number) {
-        const result = await updateCartQuantity(cartItemId, quantity);
-
-        if (!result.success) {
-            toast.error("Unable to update quantity");
-            return;
-        }
-
-        await refreshCart();
-        router.refresh();
-    }
 
     async function removeItem(cartItemId: string) {
         await fetch("/api/cart", {
