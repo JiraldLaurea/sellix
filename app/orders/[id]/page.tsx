@@ -40,7 +40,7 @@ export default async function OrderDetailPage({ params }: Props) {
     type OrderItem = (typeof order.items)[number];
 
     return (
-        <section className="max-w-3xl mx-auto py-10">
+        <section className="max-w-3xl mx-auto py-10 min-h-[calc(100vh-64px)]">
             <Link
                 href="/orders"
                 className="text-gray-600 hover:underline flex items-center w-fit"
