@@ -1,12 +1,11 @@
 "use client";
 
 import { Product } from "@/app/types/product";
+import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddToCartButton from "./AddToCartButton";
-import { formatMoney } from "@/lib/formatMoney";
 
 type Props = {
     product: Product;
@@ -23,7 +22,7 @@ export default function ProductCard({ product }: Props) {
     }, [quantity, product.stock]);
 
     return (
-        <div className="group border flex flex-col rounded-lg overflow-hidden hover:shadow-md transition">
+        <div className="border flex flex-col rounded-lg overflow-hidden">
             {/* Clickable area */}
             <Link href={`/product/${product.id}`} className="grow">
                 <div className="relative aspect-square bg-gray-100">

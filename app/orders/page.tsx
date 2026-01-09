@@ -45,14 +45,14 @@ export default async function OrdersPage() {
 
     return (
         <section className="max-w-3xl mx-auto py-10">
-            <h1 className="text-2xl font-semibold mb-6">Your Orders</h1>
+            <h1 className="text-4xl font-semibold mb-6">Your Orders</h1>
 
             <div className="space-y-4">
                 {orders.map((order: Order) => (
                     <Link
                         key={order.id}
                         href={`/orders/${order.orderNumber}`}
-                        className="block border rounded-md p-4 hover:bg-gray-50 transition"
+                        className="block border rounded-md p-8 hover:bg-gray-50 transition"
                     >
                         <div className="flex justify-between items-start mb-2">
                             <div>

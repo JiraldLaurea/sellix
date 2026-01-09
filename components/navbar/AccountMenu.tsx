@@ -20,9 +20,9 @@ export default function AccountMenu() {
             <Popover.Content
                 align="end"
                 sideOffset={8}
-                className="w-52 rounded-lg border bg-white p-2 shadow-md"
+                className="w-48 rounded-lg border bg-white p-2 shadow-md"
             >
-                <div className="flex flex-col items-center space-y-2 mb-2 p-2">
+                <div className="flex flex-col items-center space-y-2 mb-2 pt-2">
                     <Avatar session={session} hasDefaultCursor />
                     <p className="text-sm">{session?.user?.name}</p>
                 </div>
