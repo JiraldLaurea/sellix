@@ -14,7 +14,7 @@ export default function ProfilePage() {
     if (status !== "authenticated") return null;
 
     return (
-        <section className="max-w-xl mx-auto py-10 space-y-6">
+        <section className="max-w-xl mx-auto py-10 space-y-6 min-h-[calc(100vh-64px)]">
             <h1 className="text-2xl font-semibold">Profile</h1>
 
             <div className="border rounded-md p-4 space-y-2">
