@@ -1,13 +1,12 @@
 "use client";
 
-import MobileMenu from "@/components/navbar/MobileMenu";
 import { useCart } from "@/lib/cart-context";
 import * as Popover from "@radix-ui/react-popover";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import AccountMenu from "../navbar/AccountMenu";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import AccountMenu from "../navbar/AccountMenu";
 
 export default function Navbar() {
     const { state } = useCart();
