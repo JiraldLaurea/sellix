@@ -33,19 +33,30 @@ type CartClientProps = {
 
 export default function CartClient({ cart }: CartClientProps) {
     const router = useRouter();
-    const { refreshCart } = useCart();
+    const { refreshCart, clearCart, state } = useCart();
 
     const items = cart?.items ?? [];
 
     if (items.length === 0) {
         return (
-            <section className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center text-center">
-                <h1 className="text-2xl mb-4">Your cart is empty</h1>
+            <section className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center text-center space-y-6">
+                <div className="p-6 bg-gray-100 rounded-lg">
+                    <HiOutlineTrash size={40} className="text-gray-500" />
+                </div>
+                <div>
+                    <h1 className="text-2xl font-semibold mb-1">
+                        Your cart is empty
+                    </h1>
+                    <p className="text-gray-600">
+                        You haven't added anything to your cart yet.
+                    </p>
+                </div>
+
                 <Link
                     href="/"
                     className="rounded-md bg-accent text-white px-6 py-3 hover:bg-gray-800 transition"
                 >
-                    Continue shopping
+                    Start shopping
                 </Link>
             </section>
         );
@@ -86,7 +97,7 @@ export default function CartClient({ cart }: CartClientProps) {
     }
 
     return (
-        <section className="max-w-6xl py-6 mx-auto">
+        <section className="min-h-fit h-[calc(100vh-64px)] py-6 mx-auto">
             {/* Back */}
             <div
                 onClick={() => router.back()}
@@ -95,16 +106,24 @@ export default function CartClient({ cart }: CartClientProps) {
                 <IoIosArrowBack size={20} />
                 <span>Back</span>
             </div>
-            <div className="mb-6">
-                <h1 className="text-2xl font-semibold">Cart</h1>
-                <p className="text-gray-600">
-                    {items.length} {items.length === 1 ? "item" : "items"}
-                </p>
-            </div>
-
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
                 {/* LEFT: ITEMS */}
                 <div>
+                    <div className="mb-6 flex items-center justify-between">
+                        <h1 className="text-4xl font-semibold">
+                            Cart
+                            {`(${items.length} ${
+                                items.length === 1 ? "item" : "items"
+                            })`}
+                        </h1>
+                        <button
+                            onClick={clearCart}
+                            className="border rounded-lg flex items-center space-x-1 text-sm font-medium border-red-300 hover:bg-red-50 transition-colors text-red-500 px-3 py-2"
+                        >
+                            <HiOutlineTrash size={18} />
+                            <p>Clear Cart</p>
+                        </button>
+                    </div>
                     <div className="overflow-x-auto">
                         <div className="min-w-160">
                             {/* Header */}
@@ -173,7 +192,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                         {/* Remove */}
                                         <button
                                             onClick={() => removeItem(item.id)}
-                                            className="flex justify-center items-center h-10 w-10 rounded-full text-gray-500 hover:bg-gray-100 transition-colors"
+                                            className="flex justify-center items-center h-10 w-10 rounded-full text-red-500 hover:bg-red-50 transition-colors"
                                             aria-label="Remove item"
                                         >
                                             <HiOutlineTrash size={18} />
@@ -186,10 +205,10 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <div className="border rounded-lg p-6 h-fit sm:sticky sm:top-24">
+                <div className="border rounded-lg p-8 h-fit sm:sticky sm:top-22">
                     <h2 className="text-lg font-semibold mb-4">Summary</h2>
 
-                    <div className="space-y-3 text-sm">
+                    <div className="text-sm space-y-4">
                         <div className="flex justify-between">
                             <span className="text-gray-600">Subtotal</span>
                             <span>{formatMoney(subtotal)}</span>
@@ -205,7 +224,9 @@ export default function CartClient({ cart }: CartClientProps) {
                             <span>{formatMoney(tax)}</span>
                         </div>
 
-                        <div className="border-t pt-3 flex justify-between font-semibold text-base">
+                        <hr className="my-4" />
+
+                        <div className="flex justify-between font-medium text-base">
                             <span>Total</span>
                             <span>{formatMoney(total)}</span>
                         </div>
