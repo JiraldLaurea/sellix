@@ -23,6 +23,8 @@ export default function ProductImageGallery({ images, alt }: Props) {
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                     className="object-cover"
+                    preload
+                    loading="eager"
                 />
             </div>
 
@@ -47,6 +49,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
                                 src={img}
                                 alt=""
                                 fill
+                                quality={50}
                                 sizes="(max-width: 768px) 10vw, (max-width: 1200px) 10vw, 10vw"
                                 className={`object-cover transition-opacity duration-300
                   ${isLoaded ? "opacity-100" : "opacity-0"}
