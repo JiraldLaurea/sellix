@@ -10,9 +10,9 @@ import AccountMenu from "../navbar/AccountMenu";
 
 export default function Navbar() {
     const { state } = useCart();
-    const { data: session, status } = useSession();
+    const { status } = useSession();
 
-    // ⛔ Hide navbar if not authenticated
+    // Hide navbar if not authenticated
     if (status !== "authenticated") {
         return null;
     }
