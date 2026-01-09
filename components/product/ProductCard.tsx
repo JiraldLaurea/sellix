@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import AddToCartButton from "./AddToCartButton";
+import { formatMoney } from "@/lib/formatMoney";
 
 type Props = {
     product: Product;
@@ -37,7 +38,7 @@ export default function ProductCard({ product }: Props) {
                 <div className="p-4 space-y-2 ">
                     <h3 className="font-medium">{product.name}</h3>
                     <p className="text-sm text-gray-600">
-                        ${(product.price / 100).toFixed(2)}
+                        {formatMoney(product.price)}
                     </p>
                 </div>
             </Link>

@@ -2,6 +2,7 @@
 
 import ProductImageGallery from "@/components/product/ProductImageGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
+import { formatMoney } from "@/lib/formatMoney";
 import { useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 
@@ -29,7 +30,7 @@ export default function ProductClient({ product }: Props) {
                 <h1 className="text-2xl font-semibold">{product.name}</h1>
 
                 <p className="text-xl text-gray-800">
-                    ${(product.price / 100).toFixed(2)}
+                    {formatMoney(product.price / 100).toFixed(2)}
                 </p>
 
                 <p className="text-gray-600">{product.description}</p>

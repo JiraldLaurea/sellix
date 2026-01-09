@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import StripeProvider from "@/components/StripeProvider";
 import PaymentForm from "@/components/PaymentForm";
+import { formatMoney } from "@/lib/formatMoney";
+import { toast } from "sonner";
 
 export default function CheckoutClient() {
     const { state } = useCart();
@@ -125,17 +127,37 @@ export default function CheckoutClient() {
                                 {item.name} x {item.quantity}
                             </span>
                             <span>
-                                $
-                                {((item.price * item.quantity) / 100).toFixed(
+                                {formatMoney(item.price * item.quantity) / 100).toFixed(
                                     2
                                 )}
                             </span>
+</li>
+                        ))}
+                    </ul>
+
+                    <hr className="my-4" />
+
+                    <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Subtotal</span>
+                            <span>{formatMoney(pendingSubtotal)}</span>
+                        </div>
+
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Shipping</span>
+                            <span>{formatMoney(pendingShipping)}</span>
+                        </div>
+
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Tax</span>
+                            <span>{formatMoney(pendingTax)}</span>
                         </div>
                     ))}
 
                     <div className="border-t pt-2 flex justify-between font-medium">
                         <span>Total</span>
-                        <span>${(pendingTotal / 100).toFixed(2)}</span>
+                            <span>{formatMoney(pendingTotal)}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -203,9 +225,8 @@ export default function CheckoutClient() {
                                     {item.product.name} x {item.quantity}
                                 </span>
                                 <span>
-                                    $
-                                    {(
-                                        (item.product.price * item.quantity) /
+                                    {formatMoney(
+item.product.price * item.quantity) /
                                         100
                                     ).toFixed(2)}
                                 </span>
@@ -216,19 +237,19 @@ export default function CheckoutClient() {
                     <div className="border-t mt-6 pt-4 space-y-2 text-sm">
                         <div className="flex justify-between">
                             <span className="text-gray-600">Subtotal</span>
-                            <span>${(subtotal / 100).toFixed(2)}</span>
+                            <span>{formatMoney(subtotal)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Shipping</span>
-                            <span>${(SHIPPING_FEE / 100).toFixed(2)}</span>
+                            <span>{formatMoney(SHIPPING_FEE)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Tax (7%)</span>
-                            <span>${(tax / 100).toFixed(2)}</span>
+                            <span>{formatMoney(tax)}</span>
                         </div>
                         <div className="border-t pt-3 flex justify-between font-medium text-base">
                             <span>Total</span>
-                            <span>${(total / 100).toFixed(2)}</span>
+                            <span>{formatMoney(total)}</span>
                         </div>
                     </div>
 

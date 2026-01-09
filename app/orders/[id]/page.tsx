@@ -1,5 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import PendingOrderActions from "@/components/order/PendingOrderActions";
+import { formatMoney } from "@/lib/formatMoney";
 import getStatusStyles from "@/lib/order/getStatusStyles";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
@@ -78,10 +79,7 @@ export default async function OrderDetailPage({ params }: Props) {
                                 {item.quantity} x {item.name}
                             </span>
                             <span>
-                                $
-                                {((item.price * item.quantity) / 100).toFixed(
-                                    2
-                                )}
+                                {formatMoney(item.price * item.quantity)}
                             </span>
                         </li>
                     ))}
@@ -89,7 +87,7 @@ export default async function OrderDetailPage({ params }: Props) {
 
                 <div className="border-t mt-4 pt-4 flex justify-between font-medium">
                     <span>Total</span>
-                    <span>${(order.total / 100).toFixed(2)}</span>
+                    <span>{formatMoney(order.total)}</span>
                 </div>
             </div>
 

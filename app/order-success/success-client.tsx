@@ -134,10 +134,7 @@ export default function SuccessClient({
                                 {item.name} x {item.quantity}
                             </span>
                             <span>
-                                $
-                                {((item.price * item.quantity) / 100).toFixed(
-                                    2
-                                )}
+                                {formatMoney(item.price * item.quantity)}
                             </span>
                         </div>
                     ))}

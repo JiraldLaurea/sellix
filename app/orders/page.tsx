@@ -6,6 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import getStatusStyles from "@/lib/order/getStatusStyles";
 import { Product } from "../types/product";
 import { OrderItem } from "../types";
+import { formatMoney } from "@/lib/formatMoney";
 
 export default async function OrdersPage() {
     const session = await getServerSession(authOptions);
@@ -67,7 +68,7 @@ export default async function OrdersPage() {
 
                             <div className="text-right">
                                 <p className="font-medium">
-                                    ${(order.total / 100).toFixed(2)}
+                                    {formatMoney(order.total)}
                                 </p>
                                 <span
                                     className={`inline-block mt-1 px-2 py-0.5 text-xs rounded-full border ${getStatusStyles(
