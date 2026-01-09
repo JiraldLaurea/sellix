@@ -49,7 +49,7 @@ export default function Navbar() {
                 {/* Right controls */}
                 <div className="flex items-center gap-4">
                     {/* Mobile menu */}
-                    <MobileMenu />
+                    {/* <MobileMenu /> */}
 
                     {/* Cart */}
                     <Popover.Root>
