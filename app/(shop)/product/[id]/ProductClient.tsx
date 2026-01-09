@@ -30,7 +30,7 @@ export default function ProductClient({ product }: Props) {
                 <h1 className="text-2xl font-semibold">{product.name}</h1>
 
                 <p className="text-xl text-gray-800">
-                    {formatMoney(product.price / 100).toFixed(2)}
+                    {formatMoney(product.price)}
                 </p>
 
                 <p className="text-gray-600">{product.description}</p>
