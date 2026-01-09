@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Button } from "../ui/Button";
 
 export default function PendingOrderActions({
     orderNumber,
@@ -26,21 +27,22 @@ export default function PendingOrderActions({
     }
 
     return (
-        <div className="flex gap-3">
-            <button
+        <div className="flex gap-3 justify-end">
+            <Button
+                className="w-fit!"
+                variant="secondary"
                 disabled={loading}
                 onClick={handleCancel}
-                className="rounded-md border px-6 py-2 hover:bg-gray-100 transition-colors disabled:opacity-50"
             >
                 {loading ? "Cancelling…" : "Cancel Order"}
-            </button>
-            <button
+            </Button>
+            <Button
+                className="w-fit!"
                 disabled={loading}
                 onClick={() => router.push(`/orders//${orderNumber}/pay`)}
-                className="rounded-md bg-black px-6 py-2 text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
             >
                 Complete Payment
-            </button>
+            </Button>
         </div>
     );
 }

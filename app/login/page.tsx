@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/Button";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -41,7 +42,7 @@ export default function LoginPage() {
                 style={{ width: "200px", height: "auto" }}
                 className="object-contain"
             />
-            <div className="border rounded-md p-6 space-y-4 text-center w-full max-w-md">
+            <div className="border rounded-lg p-6 space-y-4 text-center w-full max-w-md">
                 <div className="text-left space-y-2 mb-6">
                     <h1 className="text-3xl font-semibold">Sign in</h1>
                     <p className="text-gray-600">
@@ -50,7 +51,8 @@ export default function LoginPage() {
                 </div>
 
                 {/* Google */}
-                <button
+                <Button
+                    variant="secondary"
                     disabled={!googleEnabled || !!loadingProvider}
                     onClick={() => {
                         setLoadingProvider("google");
@@ -58,7 +60,6 @@ export default function LoginPage() {
                             callbackUrl: "/",
                         });
                     }}
-                    className="w-full flex items-center justify-center gap-3 border rounded-md py-2 hover:bg-gray-50 transition disabled:opacity-50"
                 >
                     <GoogleLogo />
                     <span>
@@ -66,10 +67,11 @@ export default function LoginPage() {
                             ? "Redirecting…"
                             : "Sign in with Google"}
                     </span>
-                </button>
+                </Button>
 
                 {/* GitHub */}
-                <button
+                <Button
+                    variant="secondary"
                     disabled={!githubEnabled || !!loadingProvider}
                     onClick={() => {
                         setLoadingProvider("github");
@@ -77,7 +79,6 @@ export default function LoginPage() {
                             callbackUrl: "/",
                         });
                     }}
-                    className="w-full flex items-center justify-center gap-3 border rounded-md py-2 hover:bg-gray-50 transition disabled:opacity-50"
                 >
                     <GitHubLogo />
                     <span>
@@ -85,31 +86,7 @@ export default function LoginPage() {
                             ? "Redirecting…"
                             : "Sign in with GitHub"}
                     </span>
-                </button>
-
-                {/* <div className="relative flex items-center">
-                    <div className="grow border-t" />
-                    <span className="mx-2 text-sm text-gray-500">or</span>
-                    <div className="grow border-t" />
-                </div> */}
-
-                {/* Demo credentials */}
-                {/* TODO */}
-                {/* <button
-                    disabled={!!loadingProvider}
-                    onClick={async () => {
-                        setLoadingProvider("credentials");
-                        await signIn("credentials", {
-                            callbackUrl: "/",
-                            redirect: true,
-                        });
-                    }}
-                    className="w-full bg-accent hover:bg-gray-800 transition text-white py-2 rounded-md disabled:opacity-60"
-                >
-                    {loadingProvider === "credentials"
-                        ? "Signing in…"
-                        : "Sign in (demo)"}
-                </button> */}
+                </Button>
             </div>
         </section>
     );

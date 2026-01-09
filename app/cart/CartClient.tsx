@@ -1,6 +1,7 @@
 "use client";
 
 import QuantityPicker from "@/components/cart/QuantityPicker";
+import { Button } from "@/components/ui/Button";
 import { useCart } from "@/lib/cart-context";
 import { updateCartQuantity } from "@/lib/cart/update-cart-quantity";
 import { formatMoney } from "@/lib/formatMoney";
@@ -97,7 +98,7 @@ export default function CartClient({ cart }: CartClientProps) {
     }
 
     return (
-        <section className="min-h-fit h-[calc(100vh-64px)] py-6 mx-auto">
+        <section className="min-h-fit h-[calc(100vh-64px)] py-8 mx-auto">
             {/* Back */}
             <div
                 onClick={() => router.back()}
@@ -118,7 +119,7 @@ export default function CartClient({ cart }: CartClientProps) {
                         </h1>
                         <button
                             onClick={clearCart}
-                            className="border rounded-lg flex items-center space-x-1 text-sm font-medium border-red-300 hover:bg-red-50 transition-colors text-red-500 px-3 py-2"
+                            className="border px-3 rounded-lg flex items-center space-x-1 text-sm font-medium border-red-300 hover:bg-red-50 transition-colors text-red-500 py-2"
                         >
                             <HiOutlineTrash size={18} />
                             <p>Clear Cart</p>
@@ -205,10 +206,10 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <div className="border rounded-lg p-8 h-fit sm:sticky sm:top-22">
+                <div className="border rounded-lg text-sm p-8 h-fit sm:sticky sm:top-24">
                     <h2 className="text-lg font-semibold mb-4">Summary</h2>
 
-                    <div className="text-sm space-y-4">
+                    <div className="text-sm space-y-4 mb-6">
                         <div className="flex justify-between">
                             <span className="text-gray-600">Subtotal</span>
                             <span>{formatMoney(subtotal)}</span>
@@ -232,11 +233,9 @@ export default function CartClient({ cart }: CartClientProps) {
                         </div>
                     </div>
 
-                    <Link href="/checkout">
-                        <button className="mt-6 w-full rounded-md bg-accent text-white py-3 hover:bg-gray-800 transition">
-                            Checkout
-                        </button>
-                    </Link>
+                    <Button onClick={() => router.push("/checkout")}>
+                        Checkout
+                    </Button>
                 </div>
             </div>
         </section>

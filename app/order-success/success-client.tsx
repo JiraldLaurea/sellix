@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import OrderBreakdown from "@/components/order/OrderBreakdown";
+import { Button } from "@/components/ui/Button";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type OrderStatus = "PENDING" | "PAID" | "FULFILLED" | "REFUNDED";
 
@@ -115,7 +116,7 @@ export default function SuccessClient({
        PAID / FULFILLED
     ====================================================== */
     return (
-        <section className="min-h-[calc(100vh-64px)] flex items-center justify-center py-6">
+        <section className="min-h-[calc(100vh-64px)] flex items-center justify-center py-8">
             <div className="max-w-xl w-full space-y-6 text-center">
                 <div className="text-5xl">✅</div>
 
@@ -127,7 +128,7 @@ export default function SuccessClient({
                 </div>
 
                 {/* Items */}
-                <div className="border rounded-md p-4 text-left space-y-2 text-sm">
+                <div className="border rounded-lg p-8 text-left space-y-2 text-sm">
                     {order.items.map((item) => (
                         <div key={item.id} className="flex justify-between">
                             <span>
@@ -140,45 +141,32 @@ export default function SuccessClient({
                     ))}
 
                     {/* Breakdown */}
-                    <div className="border-t pt-3 space-y-1">
-                        <div className="flex justify-between text-gray-600">
-                            <span>Subtotal</span>
-                            <span>{formatMoney(computedSubtotal)}</span>
-                        </div>
-
-                        <div className="flex justify-between text-gray-600">
-                            <span>Shipping</span>
-                            <span>{formatMoney(computedShipping)}</span>
-                        </div>
-
-                        <div className="flex justify-between text-gray-600">
-                            <span>Tax</span>
-                            <span>{formatMoney(computedTax)}</span>
-                        </div>
-
-                        <div className="border-t pt-2 flex justify-between font-medium text-base">
-                            <span>Total</span>
-                            <span>{formatMoney(order.total)}</span>
-                        </div>
+                    <OrderBreakdown
+                        subtotal={computedSubtotal}
+                        shippingFee={computedShipping}
+                        tax={computedTax}
+                        total={order.total}
+                    />
+                    <div className="space-y-3 mt-6">
+                        <Button
+                            onClick={() => {
+                                router.push("/");
+                            }}
+                        >
+                            Continue shopping
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            onClick={() =>
+                                router.push(`/orders/${orderNumber}`)
+                            }
+                        >
+                            View Order Details
+                        </Button>
                     </div>
                 </div>
 
                 {/* Actions */}
-                <div className="space-y-2">
-                    <Link
-                        href={`/orders/${orderNumber}`}
-                        className="block rounded-md border py-3 hover:bg-gray-50 transition"
-                    >
-                        View order details
-                    </Link>
-
-                    <Link
-                        href="/"
-                        className="block rounded-md bg-black py-3 text-white hover:bg-gray-800 transition"
-                    >
-                        Continue shopping
-                    </Link>
-                </div>
             </div>
         </section>
     );

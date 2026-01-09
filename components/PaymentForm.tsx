@@ -7,6 +7,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Button } from "./ui/Button";
 
 export default function PaymentForm({ orderNumber }: { orderNumber: string }) {
     const stripe = useStripe();
@@ -54,18 +55,14 @@ export default function PaymentForm({ orderNumber }: { orderNumber: string }) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 text-sm">
             <PaymentElement />
 
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && <p className="text-red-500">{error}</p>}
 
-            <button
-                type="submit"
-                disabled={!stripe || loading}
-                className="w-full rounded-md bg-accent py-3 text-white disabled:opacity-50 hover:bg-gray-800 transition"
-            >
+            <Button buttonType="submit" disabled={!stripe || loading}>
                 {loading ? "Processing…" : "Pay now"}
-            </button>
+            </Button>
         </form>
     );
 }
