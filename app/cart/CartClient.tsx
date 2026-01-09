@@ -105,7 +105,7 @@ export default function CartClient({ cart }: CartClientProps) {
                 {/* LEFT: ITEMS */}
                 <div>
                     <div className="mb-6 flex items-center justify-between">
-                        <h1 className="text-4xl font-semibold">
+                        <h1 className="text-2xl sm:text-3xl font-semibold">
                             Cart
                             {`(${items.length} ${
                                 items.length === 1 ? "item" : "items"
