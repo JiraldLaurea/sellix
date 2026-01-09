@@ -20,12 +20,18 @@ export default function AccountMenu() {
             <Popover.Content
                 align="end"
                 sideOffset={8}
-                className="w-48 rounded-lg border bg-white p-2 shadow-md"
+                className="w-64 rounded-lg border bg-white p-2 shadow-md"
             >
-                <div className="flex flex-col items-center space-y-2 mb-2 pt-2">
-                    <Avatar session={session} hasDefaultCursor />
-                    <p className="text-sm">{session?.user?.name}</p>
+                <div className="flex flex-col pt-2 px-4">
+                    {/* <Avatar session={session} hasDefaultCursor /> */}
+                    <p className="font-semibold">{session?.user?.name}</p>
+                    <p className="text-xs text-gray-500">
+                        {session?.user?.email}
+                    </p>
                 </div>
+
+                <hr className="mb-2 mt-4" />
+
                 <MenuItem
                     Icon={FaRegUser}
                     href="/account/profile"
@@ -36,7 +42,9 @@ export default function AccountMenu() {
                     href="/orders/"
                     text="Orders"
                 />
+
                 <hr className="my-2" />
+
                 <MenuItem
                     onClick={() =>
                         signOut({
