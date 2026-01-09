@@ -2,10 +2,12 @@
 
 import OrderBreakdown from "@/components/order/OrderBreakdown";
 import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FaCheckCircle } from "react-icons/fa";
 
 type OrderStatus = "PENDING" | "PAID" | "FULFILLED" | "REFUNDED";
 
@@ -117,18 +119,25 @@ export default function SuccessClient({
     ====================================================== */
     return (
         <section className="min-h-[calc(100vh-64px)] flex items-center justify-center py-8">
-            <div className="max-w-xl w-full space-y-6 text-center">
-                <div className="text-5xl">✅</div>
-
-                <h1 className="text-2xl font-semibold">Order confirmed</h1>
-
-                <div className="space-y-1">
-                    <p className="text-sm text-gray-500">Order number</p>
-                    <p className="text-lg">{order.orderNumber}</p>
+            <div className="max-w-xl w-full space-y-6 text-center flex flex-col items-center">
+                <div className="space-y-4">
+                    <div className="flex flex-col space-y-2 items-center">
+                        <FaCheckCircle size={60} className="text-green-500" />
+                        <h1 className="text-2xl font-semibold">
+                            Order confirmed
+                        </h1>
+                    </div>
+                    <div className="space-y-1">
+                        <p className="text-sm text-gray-500">Order number</p>
+                        <p className="text-lg">{order.orderNumber}</p>
+                    </div>
                 </div>
 
                 {/* Items */}
-                <div className="border rounded-lg p-8 text-left space-y-2 text-sm">
+                <Container className="my-0 sm:border sm:p-8">
+                    <h1 className="text-2xl font-semibold mb-4 text-left">
+                        Ordered Items
+                    </h1>
                     {order.items.map((item) => (
                         <div key={item.id} className="flex justify-between">
                             <span>
@@ -147,7 +156,7 @@ export default function SuccessClient({
                         tax={computedTax}
                         total={order.total}
                     />
-                    <div className="space-y-3 mt-6">
+                    <div className="space-y-3 mt-4">
                         <Button
                             onClick={() => {
                                 router.push("/");
@@ -164,7 +173,7 @@ export default function SuccessClient({
                             View Order Details
                         </Button>
                     </div>
-                </div>
+                </Container>
 
                 {/* Actions */}
             </div>
