@@ -1,12 +1,12 @@
-import { getServerSession } from "next-auth";
-import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
-import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import getStatusStyles from "@/lib/order/getStatusStyles";
-import { Product } from "../types/product";
-import { OrderItem } from "../types";
+import { Container } from "@/components/ui/Container";
 import { formatMoney } from "@/lib/formatMoney";
+import getStatusStyles from "@/lib/order/getStatusStyles";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { OrderItem } from "../types";
 
 export default async function OrdersPage() {
     const session = await getServerSession(authOptions);
@@ -52,41 +52,43 @@ export default async function OrdersPage() {
                     <Link
                         key={order.id}
                         href={`/orders/${order.orderNumber}`}
-                        className="block border rounded-md p-8 hover:bg-gray-50 transition"
+                        className="block"
                     >
-                        <div className="flex justify-between items-start mb-2">
-                            <div>
-                                <p className="font-medium">
-                                    Order #{order.orderNumber}
-                                </p>
-                                <p className="text-sm text-gray-500">
-                                    {new Date(
-                                        order.createdAt
-                                    ).toLocaleDateString()}
-                                </p>
+                        <Container className="w-full p-4 sm:p-6 hover:bg-gray-50 transition-colors border">
+                            <div className="flex justify-between items-start mb-2">
+                                <div>
+                                    <p className="font-medium">
+                                        Order #{order.orderNumber}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                        {new Date(
+                                            order.createdAt
+                                        ).toLocaleDateString()}
+                                    </p>
+                                </div>
+
+                                <div className="text-right">
+                                    <p className="font-medium">
+                                        {formatMoney(order.total)}
+                                    </p>
+                                    <span
+                                        className={`inline-block mt-1 px-2 py-0.5 text-xs rounded-full border ${getStatusStyles(
+                                            order.status
+                                        )}`}
+                                    >
+                                        {order.status}
+                                    </span>
+                                </div>
                             </div>
 
-                            <div className="text-right">
-                                <p className="font-medium">
-                                    {formatMoney(order.total)}
-                                </p>
-                                <span
-                                    className={`inline-block mt-1 px-2 py-0.5 text-xs rounded-full border ${getStatusStyles(
-                                        order.status
-                                    )}`}
-                                >
-                                    {order.status}
-                                </span>
-                            </div>
-                        </div>
-
-                        <ul className="text-sm text-gray-600">
-                            {order.items.map((item: OrderItem) => (
-                                <li key={item.id}>
-                                    {item.quantity} x {item.name}
-                                </li>
-                            ))}
-                        </ul>
+                            <ul className="text-sm text-gray-600">
+                                {order.items.map((item: OrderItem) => (
+                                    <li key={item.id}>
+                                        {item.quantity} x {item.name}
+                                    </li>
+                                ))}
+                            </ul>
+                        </Container>
                     </Link>
                 ))}
             </div>

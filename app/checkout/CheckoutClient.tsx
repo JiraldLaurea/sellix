@@ -4,6 +4,7 @@ import OrderBreakdown from "@/components/order/OrderBreakdown";
 import PaymentForm from "@/components/PaymentForm";
 import StripeProvider from "@/components/StripeProvider";
 import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import { useRouter } from "next/navigation";
@@ -133,14 +134,12 @@ export default function CheckoutClient() {
     ====================================================== */
     if (pendingOrder) {
         return (
-            <div className="w-full text-sm max-w-xl bg-white border p-8 rounded-lg space-y-6 my-8">
+            <Container>
                 <div>
                     <h1 className="text-2xl font-semibold mb-4">
                         Pending payment detected
                     </h1>
-                    <div className="text-sm text-amber-600 space-x-2 bg-amber-100 px-4 py-3 rounded-lg flex items-center">
-                        <IoIosWarning size={45} />
-
+                    <div className="text-sm text-amber-600 items-center space-x-2 bg-amber-100 px-6 py-4 rounded-lg flex space-y-2">
                         <p>
                             You have an unfinished payment with the following
                             items. You can continue payment or cancel and start
@@ -149,7 +148,7 @@ export default function CheckoutClient() {
                     </div>
                 </div>
 
-                <div className="border rounded-lg p-6">
+                <div className="border rounded-lg p-6 my-6">
                     <ul className="space-y-2">
                         {pendingItems.map((item) => (
                             <li key={item.id} className="flex justify-between">
@@ -204,7 +203,7 @@ export default function CheckoutClient() {
                         View Cart
                     </Button>
                 </div>
-            </div>
+            </Container>
         );
     }
 
@@ -212,7 +211,7 @@ export default function CheckoutClient() {
        Checkout UI
     ====================================================== */
     return (
-        <div className="w-full max-w-xl text-sm bg-white border p-8 rounded-lg my-8">
+        <Container>
             {!clientSecret && (
                 <>
                     <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
@@ -259,13 +258,11 @@ export default function CheckoutClient() {
 
             {clientSecret && orderNumber && (
                 <>
-                    <h1 className="text-2xl font-semibold mb-6">Payment</h1>
-
                     <StripeProvider clientSecret={clientSecret}>
                         <PaymentForm orderNumber={orderNumber} />
                     </StripeProvider>
                 </>
             )}
-        </div>
+        </Container>
     );
 }

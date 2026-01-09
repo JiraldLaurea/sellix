@@ -1,7 +1,9 @@
 "use client";
 
 import QuantityPicker from "@/components/cart/QuantityPicker";
+import OrderBreakdown from "@/components/order/OrderBreakdown";
 import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
@@ -101,11 +103,11 @@ export default function CartClient({ cart }: CartClientProps) {
                 <IoIosArrowBack size={20} />
                 <span>Back</span>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
+            <div className="flex gap-8 flex-col lg:flex-row">
                 {/* LEFT: ITEMS */}
-                <div>
+                <div className="sm:grow">
                     <div className="mb-6 flex items-center justify-between">
-                        <h1 className="text-2xl sm:text-3xl font-semibold">
+                        <h1 className="text-2xl font-semibold">
                             Cart
                             {`(${items.length} ${
                                 items.length === 1 ? "item" : "items"
@@ -122,7 +124,7 @@ export default function CartClient({ cart }: CartClientProps) {
                     <div className="overflow-x-auto">
                         <div className="min-w-160">
                             {/* Header */}
-                            <div className="grid grid-cols-[80px_1fr_140px_120px_40px] h-8 border-b gap-4 text-sm text-gray-600">
+                            <div className="grid grid-cols-[80px_1fr_120px_100px_40px] h-8 border-b gap-4 text-sm text-gray-600">
                                 <span>Items</span>
                                 <span />
                                 <span className="text-center">Qty</span>
@@ -135,7 +137,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                 {items.map((item) => (
                                     <div
                                         key={item.id}
-                                        className="grid grid-cols-[80px_1fr_140px_120px_40px] gap-4 py-6 items-center"
+                                        className="grid grid-cols-[80px_1fr_120px_100px_40px] gap-4 py-6 items-center"
                                     >
                                         {/* Image */}
                                         <div className="relative w-20 h-20 bg-gray-100 rounded-md overflow-hidden shrink-0">
@@ -200,37 +202,23 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <div className="border rounded-lg text-sm p-8 h-fit sm:sticky sm:top-24">
-                    <h2 className="text-lg font-semibold mb-4">Summary</h2>
-
-                    <div className="text-sm space-y-4 mb-6">
-                        <div className="flex justify-between">
-                            <span className="text-gray-600">Subtotal</span>
-                            <span>{formatMoney(subtotal)}</span>
-                        </div>
-
-                        <div className="flex justify-between">
-                            <span className="text-gray-600">Shipping</span>
-                            <span>{formatMoney(SHIPPING_FEE)}</span>
-                        </div>
-
-                        <div className="flex justify-between">
-                            <span className="text-gray-600">Tax (7%)</span>
-                            <span>{formatMoney(tax)}</span>
-                        </div>
-
-                        <hr className="my-4" />
-
-                        <div className="flex justify-between font-medium text-base">
-                            <span>Total</span>
-                            <span>{formatMoney(total)}</span>
-                        </div>
-                    </div>
-
-                    <Button onClick={() => router.push("/checkout")}>
+                <Container className="lg:max-w-sm border p-6 sm:p-8 lg:sticky lg:top-24 h-fit">
+                    {/* <div className="border rounded-lg text-sm p-8 h-fit sm:sticky sm:top-24"> */}
+                    <h2 className="text-2xl font-semibold mb-4">Summary</h2>
+                    <OrderBreakdown
+                        subtotal={subtotal}
+                        shippingFee={SHIPPING_FEE}
+                        tax={tax}
+                        total={total}
+                        removeTopBorder
+                    />
+                    <Button
+                        className="mt-4"
+                        onClick={() => router.push("/checkout")}
+                    >
                         Checkout
                     </Button>
-                </div>
+                </Container>
             </div>
         </section>
     );
