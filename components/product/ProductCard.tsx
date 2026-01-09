@@ -12,18 +12,6 @@ type Props = {
 };
 
 export default function ProductCard({ product }: Props) {
-    const router = useRouter();
-    // const { state } = useCart();
-
-    // console.log("STATE", state);
-
-    // const itemInCart = state.items.find(
-    //     (item) => item.product.id === product.id
-    // );
-
-    // const quantityInCart = itemInCart?.quantity ?? 0;
-    // const isMaxedOut = quantityInCart >= product.stock;
-
     const [quantity, setQuantity] = useState(1);
 
     // Clamp quantity to available stock (UX only)
