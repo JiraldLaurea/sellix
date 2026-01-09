@@ -74,7 +74,7 @@ export default function OrderDetailsClient({ order }: any) {
                     <Link
                         href={order.receiptUrl}
                         target="_blank"
-                        className="flex items-center space-x-2 rounded-md bg-black px-6 py-3 text-white hover:bg-gray-800 transition-colors"
+                        className="flex items-center text-sm space-x-2 rounded-md bg-black px-6 py-3 text-white hover:bg-gray-800 transition-colors"
                     >
                         <p>View Stripe Receipt</p>
                         <FaArrowUpRightFromSquare />
