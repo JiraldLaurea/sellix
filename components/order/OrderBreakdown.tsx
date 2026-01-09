@@ -11,11 +11,11 @@ export default function OrderBreakdown({
     shippingFee,
     tax,
     total,
+    removeTopBorder,
 }: OrderBreakDownProps) {
     return (
         <>
-            <hr className="my-4" />
-
+            {!removeTopBorder && <hr className="my-4" />}
             <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                     <span className="text-gray-600">Subtotal</span>

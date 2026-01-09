@@ -25,6 +25,7 @@ export type OrderBreakDownProps = {
     shippingFee: number;
     tax: number;
     total: number;
+    removeTopBorder?: boolean;
 };
 
 export type MenuItemProps = {
