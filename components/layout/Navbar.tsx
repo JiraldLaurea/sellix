@@ -17,15 +17,7 @@ export default function Navbar() {
         return null;
     }
 
-    const itemCount = state.items.reduce(
-        (total, item) => total + (item.quantity ?? 0),
-        0
-    );
-
-    const total = state.items.reduce(
-        (sum, item) => sum + item.product.price * (item.quantity ?? 0),
-        0
-    );
+    const itemCount = state.items.length;
 
     return (
         <header className="block border-b sticky top-0 z-50 h-16 bg-white">
