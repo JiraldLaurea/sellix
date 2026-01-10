@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -25,14 +26,14 @@ export default function LoginPage() {
 
     if (status === "loading") {
         return (
-            <div className="min-h-screen flex items-center justify-center">
+            <div className="flex items-center justify-center min-h-screen">
                 <p className="text-sm text-gray-500">Checking session…</p>
             </div>
         );
     }
 
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center space-y-6">
+        <section className="flex flex-col items-center justify-center min-h-screen space-y-6">
             <Image
                 src={"/img/brand_logo.png"}
                 alt={"Brand Logo"}
@@ -42,52 +43,54 @@ export default function LoginPage() {
                 style={{ width: "200px", height: "auto" }}
                 className="object-contain"
             />
-            <div className="border rounded-lg p-6 space-y-4 text-center w-full max-w-md">
-                <div className="text-left space-y-2 mb-6">
+            <Container>
+                <div className="mb-6 space-y-2 text-left">
                     <h1 className="text-3xl font-semibold">Sign in</h1>
                     <p className="text-gray-600">
                         Welcome! Let's sign in to your account.
                     </p>
                 </div>
 
-                {/* Google */}
-                <Button
-                    variant="secondary"
-                    disabled={!googleEnabled || !!loadingProvider}
-                    onClick={() => {
-                        setLoadingProvider("google");
-                        signIn("google", {
-                            callbackUrl: "/",
-                        });
-                    }}
-                >
-                    <GoogleLogo />
-                    <span>
-                        {loadingProvider === "google"
-                            ? "Redirecting…"
-                            : "Sign in with Google"}
-                    </span>
-                </Button>
+                <div className="space-y-3">
+                    {/* Google */}
+                    <Button
+                        variant="secondary"
+                        disabled={!googleEnabled || !!loadingProvider}
+                        onClick={() => {
+                            setLoadingProvider("google");
+                            signIn("google", {
+                                callbackUrl: "/",
+                            });
+                        }}
+                    >
+                        <GoogleLogo />
+                        <span>
+                            {loadingProvider === "google"
+                                ? "Redirecting…"
+                                : "Sign in with Google"}
+                        </span>
+                    </Button>
 
-                {/* GitHub */}
-                <Button
-                    variant="secondary"
-                    disabled={!githubEnabled || !!loadingProvider}
-                    onClick={() => {
-                        setLoadingProvider("github");
-                        signIn("github", {
-                            callbackUrl: "/",
-                        });
-                    }}
-                >
-                    <GitHubLogo />
-                    <span>
-                        {loadingProvider === "github"
-                            ? "Redirecting…"
-                            : "Sign in with GitHub"}
-                    </span>
-                </Button>
-            </div>
+                    {/* GitHub */}
+                    <Button
+                        variant="secondary"
+                        disabled={!githubEnabled || !!loadingProvider}
+                        onClick={() => {
+                            setLoadingProvider("github");
+                            signIn("github", {
+                                callbackUrl: "/",
+                            });
+                        }}
+                    >
+                        <GitHubLogo />
+                        <span>
+                            {loadingProvider === "github"
+                                ? "Redirecting…"
+                                : "Sign in with GitHub"}
+                        </span>
+                    </Button>
+                </div>
+            </Container>
         </section>
     );
 }
