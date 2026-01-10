@@ -22,9 +22,9 @@ export default function ProductCard({ product }: Props) {
     }, [quantity, product.stock]);
 
     return (
-        <div className="flex flex-col overflow-hidden border rounded-lg">
+        <div className="flex flex-col h-full overflow-hidden border rounded-lg">
             {/* Clickable area */}
-            <Link href={`/product/${product.id}`} className="grow">
+            <Link href={`/product/${product.id}`}>
                 <div className="relative bg-gray-100 aspect-square">
                     <Image
                         src={product.images[0]}
@@ -33,24 +33,28 @@ export default function ProductCard({ product }: Props) {
                         className="object-cover"
                     />
                 </div>
-
-                <div className="p-3 space-y-0 truncate sm:p-4">
-                    <h3 className="text-sm font-medium truncate sm:text-base">
-                        {product.name}
-                    </h3>
-                    <p className="text-xs text-gray-600 sm:text-sm">
-                        {formatMoney(product.price)}
-                    </p>
-                </div>
             </Link>
 
-            {/* Action area */}
-            <div className="px-3 pb-3 sm:pb-4 sm:px-4">
-                <AddToCartButton
-                    product={product}
-                    quantity={quantity}
-                    className="w-full h-8 text-xs sm:text-sm sm:h-9"
-                />
+            {/* Product Info */}
+            <div className="flex flex-col p-3 space-y-6 sm:p-4 grow">
+                <div className="truncate grow text-ellipsis">
+                    <Link
+                        href={`/product/${product.id}`}
+                        className="block text-xs font-medium truncate text-ellipsis text-wrap hover:underline text sm:text-sm"
+                    >
+                        {product.name}
+                    </Link>
+                </div>
+                <div className="flex items-end justify-between">
+                    <p className="font-semibold text-black sm:text-lg">
+                        {formatMoney(product.price)}
+                    </p>
+                    <AddToCartButton
+                        product={product}
+                        quantity={quantity}
+                        buttonType="mini"
+                    />
+                </div>
             </div>
         </div>
     );

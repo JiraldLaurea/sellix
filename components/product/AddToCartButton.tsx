@@ -5,19 +5,24 @@ import { useCart } from "@/lib/cart-context";
 import { addToCart } from "@/lib/cart/add-to-cart";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaPlus } from "react-icons/fa6";
 import { toast } from "sonner";
 
-type Props = {
+type ButtonType = "regular" | "mini";
+
+type AddToCartButtonProps = {
     product: Product;
     quantity: number;
     className?: string;
+    buttonType: ButtonType;
 };
 
 export default function AddToCartButton({
     product,
     quantity,
     className,
-}: Props) {
+    buttonType,
+}: AddToCartButtonProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const { refreshCart } = useCart();
@@ -50,11 +55,28 @@ export default function AddToCartButton({
 
     const disabled = product.stock === 0 || loading;
 
+    if (buttonType === "mini") {
+        return (
+            <button
+                disabled={disabled || loading}
+                onClick={handleAddToCart}
+                className={`rounded-lg flex items-center justify-center border w-9 h-9 sm:w-10 sm:h-10 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:hover:bg-inherit
+            ${className}`}
+            >
+                {loading ? (
+                    <div className="w-3 h-3 border-2 border-black rounded-full animate-spin border-t-transparent" />
+                ) : (
+                    <FaPlus size={14} />
+                )}
+            </button>
+        );
+    }
+
     return (
         <button
-            disabled={disabled}
+            disabled={disabled || loading}
             onClick={handleAddToCart}
-            className={`rounded-md text-sm bg-accent text-white hover:bg-gray-800 px-6 transition disabled:opacity-50 disabled:hover:bg-accent
+            className={`rounded-md h-10 text-sm bg-accent text-white hover:bg-gray-800 w-full sm:max-w-50 transition disabled:opacity-50 disabled:hover:bg-accent
             ${className}`}
         >
             {product.stock === 0 ? (
