@@ -15,7 +15,6 @@ export default function ProductClient({ product }: Props) {
     return (
         <section className="grid gap-8 py-8 md:grid-cols-2">
             {/* Image */}
-
             <ProductImageGallery images={product.images} alt={product.name} />
 
             {/* Details */}

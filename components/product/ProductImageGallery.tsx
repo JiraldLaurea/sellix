@@ -15,8 +15,8 @@ export default function ProductImageGallery({ images, alt }: Props) {
     );
 
     return (
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-            <div className="relative grow aspect-square bg-gray-100 rounded-md overflow-hidden">
+        <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+            <div className="relative overflow-hidden bg-gray-100 rounded-md grow aspect-square">
                 <Image
                     src={activeImage}
                     alt={alt}
@@ -28,7 +28,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
                 />
             </div>
 
-            <div className="flex md:flex-col gap-3">
+            <div className="flex gap-3 md:flex-col">
                 {images.map((img) => {
                     const isLoaded = loadedImages[img];
 
@@ -42,7 +42,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
                         >
                             {/* Skeleton */}
                             {!isLoaded && (
-                                <div className="absolute inset-0 animate-pulse bg-gray-200" />
+                                <div className="absolute inset-0 bg-gray-200 animate-pulse" />
                             )}
 
                             <Image
