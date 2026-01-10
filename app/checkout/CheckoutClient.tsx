@@ -182,29 +182,29 @@ export default function CheckoutClient() {
                             router.push(`/orders/${pendingOrder}/pay`);
                         }}
                     >
-                        {loading ? "Preparing payment…" : "Proceed to Payment"}
+                        {loading ? "Preparing payment…" : "Continue Payment"}
                     </Button>
-                    <Button
-                        variant="secondary"
-                        disabled={cancelling || loading}
-                        onClick={handleCancelOrder}
-                    >
-                        {cancelling ? "Cancelling…" : "Cancel and Start New"}
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        onClick={() => router.push("/orders")}
-                        disabled={cancelling || loading}
-                    >
-                        View Orders
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        onClick={() => router.push("/cart")}
-                        disabled={cancelling || loading}
-                    >
-                        View Cart
-                    </Button>
+
+                    <div className="flex items-center mt-4 space-x-3">
+                        <Button
+                            variant="secondary"
+                            disabled={cancelling || loading}
+                            onClick={handleCancelOrder}
+                        >
+                            {cancelling
+                                ? "Cancelling…"
+                                : "Cancel and Start New"}
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            onClick={() =>
+                                router.push(`/orders/${pendingOrder}`)
+                            }
+                            disabled={cancelling || loading}
+                        >
+                            View Order Details
+                        </Button>
+                    </div>
                 </div>
             </Container>
         );

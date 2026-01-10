@@ -97,8 +97,7 @@ export default function CartClient({ cart }: CartClientProps) {
         <section className="min-h-fit h-[calc(100vh-64px)] py-8 mx-auto">
             {/* Back */}
             <BackButton text="Back" />
-
-            <div className="flex flex-col gap-6 lg:flex-row">
+            <div className="flex flex-col gap-6 mt-4 lg:flex-row">
                 {/* LEFT: ITEMS */}
                 <div className="grow">
                     <div className="flex items-center justify-between mb-2">
@@ -159,7 +158,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                         </div>
 
                                         {/* Product info */}
-                                        <div className="flex flex-col justify-start h-full pt-2 space-y-4 truncate sm:flex-row">
+                                        <div className="flex flex-col justify-start h-full pt-2 space-y-4 truncate sm:space-x-4 sm:flex-row">
                                             <div className="truncate">
                                                 <Link
                                                     href={`/product/${item.product.id}`}
@@ -174,6 +173,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                                 </p>
                                             </div>
                                             <div className="flex flex-row items-end justify-between sm:flex-col sm:items-end grow">
+                                                {/* Subtotal */}
                                                 <p className="flex items-center h-10 font-medium sm:h-auto">
                                                     {formatMoney(
                                                         item.product.price *
@@ -204,7 +204,7 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <Container className="p-6 border lg:max-w-sm sm:p-8 lg:sticky lg:top-24 h-fit">
+                <Container className="p-4 border lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
                     {/* <div className="p-8 text-sm border rounded-lg h-fit sm:sticky sm:top-24"> */}
                     <h2 className="mb-4 text-2xl font-semibold">Summary</h2>
                     <OrderBreakdown

@@ -16,8 +16,8 @@ export default function OrderDetailsClient({ order }: any) {
 
     return (
         <section className="max-w-3xl mx-auto py-10 min-h-[calc(100vh-64px)]">
-            <BackButton text="Orders" />
-            <div className="flex items-center justify-between my-6">
+            <BackButton text="Orders" href="/orders" hasHref />
+            <div className="flex items-center justify-between mt-4 mb-6">
                 <div>
                     <h1 className="text-lg font-semibold sm:text-2xl">
                         Order #{order.orderNumber}

@@ -57,11 +57,15 @@ export default function AddToCartButton({
             className={`rounded-md text-sm bg-accent text-white hover:bg-gray-800 px-6 transition disabled:opacity-50 disabled:hover:bg-accent
             ${className}`}
         >
-            {product.stock === 0
-                ? "Out of stock"
-                : loading
-                ? "Adding..."
-                : "Add to Cart"}
+            {product.stock === 0 ? (
+                "Out of stock"
+            ) : loading ? (
+                <div className="flex items-center justify-center h-full">
+                    <div className="w-4 h-4 border-2 border-white rounded-full animate-spin border-t-transparent" />
+                </div>
+            ) : (
+                "Add to Cart"
+            )}
         </button>
     );
 }

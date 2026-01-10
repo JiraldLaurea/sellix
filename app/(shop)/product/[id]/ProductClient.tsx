@@ -20,11 +20,13 @@ export default function ProductClient({ product }: Props) {
             {/* Details */}
             <div className="space-y-4">
                 <BackButton text="Back" />
-                <h1 className="text-2xl font-semibold">{product.name}</h1>
 
-                <p className="text-xl text-gray-800">
-                    {formatMoney(product.price)}
-                </p>
+                <div>
+                    <h1 className="text-2xl font-semibold">{product.name}</h1>
+                    <p className="text-xl text-gray-800">
+                        {formatMoney(product.price)}
+                    </p>
+                </div>
 
                 <p className="text-gray-600">{product.description}</p>
 

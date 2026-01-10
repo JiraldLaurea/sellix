@@ -14,14 +14,14 @@ export default function AccountMenu() {
 
     return (
         <Popover.Root>
-            <Popover.Trigger>
+            <Popover.Trigger className="focus:outline-none">
                 <Avatar width={40} height={40} session={session} />
             </Popover.Trigger>
 
             <Popover.Content
                 align="end"
                 sideOffset={8}
-                className="p-2 bg-white border rounded-lg shadow-md w-60"
+                className="p-2 bg-white border rounded-lg shadow-md w-60 focus:outline-none"
             >
                 <div className="flex flex-col items-center px-4 pt-2 space-y-2 text-center">
                     <Avatar

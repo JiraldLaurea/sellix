@@ -34,7 +34,7 @@ export default function ProductCard({ product }: Props) {
                     />
                 </div>
 
-                <div className="p-3 truncate sm:space-y-1 sm:p-4">
+                <div className="p-3 space-y-0 truncate sm:p-4">
                     <h3 className="text-sm font-medium truncate sm:text-base">
                         {product.name}
                     </h3>
