@@ -7,6 +7,7 @@ import { FaRegUser } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { MenuItem } from "../account/MenuItem";
 import Avatar from "./Avatar";
+import { FaRegHeart } from "react-icons/fa6";
 
 export default function AccountMenu() {
     const { data: session } = useSession();
@@ -42,14 +43,19 @@ export default function AccountMenu() {
                 </div>
 
                 <MenuItem
-                    Icon={FaRegUser}
-                    href="/account/profile"
-                    text="Profile"
-                />
-                <MenuItem
                     Icon={LucideReceiptText}
                     href="/orders/"
                     text="Orders"
+                />
+                <MenuItem
+                    Icon={FaRegHeart}
+                    href="/account/profile"
+                    text="Favorites"
+                />
+                <MenuItem
+                    Icon={FaRegUser}
+                    href="/account/profile"
+                    text="Profile"
                 />
 
                 <div className="px-2">
