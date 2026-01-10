@@ -110,7 +110,7 @@ export default function CartClient({ cart }: CartClientProps) {
                         </h1>
                         <button
                             onClick={clearCart}
-                            className="flex items-center h-10 px-4 space-x-1 text-sm text-white transition-colors border rounded-lg bg-accent hover:bg-gray-700"
+                            className="flex items-center h-10 px-4 space-x-1 text-sm text-white transition-colors rounded-lg bg-accent hover:bg-gray-700"
                         >
                             <HiOutlineTrash size={18} />
                             <p>Clear Cart</p>
