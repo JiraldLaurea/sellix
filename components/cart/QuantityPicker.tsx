@@ -29,25 +29,25 @@ export default function QuantityPicker({ quantity, max, onChange }: Props) {
     const isDisabled = max === 0;
 
     return (
-        <div className="flex relative gap-1">
-            <div className="flex w-fit items-center border rounded-md overflow-hidden">
+        <div className="relative flex gap-1">
+            <div className="flex items-center overflow-hidden border rounded-full w-fit">
                 <button
                     onClick={decrement}
                     disabled={quantity <= 1 || isDisabled}
                     aria-label="Decrease quantity"
-                    className="w-10 text-black h-10 disabled:text-gray-300 flex items-center justify-center transition-colors hover:bg-gray-100 disabled:hover:bg-inherit"
+                    className="flex items-center justify-center w-10 h-10 text-black transition-colors rounded-full disabled:text-gray-300 hover:bg-gray-100 disabled:hover:bg-inherit"
                 >
                     <FaMinus size={12} />
                 </button>
 
-                <p className="w-10 text-sm select-none flex items-center justify-center h-10  border-x">
+                <p className="flex items-center justify-center h-10 select-none w-7">
                     {isDisabled ? 0 : quantity}
                 </p>
                 <button
                     onClick={increment}
                     disabled={isDisabled}
                     aria-label="Increase quantity"
-                    className="w-10 h-10 text-black text-sm disabled:text-gray-300 flex items-center justify-center transition-colors hover:bg-gray-100 disabled:hover:bg-inherit"
+                    className="flex items-center justify-center w-10 h-10 text-sm text-black transition-colors rounded-full disabled:text-gray-300 hover:bg-gray-100 disabled:hover:bg-inherit"
                 >
                     <FaPlus size={12} />
                 </button>
