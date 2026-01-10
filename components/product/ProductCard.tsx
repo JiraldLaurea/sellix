@@ -49,7 +49,7 @@ export default function ProductCard({ product }: Props) {
                 <AddToCartButton
                     product={product}
                     quantity={quantity}
-                    className="w-full h-9"
+                    className="w-full h-8 text-xs sm:text-sm sm:h-9"
                 />
             </div>
         </div>
