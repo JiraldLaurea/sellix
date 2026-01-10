@@ -1,8 +1,8 @@
+import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import { CartProvider } from "@/lib/cart-context";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
-import "./globals.css";
 import { Providers } from "./providers";
 import Footer from "@/components/layout/Footer";
 
@@ -33,7 +33,7 @@ export default function RootLayout({
                 <Providers>
                     <CartProvider>
                         <Navbar />
-                        <main className="container max-w-6xl mx-auto px-4">
+                        <main className="container max-w-6xl px-4 mx-auto">
                             {children}
                         </main>
                         <Toaster position="bottom-right" />
