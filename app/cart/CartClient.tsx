@@ -2,6 +2,7 @@
 
 import QuantityPicker from "@/components/cart/QuantityPicker";
 import OrderBreakdown from "@/components/order/OrderBreakdown";
+import { BackButton } from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { useCart } from "@/lib/cart-context";
@@ -11,7 +12,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
-import { IoIosArrowBack } from "react-icons/io";
 
 type CartItem = {
     id: string;
@@ -53,7 +53,7 @@ export default function CartClient({ cart }: CartClientProps) {
                     <HiOutlineTrash size={40} className="text-gray-500" />
                 </div>
                 <div>
-                    <h1 className="text-2xl font-semibold mb-1">
+                    <h1 className="mb-1 text-2xl font-semibold">
                         Your cart is empty
                     </h1>
                     <p className="text-gray-600">
@@ -63,7 +63,7 @@ export default function CartClient({ cart }: CartClientProps) {
 
                 <Link
                     href="/"
-                    className="rounded-md bg-accent text-white px-6 py-3 hover:bg-gray-800 transition"
+                    className="px-6 py-3 text-white transition rounded-md bg-accent hover:bg-gray-800"
                 >
                     Start shopping
                 </Link>
@@ -96,17 +96,12 @@ export default function CartClient({ cart }: CartClientProps) {
     return (
         <section className="min-h-fit h-[calc(100vh-64px)] py-8 mx-auto">
             {/* Back */}
-            <div
-                onClick={() => router.back()}
-                className="flex items-center gap-1 text-gray-600 cursor-pointer hover:underline w-fit mb-6"
-            >
-                <IoIosArrowBack size={20} />
-                <span>Back</span>
-            </div>
-            <div className="flex gap-8 flex-col lg:flex-row">
+            <BackButton text="Back" />
+
+            <div className="flex flex-col gap-6 lg:flex-row">
                 {/* LEFT: ITEMS */}
-                <div className="sm:grow">
-                    <div className="mb-6 flex items-center justify-between">
+                <div className="grow">
+                    <div className="flex items-center justify-between mb-2">
                         <h1 className="text-2xl font-semibold">
                             Cart
                             {`(${items.length} ${
@@ -115,85 +110,92 @@ export default function CartClient({ cart }: CartClientProps) {
                         </h1>
                         <button
                             onClick={clearCart}
-                            className="border px-3 rounded-lg flex items-center space-x-1 text-sm font-medium border-red-300 hover:bg-red-50 transition-colors text-red-500 py-2"
+                            className="flex items-center h-10 px-4 space-x-1 text-sm text-white transition-colors border rounded-lg bg-accent hover:bg-gray-700"
                         >
                             <HiOutlineTrash size={18} />
                             <p>Clear Cart</p>
                         </button>
                     </div>
                     <div className="overflow-x-auto">
-                        <div className="min-w-160">
-                            {/* Header */}
-                            <div className="grid grid-cols-[80px_1fr_120px_100px_40px] h-8 border-b gap-4 text-sm text-gray-600">
-                                <span>Items</span>
-                                <span />
-                                <span className="text-center">Qty</span>
-                                <span className="text-right">Subtotal</span>
-                                <span />
-                            </div>
-
-                            {/* Rows */}
+                        <div className="">
                             <div className="divide-y">
                                 {items.map((item) => (
                                     <div
                                         key={item.id}
-                                        className="grid grid-cols-[80px_1fr_120px_100px_40px] gap-4 py-6 items-center"
+                                        className="grid grid-cols-[120px_1fr] sm:grid-cols-[160px_1fr] gap-y-2 gap-x-4 py-6 items-center"
                                     >
-                                        {/* Image */}
-                                        <div className="relative w-20 h-20 bg-gray-100 rounded-md overflow-hidden shrink-0">
-                                            <Image
-                                                src={item.product.images[0]}
-                                                alt={item.product.name}
-                                                fill
-                                                className="object-cover"
-                                            />
+                                        <div className="space-y-4">
+                                            {/* Image */}
+                                            <div
+                                                onClick={() =>
+                                                    router.push(
+                                                        `/product/${item.product.id}`
+                                                    )
+                                                }
+                                                className="relative overflow-hidden bg-gray-100 cursor-pointer sm:w-40 sm:h-40 w-30 h-30 shrink-0"
+                                            >
+                                                <Image
+                                                    src={item.product.images[0]}
+                                                    alt={item.product.name}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            </div>
+                                            <div className="flex justify-center">
+                                                {/* Qty */}
+                                                <div className="flex justify-center">
+                                                    <QuantityPicker
+                                                        quantity={item.quantity}
+                                                        max={item.product.stock}
+                                                        onChange={(next) =>
+                                                            updateQuantity(
+                                                                item.id,
+                                                                next
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
 
                                         {/* Product info */}
-                                        <div className="min-w-0">
-                                            <Link
-                                                href={`/product/${item.product.id}`}
-                                                className="font-medium text-sm hover:underline block truncate"
-                                            >
-                                                {item.product.name}
-                                            </Link>
-                                            <p className="text-sm text-gray-500">
-                                                {formatMoney(
-                                                    item.product.price
-                                                )}
-                                            </p>
+                                        <div className="flex flex-col justify-start h-full pt-2 space-y-4 truncate sm:flex-row">
+                                            <div className="truncate">
+                                                <Link
+                                                    href={`/product/${item.product.id}`}
+                                                    className="font-medium hover:underline"
+                                                >
+                                                    {item.product.name}
+                                                </Link>
+                                                <p className="text-sm text-gray-500">
+                                                    {formatMoney(
+                                                        item.product.price
+                                                    )}
+                                                </p>
+                                            </div>
+                                            <div className="flex flex-row items-end justify-between sm:flex-col sm:items-end grow">
+                                                <p className="flex items-center h-10 font-medium sm:h-auto">
+                                                    {formatMoney(
+                                                        item.product.price *
+                                                            item.quantity
+                                                    )}
+                                                </p>
+                                                {/* Remove */}
+                                                <div className="flex justify-end w-full">
+                                                    <button
+                                                        onClick={() =>
+                                                            removeItem(item.id)
+                                                        }
+                                                        className="flex items-center justify-center w-10 h-10 transition-colors border rounded-full hover:bg-gray-100"
+                                                        aria-label="Remove item"
+                                                    >
+                                                        <HiOutlineTrash
+                                                            size={18}
+                                                        />
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        {/* Qty */}
-                                        <div className="flex justify-center">
-                                            <QuantityPicker
-                                                quantity={item.quantity}
-                                                max={item.product.stock}
-                                                onChange={(next) =>
-                                                    updateQuantity(
-                                                        item.id,
-                                                        next
-                                                    )
-                                                }
-                                            />
-                                        </div>
-
-                                        {/* Subtotal */}
-                                        <div className="text-right font-medium whitespace-nowrap">
-                                            {formatMoney(
-                                                item.product.price *
-                                                    item.quantity
-                                            )}
-                                        </div>
-
-                                        {/* Remove */}
-                                        <button
-                                            onClick={() => removeItem(item.id)}
-                                            className="flex justify-center items-center h-10 w-10 rounded-full text-red-500 hover:bg-red-50 transition-colors"
-                                            aria-label="Remove item"
-                                        >
-                                            <HiOutlineTrash size={18} />
-                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -202,9 +204,9 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <Container className="lg:max-w-sm border p-6 sm:p-8 lg:sticky lg:top-24 h-fit">
-                    {/* <div className="border rounded-lg text-sm p-8 h-fit sm:sticky sm:top-24"> */}
-                    <h2 className="text-2xl font-semibold mb-4">Summary</h2>
+                <Container className="p-6 border lg:max-w-sm sm:p-8 lg:sticky lg:top-24 h-fit">
+                    {/* <div className="p-8 text-sm border rounded-lg h-fit sm:sticky sm:top-24"> */}
+                    <h2 className="mb-4 text-2xl font-semibold">Summary</h2>
                     <OrderBreakdown
                         subtotal={subtotal}
                         shippingFee={SHIPPING_FEE}
