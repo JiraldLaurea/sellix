@@ -32,7 +32,7 @@ export default function OrderBreakdown({
 
                 <hr className="my-4" />
 
-                <div className="flex justify-between font-medium text-base">
+                <div className="flex justify-between font-semibold">
                     <span>Total</span>
                     <span>{formatMoney(total)}</span>
                 </div>
