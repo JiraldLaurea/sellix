@@ -182,7 +182,7 @@ export default function CheckoutClient() {
                             router.push(`/orders/${pendingOrder}/pay`);
                         }}
                     >
-                        {loading ? "Preparing payment…" : "Continue Payment"}
+                        {loading ? "Preparing Payment…" : "Continue Payment"}
                     </Button>
 
                     <div className="flex flex-col items-center gap-3 sm:flex-row">

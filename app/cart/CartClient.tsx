@@ -10,7 +10,7 @@ import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 
 type CartItem = {
@@ -35,6 +35,7 @@ type CartClientProps = {
 
 export default function CartClient({ cart }: CartClientProps) {
     const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
     const { refreshCart, clearCart, state, updateQuantity, hydrateCart } =
         useCart();
 
@@ -215,10 +216,14 @@ export default function CartClient({ cart }: CartClientProps) {
                         removeTopBorder
                     />
                     <Button
+                        disabled={loading}
                         className="mt-4"
-                        onClick={() => router.push("/checkout")}
+                        onClick={() => {
+                            setLoading(true);
+                            router.push("/checkout");
+                        }}
                     >
-                        Checkout
+                        {loading ? "Preparing Checkout…" : "Checkout"}
                     </Button>
                 </Container>
             </div>
