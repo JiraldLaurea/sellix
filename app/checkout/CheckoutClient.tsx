@@ -185,7 +185,7 @@ export default function CheckoutClient() {
                         {loading ? "Preparing payment…" : "Continue Payment"}
                     </Button>
 
-                    <div className="flex items-center mt-4 space-x-3">
+                    <div className="flex flex-col items-center gap-3 sm:flex-row">
                         <Button
                             variant="secondary"
                             disabled={cancelling || loading}
