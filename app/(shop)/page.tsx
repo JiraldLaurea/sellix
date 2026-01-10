@@ -17,7 +17,7 @@ export default async function ShopPage() {
     return (
         <section className="py-8">
             <h1 className="mb-4 text-4xl font-semibold">Products Catalog</h1>
-            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
                 {products ? (
                     <>
                         {products.map((product: Product) => (
@@ -26,10 +26,10 @@ export default async function ShopPage() {
                     </>
                 ) : (
                     <>
-                        <div className=" border flex h-107 flex-col rounded-lg animate-pulse bg-gray-100" />
-                        <div className=" border flex h-107 flex-col rounded-lg animate-pulse bg-gray-100" />
-                        <div className=" border flex h-107 flex-col rounded-lg animate-pulse bg-gray-100" />
-                        <div className=" border flex h-107 flex-col rounded-lg animate-pulse bg-gray-100" />
+                        <div className="flex flex-col bg-gray-100 border rounded-lg h-107 animate-pulse" />
+                        <div className="flex flex-col bg-gray-100 border rounded-lg h-107 animate-pulse" />
+                        <div className="flex flex-col bg-gray-100 border rounded-lg h-107 animate-pulse" />
+                        <div className="flex flex-col bg-gray-100 border rounded-lg h-107 animate-pulse" />
                     </>
                 )}
             </div>
