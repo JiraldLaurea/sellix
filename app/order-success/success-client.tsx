@@ -86,8 +86,8 @@ export default function SuccessClient({
     if (!order || order.status === "PENDING") {
         return (
             <section className="min-h-[calc(100vh-64px)] flex items-center justify-center">
-                <div className="text-center space-y-4">
-                    <div className="animate-spin h-8 w-8 border-2 border-black border-t-transparent rounded-full mx-auto" />
+                <div className="space-y-4 text-center">
+                    <div className="w-8 h-8 mx-auto border-2 border-black rounded-full animate-spin border-t-transparent" />
                     <p className="text-sm text-gray-600">
                         Confirming your payment…
                     </p>
@@ -119,9 +119,9 @@ export default function SuccessClient({
     ====================================================== */
     return (
         <section className="min-h-[calc(100vh-64px)] flex items-center justify-center py-8">
-            <div className="max-w-xl w-full space-y-6 text-center flex flex-col items-center">
+            <div className="flex flex-col items-center w-full max-w-xl space-y-6 text-center">
                 <div className="space-y-4">
-                    <div className="flex flex-col space-y-2 items-center">
+                    <div className="flex flex-col items-center space-y-2">
                         <FaCheckCircle size={60} className="text-green-500" />
                         <h1 className="text-2xl font-semibold">
                             Order confirmed
@@ -135,18 +135,21 @@ export default function SuccessClient({
 
                 {/* Items */}
                 <Container className="my-0 sm:border sm:p-8">
-                    <h1 className="text-2xl font-semibold mb-4 text-left">
+                    <h1 className="mb-6 text-2xl font-semibold text-left">
                         Ordered Items
                     </h1>
                     <ul className="space-y-2">
                         {order.items.map((item) => (
-                            <li key={item.id} className="flex justify-between">
-                                <span>
-                                    {item.name} x {item.quantity}
-                                </span>
-                                <span>
+                            <li
+                                key={item.id}
+                                className="flex justify-between space-x-6"
+                            >
+                                <ul className="truncate">
+                                    {item.quantity} x {item.name}
+                                </ul>
+                                <ul>
                                     {formatMoney(item.price * item.quantity)}
-                                </span>
+                                </ul>
                             </li>
                         ))}
                     </ul>
@@ -157,7 +160,7 @@ export default function SuccessClient({
                         tax={computedTax}
                         total={order.total}
                     />
-                    <div className="space-y-3 mt-4">
+                    <div className="mt-4 space-y-3">
                         <Button
                             onClick={() => {
                                 router.push("/");

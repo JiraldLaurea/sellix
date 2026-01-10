@@ -136,10 +136,10 @@ export default function CheckoutClient() {
         return (
             <Container>
                 <div>
-                    <h1 className="text-2xl font-semibold mb-4">
+                    <h1 className="mb-6 text-2xl font-semibold">
                         Pending payment detected
                     </h1>
-                    <div className="text-sm text-amber-600 items-center space-x-2 bg-amber-100 px-6 py-4 rounded-lg flex space-y-2">
+                    <div className="flex items-center px-4 py-3 space-x-2 space-y-2 text-sm rounded-lg sm:py-4 sm:px-6 text-amber-600 bg-amber-100">
                         <p>
                             You have an unfinished payment with the following
                             items. You can continue payment or cancel and start
@@ -148,16 +148,19 @@ export default function CheckoutClient() {
                     </div>
                 </div>
 
-                <div className="border rounded-lg p-6 my-6">
+                <div className="mt-6 mb-4 rounded-lg sm:p-6 sm:border">
                     <ul className="space-y-2">
                         {pendingItems.map((item) => (
-                            <li key={item.id} className="flex justify-between">
-                                <span>
-                                    {item.name} x {item.quantity}
-                                </span>
-                                <span>
+                            <li
+                                key={item.id}
+                                className="flex justify-between space-x-6"
+                            >
+                                <ul className="truncate">
+                                    {item.quantity} x {item.name}
+                                </ul>
+                                <ul>
                                     {formatMoney(item.price * item.quantity)}
-                                </span>
+                                </ul>
                             </li>
                         ))}
                     </ul>
@@ -214,22 +217,22 @@ export default function CheckoutClient() {
         <Container>
             {!clientSecret && (
                 <>
-                    <h1 className="text-2xl font-semibold mb-6">Checkout</h1>
+                    <h1 className="mb-6 text-2xl font-semibold">Checkout</h1>
 
                     <ul className="space-y-2">
                         {state.items.map((item) => (
                             <li
                                 key={item.product.id}
-                                className="flex justify-between"
+                                className="flex justify-between space-x-6"
                             >
-                                <span>
-                                    {item.product.name} x {item.quantity}
-                                </span>
-                                <span>
+                                <ul className="truncate">
+                                    {item.quantity}x {item.product.name}
+                                </ul>
+                                <ul>
                                     {formatMoney(
                                         item.product.price * item.quantity
                                     )}
-                                </span>
+                                </ul>
                             </li>
                         ))}
                     </ul>

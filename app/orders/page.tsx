@@ -30,10 +30,10 @@ export default async function OrdersPage() {
     if (orders.length === 0) {
         return (
             <section className="pb-16 text-center flex flex-col items-center min-h-[calc(100vh-64px)] justify-center">
-                <h1 className="text-2xl mb-4">No orders yet</h1>
+                <h1 className="mb-4 text-2xl">No orders yet</h1>
                 <Link
                     href="/"
-                    className="inline-block rounded-md bg-accent text-white px-6 py-3 hover:bg-gray-800 transition"
+                    className="inline-block px-6 py-3 text-white transition rounded-md bg-accent hover:bg-gray-800"
                 >
                     Start shopping
                 </Link>
@@ -44,8 +44,8 @@ export default async function OrdersPage() {
     type Order = (typeof orders)[number];
 
     return (
-        <section className="max-w-3xl mx-auto py-10">
-            <h1 className="text-4xl font-semibold mb-6">Your Orders</h1>
+        <section className="max-w-3xl py-10 mx-auto">
+            <h1 className="mb-6 text-4xl font-semibold">Your Orders</h1>
 
             <div className="space-y-4">
                 {orders.map((order: Order) => (
@@ -54,10 +54,10 @@ export default async function OrdersPage() {
                         href={`/orders/${order.orderNumber}`}
                         className="block"
                     >
-                        <Container className="w-full p-4 sm:p-6 hover:bg-gray-50 transition-colors border">
-                            <div className="flex justify-between items-start mb-2">
-                                <div>
-                                    <p className="font-medium">
+                        <Container className="w-full p-4 transition-colors border sm:p-6 hover:bg-gray-50">
+                            <div className="flex items-start justify-between mb-2">
+                                <div className="space-x-4 truncate">
+                                    <p className="font-medium truncate">
                                         Order #{order.orderNumber}
                                     </p>
                                     <p className="text-sm text-gray-500">
