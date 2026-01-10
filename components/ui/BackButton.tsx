@@ -3,17 +3,22 @@ import { IoIosArrowBack } from "react-icons/io";
 
 type Props = {
     text: string;
+    hasHref?: boolean;
+    href?: string;
 };
 
-export function BackButton({ text }: Props) {
+export function BackButton({ text, hasHref, href }: Props) {
     const router = useRouter();
 
     return (
         <button
-            onClick={() => router.back()}
-            className="flex items-center h-10 pl-3.5 pr-5 space-x-1 text-sm transition-colors mb-6 border rounded-lg cursor-pointer hover:bg-gray-100 w-fit"
+            onClick={() => {
+                if (hasHref) router.push(`${href}`);
+                else router.back();
+            }}
+            className="flex items-center h-10 py-1 pr-1 space-x-1 text-blue-500 rounded-lg cursor-pointer w-fit hover:underline"
         >
-            <IoIosArrowBack size={18} />
+            <IoIosArrowBack size={20} />
             <p>{text}</p>
         </button>
     );
