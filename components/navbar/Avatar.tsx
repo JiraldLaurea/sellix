@@ -1,19 +1,21 @@
 import { Session } from "next-auth";
 import Image from "next/image";
 
-type Props = {
+type AvatarProps = {
     session: Session | null;
     hasDefaultCursor?: boolean;
+    width: number;
+    height: number;
 };
 
-const Avatar = ({ session, hasDefaultCursor }: Props) => {
+const Avatar = ({ session, hasDefaultCursor, width, height }: AvatarProps) => {
     return (
         <Image
             src={session?.user?.image ?? "/img/avatar_placeholder.jpg"}
-            width={40}
-            height={40}
+            width={width}
+            height={height}
             alt="Avatar"
-            className={`rounded-full  ${
+            className={`rounded-full border  ${
                 session?.user.image === undefined && "border"
             } ${hasDefaultCursor ? "cursor-default" : "cursor-pointer"}`}
         />
