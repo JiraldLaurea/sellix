@@ -39,6 +39,8 @@ export default function LoginPage() {
                 alt={"Brand Logo"}
                 width={0}
                 height={0}
+                preload
+                loading="eager"
                 sizes="100vw"
                 style={{ width: "200px", height: "auto" }}
                 className="object-contain"
