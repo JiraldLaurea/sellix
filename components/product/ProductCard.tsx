@@ -22,10 +22,10 @@ export default function ProductCard({ product }: Props) {
     }, [quantity, product.stock]);
 
     return (
-        <div className="border flex flex-col rounded-lg overflow-hidden">
+        <div className="flex flex-col overflow-hidden border rounded-lg">
             {/* Clickable area */}
             <Link href={`/product/${product.id}`} className="grow">
-                <div className="relative aspect-square bg-gray-100">
+                <div className="relative bg-gray-100 aspect-square">
                     <Image
                         src={product.images[0]}
                         alt={product.name}
@@ -34,16 +34,18 @@ export default function ProductCard({ product }: Props) {
                     />
                 </div>
 
-                <div className="p-4 space-y-2 ">
-                    <h3 className="font-medium">{product.name}</h3>
-                    <p className="text-sm text-gray-600">
+                <div className="p-3 truncate sm:space-y-1 sm:p-4">
+                    <h3 className="text-sm font-medium truncate sm:text-base">
+                        {product.name}
+                    </h3>
+                    <p className="text-xs text-gray-600 sm:text-sm">
                         {formatMoney(product.price)}
                     </p>
                 </div>
             </Link>
 
             {/* Action area */}
-            <div className="px-4 pb-4">
+            <div className="px-3 pb-3 sm:pb-4 sm:px-4">
                 <AddToCartButton
                     product={product}
                     quantity={quantity}
