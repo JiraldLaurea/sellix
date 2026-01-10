@@ -3,29 +3,23 @@
 import { OrderItem } from "@/app/types";
 import OrderBreakdown from "@/components/order/OrderBreakdown";
 import PendingOrderActions from "@/components/order/PendingOrderActions";
+import { BackButton } from "@/components/ui/BackButton";
 import { Container } from "@/components/ui/Container";
 import { formatMoney } from "@/lib/formatMoney";
 import getStatusStyles from "@/lib/order/getStatusStyles";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
-import { IoIosArrowBack } from "react-icons/io";
 
 export default function OrderDetailsClient({ order }: any) {
     const router = useRouter();
 
     return (
         <section className="max-w-3xl mx-auto py-10 min-h-[calc(100vh-64px)]">
-            <Link
-                href="/orders"
-                className="text-gray-600 hover:underline flex items-center w-fit"
-            >
-                <IoIosArrowBack size={24} />
-                <p>Orders</p>
-            </Link>
-            <div className="my-6 flex justify-between items-center">
+            <BackButton text="Orders" />
+            <div className="flex items-center justify-between my-6">
                 <div>
-                    <h1 className="text-lg sm:text-2xl font-semibold">
+                    <h1 className="text-lg font-semibold sm:text-2xl">
                         Order #{order.orderNumber}
                     </h1>
                     <p className="text-sm text-gray-500">
@@ -69,12 +63,12 @@ export default function OrderDetailsClient({ order }: any) {
                 />
             </Container>
 
-            <div className="flex gap-4 justify-end items-center mt-6">
+            <div className="flex items-center justify-end gap-4 mt-6">
                 {order.status === "PAID" && order.receiptUrl && (
                     <Link
                         href={order.receiptUrl}
                         target="_blank"
-                        className="flex w-full sm:w-fit justify-center items-center text-sm space-x-2 rounded-md bg-black px-6 py-3 text-white hover:bg-gray-700 transition-colors"
+                        className="flex items-center justify-center w-full px-6 py-3 space-x-2 text-sm text-white transition-colors bg-black rounded-md sm:w-fit hover:bg-gray-700"
                     >
                         <p>View Stripe Receipt</p>
                         <FaArrowUpRightFromSquare />
