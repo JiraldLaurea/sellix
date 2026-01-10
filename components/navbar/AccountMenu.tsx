@@ -9,28 +9,37 @@ import { MenuItem } from "../account/MenuItem";
 import Avatar from "./Avatar";
 
 export default function AccountMenu() {
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     return (
         <Popover.Root>
             <Popover.Trigger>
-                <Avatar session={session} />
+                <Avatar width={40} height={40} session={session} />
             </Popover.Trigger>
 
             <Popover.Content
                 align="end"
                 sideOffset={8}
-                className="w-64 rounded-lg border bg-white p-2 shadow-md"
+                className="p-2 bg-white border rounded-lg shadow-md w-60"
             >
-                <div className="flex flex-col pt-2 px-4">
-                    {/* <Avatar session={session} hasDefaultCursor /> */}
-                    <p className="font-semibold">{session?.user?.name}</p>
-                    <p className="text-xs text-gray-500">
-                        {session?.user?.email}
-                    </p>
+                <div className="flex flex-col items-center px-4 pt-2 space-y-2 text-center">
+                    <Avatar
+                        width={50}
+                        height={50}
+                        session={session}
+                        hasDefaultCursor
+                    />
+                    <div>
+                        <p className="font-semibold">{session?.user?.name}</p>
+                        <p className="text-xs text-gray-500">
+                            {session?.user?.email}
+                        </p>
+                    </div>
                 </div>
 
-                <hr className="mb-2 mt-4" />
+                <div className="px-2">
+                    <hr className="mt-5 mb-3" />
+                </div>
 
                 <MenuItem
                     Icon={FaRegUser}
@@ -43,7 +52,9 @@ export default function AccountMenu() {
                     text="Orders"
                 />
 
-                <hr className="my-2" />
+                <div className="px-2">
+                    <hr className="my-3" />
+                </div>
 
                 <MenuItem
                     onClick={() =>
@@ -54,7 +65,7 @@ export default function AccountMenu() {
                     Icon={MdOutlineLogout}
                     href=""
                     text="Sign Out"
-                    extraClassName="text-red-600"
+                    extraClassName=""
                 />
             </Popover.Content>
         </Popover.Root>
