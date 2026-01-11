@@ -10,17 +10,17 @@ const prisma = new PrismaClient({ adapter });
 const LIMIT = 50;
 
 async function seedCategories() {
-    const res = await fetch("https://api.escuelajs.co/api/v1/categories");
+    const res = await fetch("https://dummyjson.com/products/categories");
     const categories = await res.json();
 
     for (const category of categories) {
         await prisma.category.upsert({
-            where: { id: String(category.id) },
+            where: { id: category.slug },
             update: {},
             create: {
-                id: String(category.id),
+                id: category.slug,
                 name: category.name,
-                image: category.image,
+                image: null,
             },
         });
     }
@@ -29,19 +29,21 @@ async function seedCategories() {
 }
 
 async function seedProducts() {
-    let offset = 0;
+    let skip = 0;
     let total = 0;
 
     while (true) {
         const res = await fetch(
-            `https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=${LIMIT}`
+            `https://dummyjson.com/products?limit=${LIMIT}&skip=${skip}`
         );
 
-        const products = await res.json();
+        const data = await res.json();
+        const products = data.products;
+
         if (!products.length) break;
 
         for (const product of products) {
-            if (!product.category?.id || !product.images?.length) continue;
+            if (!product.category || !product.images?.length) continue;
 
             await prisma.product.upsert({
                 where: { id: String(product.id) },
@@ -51,16 +53,16 @@ async function seedProducts() {
                     name: product.title,
                     description: product.description,
                     price: product.price * 100,
-                    stock: 10,
+                    stock: product.stock ?? 10,
                     images: product.images,
-                    categoryId: String(product.category.id), // ✅ RELATION
+                    categoryId: product.category, // string category
                 },
             });
 
             total++;
         }
 
-        offset += LIMIT;
+        skip += LIMIT;
     }
 
     console.log(`✅ Seeded ${total} products`);

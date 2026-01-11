@@ -14,6 +14,7 @@ import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { CartItem } from "../types";
+import PageContainer from "@/components/ui/PageContainer";
 
 type Cart = {
     items: CartItem[];
@@ -46,7 +47,7 @@ export default function CartClient({ cart }: CartClientProps) {
 
     if (items.length === 0) {
         return (
-            <section className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center text-center space-y-6">
+            <PageContainer className="flex flex-col items-center justify-center text-center space-y-6">
                 <div className="p-6 bg-gray-100 rounded-lg">
                     <HiOutlineTrash size={40} className="text-gray-500" />
                 </div>
@@ -65,7 +66,7 @@ export default function CartClient({ cart }: CartClientProps) {
                 >
                     Start shopping
                 </Link>
-            </section>
+            </PageContainer>
         );
     }
 
@@ -92,7 +93,7 @@ export default function CartClient({ cart }: CartClientProps) {
     }
 
     return (
-        <section className="min-h-fit h-[calc(100vh-64px)] py-8 mx-auto">
+        <PageContainer>
             {/* Back */}
             <BackButton text="Back" />
             <div className="flex flex-col gap-6 mt-4 lg:flex-row">
@@ -230,6 +231,6 @@ export default function CartClient({ cart }: CartClientProps) {
                     </Button>
                 </Container>
             </div>
-        </section>
+        </PageContainer>
     );
 }

@@ -5,6 +5,7 @@ import OrderBreakdown from "@/components/order/OrderBreakdown";
 import PendingOrderActions from "@/components/order/PendingOrderActions";
 import { BackButton } from "@/components/ui/BackButton";
 import { Container } from "@/components/ui/Container";
+import PageContainer from "@/components/ui/PageContainer";
 import { formatMoney } from "@/lib/formatMoney";
 import getStatusStyles from "@/lib/order/getStatusStyles";
 import Link from "next/link";
@@ -12,10 +13,8 @@ import { useRouter } from "next/navigation";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 export default function OrderDetailsClient({ order }: any) {
-    const router = useRouter();
-
     return (
-        <section className="max-w-3xl mx-auto py-10 min-h-[calc(100vh-64px)]">
+        <PageContainer className="max-w-3xl!">
             <BackButton text="Orders" href="/orders" />
             <div className="flex items-center justify-between mt-4 mb-6">
                 <div>
@@ -78,6 +77,6 @@ export default function OrderDetailsClient({ order }: any) {
                     <PendingOrderActions orderNumber={order.orderNumber} />
                 )}
             </div>
-        </section>
+        </PageContainer>
     );
 }

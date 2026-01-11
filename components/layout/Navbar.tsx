@@ -5,7 +5,7 @@ import * as Popover from "@radix-ui/react-popover";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
@@ -97,6 +97,8 @@ export default function Navbar() {
                         alt={"Brand Logo"}
                         width={0}
                         height={0}
+                        preload
+                        loading="eager"
                         sizes="100px"
                         style={{ width: "100px", height: "auto" }}
                         className="object-contain"

@@ -41,9 +41,7 @@ export default function RootLayout({
                 <Providers>
                     <CartProvider>
                         <Navbar />
-                        <main className="container max-w-6xl px-4 mx-auto">
-                            {children}
-                        </main>
+                        <main>{children}</main>
                         <Toaster position="bottom-right" />
                         <Footer />
                     </CartProvider>

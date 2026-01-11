@@ -36,7 +36,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
                         <button
                             key={img}
                             onClick={() => setActiveImage(img)}
-                            className={`relative h-20 w-20 rounded-md overflow-hidden
+                            className={`relative border h-20 w-20 rounded-md overflow-hidden
                 ${activeImage === img ? "ring-2 ring-offset-2" : ""}
               `}
                         >

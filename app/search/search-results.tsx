@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useMemo } from "react";
 import ProductCard from "@/components/product/ProductCard";
 import { Product } from "../types";
+import PageContainer from "@/components/ui/PageContainer";
 
 const CATEGORIES = ["Hoodies", "Sweatshirts", "Joggers"];
 
@@ -38,7 +39,7 @@ export default function SearchResults({ products }: { products: Product[] }) {
     };
 
     return (
-        <div className="max-w-6xl mx-auto py-8 min-h-[calc(100vh-64px)] grid grid-cols-12 gap-6">
+        <PageContainer className="grid grid-cols-12 gap-6">
             {/* Sidebar */}
             <aside className="hidden md:block col-span-3">
                 <div className="space-y-6">
@@ -101,7 +102,7 @@ export default function SearchResults({ products }: { products: Product[] }) {
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-lg font-semibold">
-                        Searching for “{query}”
+                        Search results for “{query}”
                     </h1>
                     <p className="text-sm text-gray-600">
                         {filteredProducts.length}{" "}
@@ -120,6 +121,6 @@ export default function SearchResults({ products }: { products: Product[] }) {
                     </div>
                 )}
             </section>
-        </div>
+        </PageContainer>
     );
 }

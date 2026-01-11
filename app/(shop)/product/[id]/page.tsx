@@ -17,9 +17,5 @@ export default async function CheckoutPage({ params }: Props) {
         notFound();
     }
 
-    return (
-        <main className="min-h-[calc(100vh-64px)] w-full flex items-center justify-center">
-            <ProductClient product={product} />
-        </main>
-    );
+    return <ProductClient product={product} />;
 }

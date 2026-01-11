@@ -2,8 +2,9 @@ import ProductCard from "@/components/product/ProductCard";
 import { getProducts } from "@/lib/getProducts";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { Product } from "../types/product";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { Product } from "../../types/product";
+import PageContainer from "@/components/ui/PageContainer";
 
 export default async function ShopPage() {
     const session = await getServerSession(authOptions);
@@ -15,7 +16,7 @@ export default async function ShopPage() {
     const products = await getProducts();
 
     return (
-        <section className="py-8">
+        <PageContainer>
             <h1 className="mb-4 text-4xl font-semibold">Products Catalog</h1>
             <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
                 {products ? (
@@ -33,6 +34,6 @@ export default async function ShopPage() {
                     </>
                 )}
             </div>
-        </section>
+        </PageContainer>
     );
 }

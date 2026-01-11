@@ -3,6 +3,7 @@
 import ProductImageGallery from "@/components/product/ProductImageGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
 import { BackButton } from "@/components/ui/BackButton";
+import PageContainer from "@/components/ui/PageContainer";
 import { formatMoney } from "@/lib/formatMoney";
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
 
 export default function ProductClient({ product }: Props) {
     return (
-        <section className="grid gap-8 py-8 md:grid-cols-2 w-full">
+        <PageContainer className="grid gap-8 py-8 md:grid-cols-2 w-full">
             {/* Image */}
             <ProductImageGallery images={product.images} alt={product.name} />
 
@@ -31,6 +32,6 @@ export default function ProductClient({ product }: Props) {
                 {/* Quantity + Add to cart */}
                 <ProductPurchase product={product} />
             </div>
-        </section>
+        </PageContainer>
     );
 }

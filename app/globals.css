@@ -23,3 +23,8 @@
         border-color: var(--color-gray-200, currentColor);
     }
 }
+
+/* Chrome, Safari, Edge */
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}

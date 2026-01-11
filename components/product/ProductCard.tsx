@@ -37,10 +37,10 @@ export default function ProductCard({ product }: Props) {
 
             {/* Product Info */}
             <div className="flex flex-col p-3 space-y-6 sm:p-4 grow">
-                <div className="truncate grow text-ellipsis">
+                <div className="truncate grow text-ellipsis text-wrap ">
                     <Link
                         href={`/product/${product.id}`}
-                        className="block text-xs font-medium truncate text-ellipsis text-wrap hover:underline text sm:text-sm"
+                        className="block text-xs font-medium w-fit hover:underline text sm:text-sm"
                     >
                         {product.name}
                     </Link>

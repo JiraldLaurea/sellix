@@ -3,6 +3,7 @@
 import OrderBreakdown from "@/components/order/OrderBreakdown";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import PageContainer from "@/components/ui/PageContainer";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import { useRouter } from "nextjs-toploader/app";
@@ -118,7 +119,8 @@ export default function SuccessClient({
        PAID / FULFILLED
     ====================================================== */
     return (
-        <section className="min-h-[calc(100vh-64px)] flex items-center justify-center py-8">
+        // <section className="min-h-[calc(100vh-64px)] flex items-center justify-center py-8">
+        <PageContainer className="flex items-center justify-center">
             <div className="flex flex-col items-center w-full max-w-xl space-y-6 text-center">
                 <div className="space-y-4">
                     <div className="flex flex-col items-center space-y-2">
@@ -181,6 +183,6 @@ export default function SuccessClient({
 
                 {/* Actions */}
             </div>
-        </section>
+        </PageContainer>
     );
 }

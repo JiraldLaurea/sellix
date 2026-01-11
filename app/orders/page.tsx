@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { OrderItem } from "../types";
+import PageContainer from "@/components/ui/PageContainer";
 
 export default async function OrdersPage() {
     const session = await getServerSession(authOptions);
@@ -44,7 +45,7 @@ export default async function OrdersPage() {
     type Order = (typeof orders)[number];
 
     return (
-        <section className="max-w-3xl py-10 mx-auto">
+        <PageContainer className="max-w-3xl!">
             <h1 className="mb-6 text-4xl font-semibold">Your Orders</h1>
 
             <div className="space-y-4">
@@ -92,6 +93,6 @@ export default async function OrdersPage() {
                     </Link>
                 ))}
             </div>
-        </section>
+        </PageContainer>
     );
 }
