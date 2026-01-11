@@ -52,7 +52,8 @@ export default function Navbar() {
 
                         <input
                             ref={searchInputRef}
-                            type="text"
+                            type="search"
+                            enterKeyHint="search"
                             placeholder="Search products"
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
@@ -112,7 +113,8 @@ export default function Navbar() {
 
                         {/* Input */}
                         <input
-                            type="text"
+                            type="search"
+                            enterKeyHint="search"
                             placeholder="Search products"
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
