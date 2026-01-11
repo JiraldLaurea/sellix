@@ -12,7 +12,7 @@ export default async function ShopPage() {
         redirect("/login");
     }
 
-    const products = await getProducts(20);
+    const products = await getProducts();
 
     return (
         <section className="py-8">

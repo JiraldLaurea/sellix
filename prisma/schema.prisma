@@ -145,16 +145,31 @@ model Product {
   id          String     @id @default(cuid())
   name        String
   description String?
-  price       Int        // stored in cents
+  price       Int        
   stock       Int
 
-  images      String[]   // simple approach for now
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id])
+
+  images      String[]   
 
   cartItems   CartItem[]
   orderItems  OrderItem[]
 
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+
+  @@index([categoryId])
+}
+
+model Category {
+  id        String    @id
+  name      String    @unique
+  image     String?
+  products  Product[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 

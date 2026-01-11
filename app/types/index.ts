@@ -4,9 +4,19 @@ export type Product = {
     id: string;
     name: string;
     price: number;
-    description: string | null; // ✅ FIX
+    description: string | null;
     stock: number;
     images: string[];
+    categoryId: string; // ✅ foreign key
+    category: Category; // ✅ relation
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+export type Category = {
+    id: string;
+    name: string;
+    image: string | null;
     createdAt: Date;
     updatedAt: Date;
 };
