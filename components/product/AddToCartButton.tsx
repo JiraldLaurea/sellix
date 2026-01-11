@@ -2,11 +2,11 @@
 
 import { Product } from "@/app/types/product";
 import { useCart } from "@/lib/cart-context";
-import { addToCart } from "@/lib/cart/add-to-cart";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { toast } from "sonner";
+import { Spinner } from "../ui/Spinner";
 
 type ButtonType = "regular" | "mini";
 
@@ -25,31 +25,23 @@ export default function AddToCartButton({
 }: AddToCartButtonProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const { refreshCart } = useCart();
-
-    function delay(ms: number) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-    }
+    const { state, addToCart, refreshCart } = useCart();
 
     async function handleAddToCart() {
         setLoading(true);
 
-        const MIN_LOADING_TIME = 800; // ms
-
-        const [result] = await Promise.all([
-            addToCart(product.id, quantity),
-            delay(MIN_LOADING_TIME),
-        ]);
+        const result = await addToCart(product.id, quantity);
 
         setLoading(false);
 
+        // Check for errors
         if (!result.success) {
-            if (result.status === 401) {
+            if (result.reason === "unauthorized") {
                 router.push("/login");
                 return;
             }
 
-            if (result.error === "Max stock reached") {
+            if (result.reason === "max_stock") {
                 toast.error("You've reached the maximum available stock");
                 return;
             }
@@ -58,7 +50,6 @@ export default function AddToCartButton({
             return;
         }
 
-        await refreshCart();
         toast.success("Added to cart");
     }
 
@@ -85,14 +76,14 @@ export default function AddToCartButton({
         <button
             disabled={disabled || loading}
             onClick={handleAddToCart}
-            className={`rounded-md h-10 text-sm bg-accent text-white hover:bg-gray-800 w-full sm:max-w-50 transition disabled:opacity-50 disabled:hover:bg-accent
+            className={`rounded-md h-10 text-sm bg-accent text-white hover:bg-gray-800 w-full sm:max-w-50 transition-colors disabled:opacity-15 disabled:hover:bg-accent
             ${className}`}
         >
             {product.stock === 0 ? (
                 "Out of stock"
             ) : loading ? (
                 <div className="flex items-center justify-center h-full">
-                    <div className="w-4 h-4 border-2 border-white rounded-full animate-spin border-t-transparent" />
+                    <Spinner />
                 </div>
             ) : (
                 "Add to Cart"
