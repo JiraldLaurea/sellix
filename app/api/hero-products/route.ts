@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const TARGET_PRODUCTS = [
     "Rolex Cellini Moonphase",
-    "iPhone 13 Pro",
+    "iPhone X",
     "Apple Airpods",
 ];
 

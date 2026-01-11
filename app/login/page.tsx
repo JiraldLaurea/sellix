@@ -33,7 +33,7 @@ export default function LoginPage() {
     }
 
     return (
-        <section className="flex flex-col items-center justify-center min-h-screen space-y-6">
+        <section className="flex flex-col items-center justify-center min-h-screen px-4 space-y-6">
             <Image
                 src={"/img/brand_logo.png"}
                 alt={"Brand Logo"}
