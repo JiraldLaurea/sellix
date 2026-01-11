@@ -4,14 +4,12 @@ import ProductImageGallery from "@/components/product/ProductImageGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
 import { BackButton } from "@/components/ui/BackButton";
 import { formatMoney } from "@/lib/formatMoney";
-import { useRouter } from "next/navigation";
 
 type Props = {
     product: any;
 };
 
 export default function ProductClient({ product }: Props) {
-    const router = useRouter();
     return (
         <section className="grid gap-8 py-8 md:grid-cols-2">
             {/* Image */}
