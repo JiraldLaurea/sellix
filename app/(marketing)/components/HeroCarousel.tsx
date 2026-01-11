@@ -6,17 +6,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Product } from "@/app/types";
 import PageContainer from "@/components/ui/PageContainer";
-
-const TARGET_PRODUCTS = [
-    "Rolex Cellini Moonphase",
-    "iPhone 13 Pro",
-    "Apple Airpods",
-];
+import { useRouter } from "nextjs-toploader/app";
 
 export default function HeroCarousel() {
     const [emblaRef] = useEmblaCarousel({ loop: true, align: "center" }, [
         Autoplay({ delay: 3000 }),
     ]);
+    const router = useRouter();
 
     const [products, setProducts] = useState<Product[]>([]);
 
@@ -60,7 +56,14 @@ export default function HeroCarousel() {
                                         {product.description}
                                     </p>
 
-                                    <button className="rounded-lg bg-blue-500 px-6 py-3 font-semibold hover:bg-blue-600 transition">
+                                    <button
+                                        onClick={() =>
+                                            router.push(
+                                                `/product/${product.id}`
+                                            )
+                                        }
+                                        className="rounded-lg bg-blue-500 px-6 py-3 font-semibold hover:bg-blue-600 transition"
+                                    >
                                         Shop now
                                     </button>
                                 </div>

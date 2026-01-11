@@ -12,7 +12,7 @@ export function Container({ children, className }: ContainerProps) {
                 ${
                     className
                         ? `${className}`
-                        : "max-w-xl sm:p-8 my-8 sm:border"
+                        : "max-w-xl px-4 sm:p-8 my-8 sm:border"
                 }`}
         >
             {children}
