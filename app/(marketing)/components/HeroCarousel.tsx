@@ -9,9 +9,19 @@ import PageContainer from "@/components/ui/PageContainer";
 import { useRouter } from "nextjs-toploader/app";
 
 export default function HeroCarousel() {
-    const [emblaRef] = useEmblaCarousel({ loop: true, align: "center" }, [
-        Autoplay({ delay: 3000 }),
-    ]);
+    const [emblaRef] = useEmblaCarousel(
+        {
+            loop: true,
+            align: "center",
+        },
+        [
+            Autoplay({
+                delay: 3000,
+                stopOnInteraction: false,
+                stopOnMouseEnter: false,
+            }),
+        ]
+    );
     const router = useRouter();
 
     const [products, setProducts] = useState<Product[]>([]);
@@ -44,7 +54,7 @@ export default function HeroCarousel() {
                             <div className="flex px-4 max-w-6xl md:space-y-0 pb-8 md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
                                 {/* LEFT */}
                                 <div className="space-y-6">
-                                    <span className="inline-block rounded-full bg-blue-500 px-4 py-1 text-sm font-semibold">
+                                    <span className="inline-block rounded-full bg-white text-black px-4 py-1 text-sm font-semibold">
                                         Opening Sale 50%
                                     </span>
 
