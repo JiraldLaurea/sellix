@@ -20,8 +20,8 @@ export default function Navbar() {
     const itemCount = state.items.length;
 
     return (
-        <header className="block border-b sticky top-0 z-50 h-16 bg-white">
-            <div className="container mx-auto px-4 max-w-6xl h-full flex items-center justify-between">
+        <header className="sticky top-0 z-50 block h-16 bg-white border-b">
+            <div className="container flex items-center justify-between h-full max-w-6xl px-4 mx-auto">
                 <div className="">
                     {/* Logo */}
                     <Link href="/">
@@ -40,14 +40,14 @@ export default function Navbar() {
                 {/* Right controls */}
                 <div className="flex items-center gap-4">
                     {/* Mobile menu */}
-                    {/* <MobileMenu /> */}
 
                     {/* Cart */}
                     <Popover.Root>
                         <Popover.Trigger asChild>
                             <Link
                                 href="/cart"
-                                className="relative w-10 h-10 hover:bg-gray-100 rounded-lg flex items-center justify-center transition"
+                                prefetch
+                                className="relative flex items-center justify-center w-10 h-10 transition rounded-lg hover:bg-gray-100"
                             >
                                 <HiOutlineShoppingBag size={30} />
                                 {itemCount > 0 && (
