@@ -1,4 +1,4 @@
-import { useRouter } from "nextjs-toploader/app";
+import { useRouter } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 
 type Props = {
