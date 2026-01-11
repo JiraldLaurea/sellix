@@ -46,6 +46,7 @@ export default function Navbar() {
                         <Popover.Trigger asChild>
                             <Link
                                 href="/cart"
+                                prefetch
                                 className="relative flex items-center justify-center w-10 h-10 transition rounded-lg hover:bg-gray-100"
                             >
                                 <HiOutlineShoppingBag size={30} />
