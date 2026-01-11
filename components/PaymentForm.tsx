@@ -5,7 +5,7 @@ import {
     useElements,
     useStripe,
 } from "@stripe/react-stripe-js";
-import { useRouter } from "nextjs-toploader/app";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./ui/Button";
 

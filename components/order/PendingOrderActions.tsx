@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "nextjs-toploader/app";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "../ui/Button";
 

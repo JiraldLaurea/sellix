@@ -9,7 +9,7 @@ import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "nextjs-toploader/app";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { CartItem } from "../types";
