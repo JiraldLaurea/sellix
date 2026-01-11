@@ -51,3 +51,8 @@ export type CartItem = {
 export type CartState = {
     items: CartItem[];
 };
+
+export type AddToCartResult = {
+    success: boolean;
+    reason?: "unauthorized" | "max_stock" | "unknown";
+};
