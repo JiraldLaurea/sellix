@@ -5,41 +5,145 @@ import * as Popover from "@radix-ui/react-popover";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import AccountMenu from "../navbar/AccountMenu";
 
 export default function Navbar() {
     const { state } = useCart();
     const { status } = useSession();
+    const [searchInput, setSearchInput] = useState<string>("");
+    const [isSearchOpened, setIsSearchOpened] = useState<boolean>(false);
 
-    // Hide navbar if not authenticated
+    const router = useRouter();
+
+    const handleSearch = () => {
+        if (!searchInput.trim()) return;
+
+        router.push(`/search?q=${encodeURIComponent(searchInput.trim())}`);
+    };
+
+    const itemCount = state.items.length;
+
+    const searchInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect((): any => {
+        // Hide navbar if not authenticated
+        // ✅ Render nothing visually, but DO NOT return early
+
+        if (isSearchOpened) {
+            searchInputRef.current?.focus();
+        }
+    }, [isSearchOpened]);
+
     if (status !== "authenticated") {
         return null;
     }
 
-    const itemCount = state.items.length;
-
     return (
         <header className="sticky top-0 z-50 block h-16 bg-white border-b">
-            <div className="container flex items-center justify-between h-full max-w-6xl px-4 mx-auto">
-                <div className="">
-                    {/* Logo */}
-                    <Link href="/">
-                        <Image
-                            src={"/img/brand_logo.png"}
-                            alt={"Brand Logo"}
-                            width={0}
-                            height={0}
-                            sizes="100px"
-                            style={{ width: "100px", height: "auto" }}
-                            className="object-contain"
+            {/* Mobile Search Overlay */}
+            {isSearchOpened && (
+                <div className="absolute space-x-2 flex items-center px-4 inset-0 z-50 bg-white sm:hidden">
+                    <div className="flex grow border rounded-full items-center h-13 px-4 gap-2">
+                        <IoSearchOutline size={22} className="text-gray-500" />
+
+                        <input
+                            ref={searchInputRef}
+                            type="text"
+                            placeholder="Search products"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleSearch();
+                                    setIsSearchOpened(false);
+                                }
+                            }}
+                            className="flex-1 h-11 text-sm focus:outline-none"
                         />
-                    </Link>
+                        {searchInput && (
+                            <div
+                                onClick={() => {
+                                    setSearchInput("");
+                                    searchInputRef.current?.focus();
+                                }}
+                                className="bg-accent text-white rounded-full p-0.5 cursor-pointer"
+                            >
+                                <IoCloseOutline size={20} />
+                            </div>
+                        )}
+                    </div>
+                    <button
+                        onClick={() => {
+                            setSearchInput("");
+                            setIsSearchOpened(false);
+                        }}
+                        className="w-13 h-13 border flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+                    >
+                        <IoCloseOutline size={30} />
+                    </button>
+                </div>
+            )}
+
+            <div className="container grid grid-cols-2 sm:grid-cols-[100px_1fr_100px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
+                {/* Left controls */}
+                <Link href="/" className="w-fit">
+                    <Image
+                        src={"/img/brand_logo.png"}
+                        alt={"Brand Logo"}
+                        width={0}
+                        height={0}
+                        sizes="100px"
+                        style={{ width: "100px", height: "auto" }}
+                        className="object-contain"
+                    />
+                </Link>
+
+                {/* Middle controls */}
+                <div className="flex-1 sm:flex justify-center hidden ">
+                    <div className="w-full max-w-md flex items-center h-11 p-1 pl-4 border overflow-hidden focus-within:outline-2 rounded-full">
+                        {/* Search icon */}
+                        <div className="pr-2 text-gray-500">
+                            <IoSearchOutline size={22} />
+                        </div>
+
+                        {/* Input */}
+                        <input
+                            type="text"
+                            placeholder="Search products"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleSearch();
+                                }
+                            }}
+                            className="grow flex-1 h-full text-sm focus:outline-none"
+                        />
+
+                        {/* Clear input */}
+                        <div
+                            onClick={() => setSearchInput("")}
+                            className={`${
+                                searchInput.trim() ? "block" : "hidden"
+                            } w-9 h-9 flex items-center justify-center  text-black hover:bg-gray-100 rounded-full cursor-pointer`}
+                        >
+                            <IoCloseOutline size={22} />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Right controls */}
-                <div className="flex items-center gap-4">
-                    {/* Mobile menu */}
+                <div className="flex items-center gap-3 justify-end">
+                    <div
+                        onClick={() => setIsSearchOpened(true)}
+                        className="relative sm:hidden cursor-pointer flex items-center justify-center w-10 h-10 transition rounded-lg hover:bg-gray-100"
+                    >
+                        <IoSearchOutline size={30} />
+                    </div>
 
                     {/* Cart */}
                     <Popover.Root>
