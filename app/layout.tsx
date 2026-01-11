@@ -31,13 +31,13 @@ export default function RootLayout({
                 />
             </head>
             <body className={`min-h-screen font-inter`}>
-                {/* <NextTopLoader
+                <NextTopLoader
                     color="black"
                     height={2}
                     crawl
                     shadow="none"
                     showSpinner={false}
-                /> */}
+                />
                 <Providers>
                     <CartProvider>
                         <Navbar />
