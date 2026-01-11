@@ -8,6 +8,7 @@ import {
 import { useRouter } from "nextjs-toploader/app";
 import { useState } from "react";
 import { Button } from "./ui/Button";
+import { Spinner } from "./ui/Spinner";
 
 export default function PaymentForm({ orderNumber }: { orderNumber: string }) {
     const stripe = useStripe();
@@ -60,7 +61,7 @@ export default function PaymentForm({ orderNumber }: { orderNumber: string }) {
             <PaymentElement />
             {error && <p className="text-red-500">{error}</p>}
             <Button buttonType="submit" disabled={!stripe || loading}>
-                {loading ? "Processing…" : "Pay now"}
+                {loading ? <Spinner /> : "Pay now"}
             </Button>
         </form>
     );

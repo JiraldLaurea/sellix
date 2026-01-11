@@ -5,6 +5,7 @@ import PaymentForm from "@/components/PaymentForm";
 import StripeProvider from "@/components/StripeProvider";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { Spinner } from "@/components/ui/Spinner";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import { useRouter } from "nextjs-toploader/app";
@@ -181,7 +182,7 @@ export default function CheckoutClient() {
                             router.push(`/orders/${pendingOrder}/pay`);
                         }}
                     >
-                        {loading ? "Preparing Payment…" : "Continue Payment"}
+                        {loading ? <Spinner /> : "Continue Payment"}
                     </Button>
 
                     <div className="flex flex-col items-center gap-3 sm:flex-row">
@@ -190,9 +191,11 @@ export default function CheckoutClient() {
                             disabled={cancelling || loading}
                             onClick={handleCancelOrder}
                         >
-                            {cancelling
-                                ? "Cancelling…"
-                                : "Cancel and Start New"}
+                            {cancelling ? (
+                                <Spinner borderColor="border-black" />
+                            ) : (
+                                "Cancel and Start New"
+                            )}
                         </Button>
                         <Button
                             variant="secondary"
@@ -253,7 +256,7 @@ export default function CheckoutClient() {
                         onClick={handleCheckout}
                         disabled={loading}
                     >
-                        {loading ? "Preparing payment…" : "Proceed to Payment"}
+                        {loading ? <Spinner /> : "Proceed to Payment"}
                     </Button>
                 </>
             )}

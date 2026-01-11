@@ -5,6 +5,7 @@ import OrderBreakdown from "@/components/order/OrderBreakdown";
 import { BackButton } from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { Spinner } from "@/components/ui/Spinner";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
@@ -27,6 +28,7 @@ export default function CartClient({ cart }: CartClientProps) {
     const [loading, setLoading] = useState<boolean>(false);
     const { refreshCart, clearCart, state, updateQuantity, hydrateCart } =
         useCart();
+    const [clearingCart, setClearingCart] = useState(false);
 
     const items = state.items;
 
@@ -35,6 +37,12 @@ export default function CartClient({ cart }: CartClientProps) {
             hydrateCart(cart.items);
         }
     }, []);
+
+    async function handleClearCart() {
+        setClearingCart(true);
+        await clearCart();
+        setClearingCart(false);
+    }
 
     if (items.length === 0) {
         return (
@@ -98,11 +106,17 @@ export default function CartClient({ cart }: CartClientProps) {
                             })`}
                         </h1>
                         <button
-                            onClick={clearCart}
-                            className="flex items-center h-10 px-4 space-x-1 text-sm text-white transition-colors rounded-lg bg-accent hover:bg-gray-700"
+                            disabled={clearingCart}
+                            onClick={handleClearCart}
+                            className="disabled:opacity-15 flex items-center h-10 w-31.25 justify-center space-x-2 text-sm text-white transition-colors rounded-lg bg-accent disabled:hover:bg-accent hover:bg-gray-700"
                         >
-                            <HiOutlineTrash size={18} />
-                            <p>Clear Cart</p>
+                            {clearingCart ? (
+                                <Spinner />
+                            ) : (
+                                <HiOutlineTrash size={18} />
+                            )}
+
+                            {clearingCart ? "" : <p>Clear Cart </p>}
                         </button>
                     </div>
                     <div className="overflow-x-auto">
@@ -205,14 +219,14 @@ export default function CartClient({ cart }: CartClientProps) {
                         removeTopBorder
                     />
                     <Button
-                        disabled={loading}
+                        disabled={loading || clearingCart}
                         className="mt-4"
                         onClick={() => {
                             setLoading(true);
                             router.push("/checkout");
                         }}
                     >
-                        {loading ? "Preparing Checkout…" : "Checkout"}
+                        {loading ? <Spinner /> : "Checkout"}
                     </Button>
                 </Container>
             </div>
