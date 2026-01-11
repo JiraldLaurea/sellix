@@ -1,17 +1,22 @@
 "use client";
 
-import { CartItem, CartState } from "@/app/types";
+import { AddToCartResult, CartItem, CartState } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const CartContext = createContext<{
     state: CartState;
+    addToCart: (
+        productId: string,
+        quantity: number
+    ) => Promise<AddToCartResult>;
     refreshCart: () => Promise<void>;
     clearCart: () => Promise<void>;
     updateQuantity: (cartItemId: string, quantity: number) => void;
     hydrateCart: (items: CartItem[]) => void;
 }>({
     state: { items: [] },
+    addToCart: async () => ({ success: false }),
     refreshCart: async () => {},
     clearCart: async () => {},
     updateQuantity: () => {},
@@ -27,6 +32,39 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const hydrateCart = (items: CartItem[]) => {
         setState({ items });
+    };
+
+    const addToCart = async (
+        productId: string,
+        quantity: number
+    ): Promise<AddToCartResult> => {
+        const res = await fetch("/api/cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId, quantity }),
+        });
+
+        // Force visible loading state
+        await delay(500);
+
+        if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+
+            if (res.status === 401) {
+                return { success: false, reason: "unauthorized" };
+            }
+
+            if (data.error === "Max stock reached") {
+                return { success: false, reason: "max_stock" };
+            }
+
+            return { success: false, reason: "unknown" };
+        }
+
+        // Sync cart after success
+        await refreshCart();
+
+        return { success: true };
     };
 
     const refreshCart = async () => {
@@ -89,6 +127,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         <CartContext.Provider
             value={{
                 state,
+                addToCart,
                 refreshCart,
                 clearCart,
                 updateQuantity,
