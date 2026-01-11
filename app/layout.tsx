@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { Providers } from "./providers";
 import Footer from "@/components/layout/Footer";
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
     icons: {
@@ -30,6 +31,13 @@ export default function RootLayout({
                 />
             </head>
             <body className={`min-h-screen font-inter`}>
+                <NextTopLoader
+                    color="black"
+                    height={2}
+                    crawl
+                    shadow="none"
+                    showSpinner={false}
+                />
                 <Providers>
                     <CartProvider>
                         <Navbar />

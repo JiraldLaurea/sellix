@@ -9,21 +9,10 @@ import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
-
-type CartItem = {
-    id: string;
-    quantity: number;
-    product: {
-        id: string;
-        name: string;
-        price: number;
-        stock: number;
-        images: string[];
-    };
-};
+import { CartItem } from "../types";
 
 type Cart = {
     items: CartItem[];
@@ -163,11 +152,11 @@ export default function CartClient({ cart }: CartClientProps) {
                                             <div className="truncate">
                                                 <Link
                                                     href={`/product/${item.product.id}`}
-                                                    className="font-medium hover:underline"
+                                                    className="font-medium sm:text-lg hover:underline"
                                                 >
                                                     {item.product.name}
                                                 </Link>
-                                                <p className="text-sm text-gray-500">
+                                                <p className="text-sm text-gray-500 sm:text-base">
                                                     {formatMoney(
                                                         item.product.price
                                                     )}
@@ -175,7 +164,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                             </div>
                                             <div className="flex flex-row items-end justify-between sm:flex-col sm:items-end grow">
                                                 {/* Subtotal */}
-                                                <p className="flex items-center h-10 font-medium sm:h-auto">
+                                                <p className="flex items-center h-10 font-medium sm:text-lg sm:h-auto">
                                                     {formatMoney(
                                                         item.product.price *
                                                             item.quantity
