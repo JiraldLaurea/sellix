@@ -27,10 +27,19 @@ export default function AddToCartButton({
     const [loading, setLoading] = useState(false);
     const { refreshCart } = useCart();
 
+    function delay(ms: number) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     async function handleAddToCart() {
         setLoading(true);
 
-        const result = await addToCart(product.id, quantity);
+        const MIN_LOADING_TIME = 800; // ms
+
+        const [result] = await Promise.all([
+            addToCart(product.id, quantity),
+            delay(MIN_LOADING_TIME),
+        ]);
 
         setLoading(false);
 
