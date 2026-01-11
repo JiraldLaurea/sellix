@@ -3,6 +3,8 @@
 import { AddToCartResult, CartItem, CartState } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import { delay } from "./delay";
 
 const CartContext = createContext<{
     state: CartState;
@@ -80,8 +82,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             method: "DELETE",
         });
 
+        // Force visible loading state
+        await delay(800);
+
         // Immediate UI response
         setState({ items: [] });
+
+        toast.success("Cart Cleared Successfully");
 
         // Full refresh is OK here (rare action)
         router.refresh();
