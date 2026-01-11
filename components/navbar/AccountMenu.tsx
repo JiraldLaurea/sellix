@@ -20,7 +20,7 @@ export default function AccountMenu() {
 
             <Popover.Content
                 align="end"
-                sideOffset={8}
+                sideOffset={0}
                 className="p-2 bg-white border rounded-lg shadow-md w-60 focus:outline-none"
             >
                 <div className="flex flex-col items-center px-4 pt-2 space-y-2 text-center">

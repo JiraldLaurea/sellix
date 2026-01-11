@@ -11,7 +11,7 @@ type Props = {
 
 export default function ProductClient({ product }: Props) {
     return (
-        <section className="grid gap-8 py-8 md:grid-cols-2">
+        <section className="grid gap-8 py-8 md:grid-cols-2 w-full">
             {/* Image */}
             <ProductImageGallery images={product.images} alt={product.name} />
 
