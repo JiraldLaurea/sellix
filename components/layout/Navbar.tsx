@@ -62,7 +62,7 @@ export default function Navbar() {
                                     setIsSearchOpened(false);
                                 }
                             }}
-                            className="flex-1 h-11 text-sm focus:outline-none"
+                            className="flex-1 h-11 sm:text-sm focus:outline-none"
                         />
                         {searchInput && (
                             <div
@@ -81,7 +81,7 @@ export default function Navbar() {
                             setSearchInput("");
                             setIsSearchOpened(false);
                         }}
-                        className="w-13 h-13 border flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+                        className="w-11 h-11 border flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
                     >
                         <IoCloseOutline size={30} />
                     </button>
