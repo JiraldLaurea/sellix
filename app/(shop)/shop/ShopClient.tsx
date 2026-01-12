@@ -2,8 +2,6 @@
 
 import ProductCard from "@/components/product/ProductCard";
 import PageContainer from "@/components/ui/PageContainer";
-import { useEffect, useRef } from "react";
-import { useInView } from "react-intersection-observer";
 import { Product } from "../../types/product";
 
 type ShopClientProps = {
