@@ -1,6 +1,6 @@
 "use client";
+import { showWarningToast } from "@/lib/toast/showWarningToast";
 import { FaMinus, FaPlus } from "react-icons/fa6";
-import { toast } from "sonner";
 
 type Props = {
     quantity: number;
@@ -22,7 +22,7 @@ export default function QuantityPicker({ quantity, max, onChange }: Props) {
         }
         // Show toast when max quantity is reached
         else {
-            toast.error("You've reached the maximum available stock");
+            showWarningToast("You've reached the maximum available stock");
         }
     };
 

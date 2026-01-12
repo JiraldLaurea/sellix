@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Product } from "@/app/types/product";
 import QuantityPicker from "@/components/cart/QuantityPicker";
 import AddToCartButton from "@/components/product/AddToCartButton";
-import { Product } from "@/app/types/product";
-import { toast } from "sonner";
 import { useCart } from "@/lib/cart-context";
+import { showWarningToast } from "@/lib/toast/showWarningToast";
+import { useState } from "react";
 
 type Props = {
     product: Product;
@@ -24,7 +24,8 @@ export default function ProductPurchase({ product }: Props) {
     const handleQuantityChange = (next: number) => {
         if (remainingStock === 0) {
             setQuantity(0);
-            toast.error("No more stock available");
+            showWarningToast("No more stock available");
+
             return;
         }
 
@@ -35,7 +36,7 @@ export default function ProductPurchase({ product }: Props) {
 
         if (next > remainingStock) {
             setQuantity(remainingStock);
-            toast.error("No more stock available");
+            showWarningToast("No more stock available");
             return;
         }
         setQuantity(next);

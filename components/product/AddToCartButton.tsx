@@ -2,10 +2,11 @@
 
 import { Product } from "@/app/types/product";
 import { useCart } from "@/lib/cart-context";
+import { showSuccessToast } from "@/lib/toast/showSuccessToast";
+import { showWarningToast } from "@/lib/toast/showWarningToast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
-import { toast } from "sonner";
 import { Spinner } from "../ui/Spinner";
 
 type ButtonType = "regular" | "mini";
@@ -25,7 +26,7 @@ export default function AddToCartButton({
 }: AddToCartButtonProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
-    const { state, addToCart, refreshCart } = useCart();
+    const { addToCart } = useCart();
 
     async function handleAddToCart() {
         setLoading(true);
@@ -42,15 +43,17 @@ export default function AddToCartButton({
             }
 
             if (result.reason === "max_stock") {
-                toast.error("You've reached the maximum available stock");
+                showWarningToast("You've reached the maximum available stock");
+
                 return;
             }
 
-            toast.error("Unable to add to cart");
+            showWarningToast("You've reached the maximum available stock");
+
             return;
         }
 
-        toast.success("Added to cart");
+        showSuccessToast("Added to Cart", `${product.name}`);
     }
 
     const disabled = product.stock === 0 || loading;

@@ -8,9 +8,9 @@ import { Container } from "@/components/ui/Container";
 import { Spinner } from "@/components/ui/Spinner";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
+import { showSuccessToast } from "@/lib/toast/showSuccessToast";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 export default function CheckoutClient() {
     const { state } = useCart();
@@ -63,7 +63,7 @@ export default function CheckoutClient() {
         setPendingItems([]);
         setPendingTotal(0);
         setCancelling(false);
-        toast.success("Order Cancelled Successfully");
+        showSuccessToast("Order Cancelled Successfully");
     }
 
     /* ======================================================

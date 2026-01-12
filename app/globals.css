@@ -28,3 +28,17 @@
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
 }
+
+:root {
+    --toastify-color-success: black;
+    --toastify-color-progress-success: black;
+    --toastify-color-progress-warning: #ff6900;
+    --toastify-color-progress-error: #e7000b;
+    --toastify-toast-bd-radius: 8px !important;
+    --toastify-toast-padding: 0px;
+    --toastify-toast-min-height: 0px;
+}
+
+.Toastify__toast {
+    border-radius: 8px !important;
+}

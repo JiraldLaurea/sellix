@@ -3,8 +3,8 @@
 import { AddToCartResult, CartItem, CartState } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import { delay } from "./delay";
+import { showSuccessToast } from "./toast/showSuccessToast";
 
 const CartContext = createContext<{
     state: CartState;
@@ -88,7 +88,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         // Immediate UI response
         setState({ items: [] });
 
-        toast.success("Cart Cleared Successfully");
+        showSuccessToast("Cart Cleared Successfully");
 
         // Full refresh is OK here (rare action)
         router.refresh();

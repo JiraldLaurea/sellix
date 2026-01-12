@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { showSuccessToast } from "@/lib/toast/showSuccessToast";
 import { useRouter } from "nextjs-toploader/app";
-import { toast } from "sonner";
+import { useState } from "react";
 import { Button } from "../ui/Button";
 import { Spinner } from "../ui/Spinner";
 
@@ -23,7 +23,8 @@ export default function PendingOrderActions({
             method: "POST",
         });
 
-        toast.success("Order Cancelled Successfully");
+        showSuccessToast("Order Cancelled Successfully");
+
         router.push("/orders/");
     }
 

@@ -1,18 +1,19 @@
-import "./globals.css";
+import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import { CartProvider } from "@/lib/cart-context";
 import type { Metadata } from "next";
-import { Toaster } from "sonner";
-import { Providers } from "./providers";
-import Footer from "@/components/layout/Footer";
 import NextTopLoader from "nextjs-toploader";
+import { ToastContainer } from "react-toastify";
+import "./globals.css";
+
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
     icons: {
         icon: "/favicon.ico",
     },
     title: "Sellix",
-    description: "Sellix - Quality in every order",
+    description: "Quality in every order",
 };
 
 export default function RootLayout({
@@ -30,7 +31,7 @@ export default function RootLayout({
                     rel="stylesheet"
                 />
             </head>
-            <body className={`min-h-screen font-inter`}>
+            <body className={`min-h-screen font-inter!`}>
                 <NextTopLoader
                     color="black"
                     height={2}
@@ -42,8 +43,11 @@ export default function RootLayout({
                     <CartProvider>
                         <Navbar />
                         <main>{children}</main>
-                        <Toaster position="bottom-right" />
                         <Footer />
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={3000}
+                        />
                     </CartProvider>
                 </Providers>
             </body>
