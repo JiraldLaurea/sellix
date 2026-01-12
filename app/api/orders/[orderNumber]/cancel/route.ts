@@ -16,8 +16,6 @@ export async function POST(
 
     const { orderNumber } = await context.params;
 
-    console.log("PARRAMS", orderNumber);
-
     const order = await prisma.order.findFirst({
         where: {
             orderNumber: orderNumber,

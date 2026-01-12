@@ -33,7 +33,6 @@ export default function HeroCarousel() {
 
             const data = await res.json();
 
-            console.log("DATA", data);
             setProducts(data);
         }
 
