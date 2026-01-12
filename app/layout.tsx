@@ -48,7 +48,8 @@ export default function RootLayout({
                             position="bottom-right"
                             autoClose={2500}
                             className="w-[calc(100vw-32px)]! xs:w-80! xs:left-auto! left-4! xs:right-6! xs:bottom-2! bottom-4!"
-                            toastClassName="xs:w-full!"
+                            toastClassName="xs:w-full! rounded-none!"
+                            closeOnClick={true}
                         />
                     </CartProvider>
                 </Providers>

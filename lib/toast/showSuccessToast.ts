@@ -7,7 +7,6 @@ export function showSuccessToast(
     options?: ToastOptions
 ) {
     toast.success(CustomToasterSuccess(title, description), {
-        closeOnClick: true,
         closeButton: false,
         icon: false,
         ...options,

@@ -53,7 +53,7 @@ export default function AddToCartButton({
             return;
         }
 
-        showSuccessToast("Added to Cart", `${product.name}`);
+        showSuccessToast("Item Added to Cart", `${product.name}`);
     }
 
     const disabled = product.stock === 0 || loading;
@@ -79,7 +79,7 @@ export default function AddToCartButton({
         <button
             disabled={disabled || loading}
             onClick={handleAddToCart}
-            className={`rounded-md h-10 text-sm bg-accent text-white hover:bg-gray-800 w-full sm:max-w-50 transition-colors disabled:opacity-15 disabled:hover:bg-accent
+            className={`rounded-lg h-12 text-sm bg-accent text-white hover:bg-neutral-700 w-full sm:max-w-30 transition-colors disabled:opacity-15 disabled:hover:bg-accent
             ${className}`}
         >
             {product.stock === 0 ? (
