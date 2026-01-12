@@ -16,24 +16,25 @@ export default function OrderDetailsClient({ order }: any) {
     return (
         <PageContainer className="max-w-3xl!">
             <BackButton text="Orders" href="/orders" />
-            <div className="flex items-center justify-between mt-4 mb-6">
-                <div>
-                    <h1 className="text-lg font-semibold sm:text-2xl">
-                        Order #{order.orderNumber}
-                    </h1>
-                    <p className="text-sm text-gray-500">
-                        Placed on:{" "}
-                        {new Date(order.createdAt).toLocaleDateString()}
-                    </p>
+            <div className="flex items-center justify-between my-4">
+                <div className="w-full space-y-2">
+                    <div>
+                        <h1 className="text-lg font-semibold sm:text-2xl">
+                            Order #{order.orderNumber}
+                        </h1>
+                        <p className="text-sm text-gray-500">
+                            Placed on:{" "}
+                            {new Date(order.createdAt).toLocaleDateString()}
+                        </p>
+                    </div>
+                    <span
+                        className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full border ${getStatusStyles(
+                            order.status
+                        )}`}
+                    >
+                        {order.status}
+                    </span>
                 </div>
-
-                <span
-                    className={`px-2 sm:px-3 py-1 text-xs sm:text-sm rounded-full border ${getStatusStyles(
-                        order.status
-                    )}`}
-                >
-                    {order.status}
-                </span>
             </div>
 
             <Container className="w-full sm:p-8 sm:border">

@@ -51,7 +51,7 @@ export default function HeroCarousel() {
                             key={product.id}
                             className="flex-[0_0_100%] flex h-full! items-center justify-center"
                         >
-                            <div className="flex px-4 md:px-8 max-w-6xl md:space-y-0  md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
+                            <div className="flex px-4 md:px-4 max-w-6xl md:space-y-0  md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
                                 {/* LEFT */}
                                 <div className="space-y-6">
                                     <span className="inline-block rounded-full bg-white text-black px-4 py-1 text-sm font-semibold">
