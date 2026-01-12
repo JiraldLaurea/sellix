@@ -1,18 +1,20 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-const TARGET_PRODUCTS = [
+const FEATURED_PRODUCTS = [
     "Rolex Cellini Moonphase",
     "iPhone X",
     "Apple Airpods",
+    "Gucci Bloom Eau de",
 ];
 
 export async function GET() {
     const products = await prisma.product.findMany({
         where: {
-            name: { in: TARGET_PRODUCTS },
+            name: { in: FEATURED_PRODUCTS },
         },
-        take: 3,
+        orderBy: { name: "asc" },
+        take: 4,
     });
 
     return NextResponse.json(products);
