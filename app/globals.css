@@ -6,6 +6,9 @@
     --font-inter: "Inter", sans-serif;
     --font-inter-tight: "Inter Tight", sans-serif;
     --color-accent: #000000;
+    --breakpoint-xs: 30rem;
+    --breakpoint-2xl: 100rem;
+    --breakpoint-3xl: 120rem;
 }
 
 /* Base styles */
