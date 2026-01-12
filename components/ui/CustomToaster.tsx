@@ -2,7 +2,7 @@ import { IoIosCheckmarkCircle, IoIosWarning } from "react-icons/io";
 
 export const CustomToasterSuccess = (text: string, productName?: string) => {
     return (
-        <div className="w-full cursor-pointer hover:bg-gray-100 transition-colors font-inter rounded-lg h-full border  space-x-2 px-3 pb-4 pt-3 flex items-center text-sm">
+        <div className="cursor-pointer w-full hover:bg-gray-100 transition-colors font-inter rounded-lg h-full border  space-x-2 px-3 pb-4 pt-3 flex items-center text-sm">
             <IoIosCheckmarkCircle size={32} className="text-black" />
             <div className="truncate ">
                 <h3 className={`text-black`}>{text}</h3>

@@ -46,7 +46,9 @@ export default function RootLayout({
                         <Footer />
                         <ToastContainer
                             position="bottom-right"
-                            autoClose={3000}
+                            autoClose={2500}
+                            className="w-[calc(100vw-24px)]! xs:w-80! xs:left-auto! left-3! xs:right-6! xs:bottom-2! bottom-2!"
+                            toastClassName="w-[calc(100vw-24px)]! xs:w-full!"
                         />
                     </CartProvider>
                 </Providers>
