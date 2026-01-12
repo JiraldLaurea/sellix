@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Product } from "@/app/types";
 import PageContainer from "@/components/ui/PageContainer";
 import { useRouter } from "nextjs-toploader/app";
+import { Button } from "@/components/ui/Button";
 
 export default function HeroCarousel() {
     const [emblaRef] = useEmblaCarousel(
@@ -51,7 +52,7 @@ export default function HeroCarousel() {
                             key={product.id}
                             className="flex-[0_0_100%] flex h-full! items-center justify-center"
                         >
-                            <div className="flex px-4 max-w-6xl md:space-y-0 pb-8 md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
+                            <div className="flex px-4 md:px-8 max-w-6xl md:space-y-0  md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
                                 {/* LEFT */}
                                 <div className="space-y-6">
                                     <span className="inline-block rounded-full bg-white text-black px-4 py-1 text-sm font-semibold">
@@ -65,17 +66,16 @@ export default function HeroCarousel() {
                                     <p className="text-gray-300 line-clamp-3">
                                         {product.description}
                                     </p>
-
-                                    <button
+                                    <Button
                                         onClick={() =>
                                             router.push(
                                                 `/product/${product.id}`
                                             )
                                         }
-                                        className="rounded-lg bg-blue-500 px-6 py-3 font-semibold hover:bg-blue-600 transition"
+                                        className="bg-blue-500 text-base! w-fit! h-12 font-semibold hover:bg-blue-600!"
                                     >
                                         Shop now
-                                    </button>
+                                    </Button>
                                 </div>
 
                                 {/* RIGHT */}

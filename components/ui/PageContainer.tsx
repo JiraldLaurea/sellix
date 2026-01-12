@@ -8,7 +8,7 @@ export default function PageContainer({
     return (
         // flex flex-col items-center justify-center text-center space-y-6
         <div
-            className={`container max-w-6xl px-4 mx-auto min-h-[calc(100vh-64px)] py-4 sm:py-8 ${className}`}
+            className={`container max-w-6xl px-4 mx-auto min-h-[calc(100vh-64px)] py-8 ${className}`}
         >
             {children}
         </div>
