@@ -41,7 +41,7 @@ export default function ProductCard({ product }: Props) {
                 <div className="truncate grow text-ellipsis text-wrap ">
                     <Link
                         href={`/product/${product.id}`}
-                        className="block text-xs font-medium w-fit hover:underline text sm:text-sm"
+                        className="block text-xs w-fit hover:underline text sm:text-sm"
                     >
                         {product.name}
                     </Link>

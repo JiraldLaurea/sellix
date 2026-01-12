@@ -37,14 +37,14 @@ export default function LoginPage() {
         <PageContainer className="py-0!">
             <section className="flex flex-col items-center justify-center min-h-screen space-y-6">
                 <Image
-                    src={"/img/brand_logo.png"}
+                    src={"/img/brand_logo_light.png"}
                     alt={"Brand Logo"}
                     width={0}
                     height={0}
                     preload
                     loading="eager"
                     sizes="100vw"
-                    style={{ width: "200px", height: "auto" }}
+                    style={{ width: "250px", height: "auto" }}
                     className="object-contain"
                 />
                 <Container className="px-0 sm:p-8 max-w-lg sm:border ">

@@ -15,7 +15,7 @@ const Avatar = ({ session, hasDefaultCursor, width, height }: AvatarProps) => {
             width={width}
             height={height}
             alt="Avatar"
-            className={`rounded-full border  ${
+            className={`rounded-full ${
                 session?.user.image === undefined && "border"
             } ${hasDefaultCursor ? "cursor-default" : "cursor-pointer"}`}
         />

@@ -30,9 +30,6 @@ export default function Navbar() {
     const searchInputRef = useRef<HTMLInputElement>(null);
 
     useEffect((): any => {
-        // Hide navbar if not authenticated
-        // ✅ Render nothing visually, but DO NOT return early
-
         if (isSearchOpened) {
             searchInputRef.current?.focus();
         }
@@ -49,7 +46,6 @@ export default function Navbar() {
                 <div className="absolute space-x-2 flex items-center px-4 inset-0 z-50 bg-white sm:hidden">
                     <div className="flex grow border rounded-full items-center h-13 px-4 gap-2">
                         <IoSearchOutline size={22} className="text-gray-500" />
-
                         <input
                             ref={searchInputRef}
                             type="search"
@@ -89,25 +85,27 @@ export default function Navbar() {
                 </div>
             )}
 
-            <div className="container grid grid-cols-2 sm:grid-cols-[100px_1fr_100px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
+            <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_100px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
                 {/* Left controls */}
                 <Link href="/" className="w-fit">
                     <Image
-                        src={"/img/brand_logo.png"}
+                        src={"/img/brand_logo_light.png"}
                         alt={"Brand Logo"}
                         width={0}
                         height={0}
                         preload
                         loading="eager"
-                        sizes="100px"
-                        style={{ width: "100px", height: "auto" }}
-                        className="object-contain"
+                        sizes="120px"
+                        style={{ width: "120px", height: "auto" }}
+                        className="object-contain transition-none"
                     />
                 </Link>
 
                 {/* Middle controls */}
                 <div className="flex-1 sm:flex justify-center hidden ">
-                    <div className="w-full max-w-md flex items-center h-11 p-1 pl-4 border overflow-hidden focus-within:outline-2 rounded-full">
+                    <div
+                        className={`w-full max-w-md flex items-center h-11 p-1 pl-4 border overflow-hidden rounded-full`}
+                    >
                         {/* Search icon */}
                         <div className="pr-2 text-gray-500">
                             <IoSearchOutline size={22} />
@@ -125,7 +123,7 @@ export default function Navbar() {
                                     handleSearch();
                                 }
                             }}
-                            className="grow flex-1 h-full text-sm focus:outline-none"
+                            className={`grow flex-1 h-full text-sm focus:outline-none placeholder:text-neutral-600"`}
                         />
 
                         {/* Clear input */}

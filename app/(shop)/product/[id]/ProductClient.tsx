@@ -12,7 +12,7 @@ type Props = {
 
 export default function ProductClient({ product }: Props) {
     return (
-        <PageContainer className="grid gap-8 py-8 md:grid-cols-2 w-full">
+        <PageContainer className="grid gap-8 py-8 md:grid-cols-2 w-full items-center">
             {/* Image */}
             <ProductImageGallery images={product.images} alt={product.name} />
 

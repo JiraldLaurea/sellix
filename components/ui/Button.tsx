@@ -26,10 +26,10 @@ export function Button({
             type={buttonType}
             onClick={onClick}
             disabled={disabled}
-            className={`w-full rounded-lg text-sm px-6 h-11  transition-colors flex items-center justify-center gap-2
+            className={`w-full rounded-lg text-sm px-6 h-12 transition-colors flex items-center justify-center gap-2
                 ${
                     variant === "primary"
-                        ? "bg-accent disabled:opacity-15 text-white hover:bg-gray-700 disabled:hover:bg-accent"
+                        ? "bg-accent disabled:opacity-15 text-white hover:bg-neutral-700 disabled:hover:bg-accent"
                         : "border hover:bg-gray-100 disabled:hover:bg-inherit disabled:opacity-50"
                 }
                 ${className}`}

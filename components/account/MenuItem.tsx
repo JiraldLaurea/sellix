@@ -14,11 +14,11 @@ export function MenuItem({
             <Link
                 onClick={onClick}
                 href={href}
-                className={`flex items-center space-x-3 w-full rounded-lg px-2 py-1.5 transition-colors hover:bg-gray-100 focus:outline-none 
+                className={`flex items-center space-x-1 w-full px-2 py-1.5 transition-colors hover:bg-gray-100 focus:outline-none 
                     ${extraClassName}`}
             >
-                <div className={`p-2 border rounded-md bg-white`}>
-                    <div className="relative w-4 h-4">
+                <div className={`p-2`}>
+                    <div className="relative w-5 h-5">
                         <Icon className="w-full h-full" />
                     </div>
                 </div>

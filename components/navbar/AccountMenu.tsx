@@ -14,16 +14,16 @@ export default function AccountMenu() {
 
     return (
         <Popover.Root>
-            <Popover.Trigger className="focus:outline-none">
+            <Popover.Trigger className="focus:outline-none select-none">
                 <Avatar width={40} height={40} session={session} />
             </Popover.Trigger>
 
             <Popover.Content
                 align="end"
                 sideOffset={0}
-                className="p-2 bg-white border rounded-lg shadow-md w-60 focus:outline-none"
+                className=" bg-white pb-3 border rounded-lg shadow-md w-60 focus:outline-none"
             >
-                <div className="flex flex-col items-center px-4 pt-2 space-y-2 text-center">
+                <div className="flex flex-col items-center px-4 pt-4 space-y-2 text-center">
                     <Avatar
                         width={50}
                         height={50}
@@ -38,9 +38,7 @@ export default function AccountMenu() {
                     </div>
                 </div>
 
-                <div className="px-2">
-                    <hr className="mt-5 mb-3" />
-                </div>
+                <hr className="mt-5 mb-3" />
 
                 <MenuItem
                     Icon={LucideReceiptText}
@@ -58,9 +56,7 @@ export default function AccountMenu() {
                     text="Profile"
                 />
 
-                <div className="px-2">
-                    <hr className="my-3" />
-                </div>
+                <hr className="my-3" />
 
                 <MenuItem
                     onClick={() =>

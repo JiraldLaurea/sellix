@@ -34,7 +34,7 @@ export default async function OrdersPage() {
                 <h1 className="mb-4 text-2xl">No orders yet</h1>
                 <Link
                     href="/"
-                    className="inline-block px-6 py-3 text-white transition rounded-md bg-accent hover:bg-gray-800"
+                    className="inline-block px-6 py-3 text-white transition rounded-md bg-accent hover:bg-neutral-700"
                 >
                     Start shopping
                 </Link>

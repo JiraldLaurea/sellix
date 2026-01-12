@@ -16,6 +16,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
 
     return (
         <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+            {/* SELECTED IMAGE */}
             <div className="relative overflow-hidden bg-gray-100 rounded-md grow aspect-square">
                 <Image
                     src={activeImage}
@@ -28,7 +29,8 @@ export default function ProductImageGallery({ images, alt }: Props) {
                 />
             </div>
 
-            <div className="flex gap-3 md:flex-col">
+            {/* IMAGE GALLERY */}
+            <div className="flex p-1 md:pt-1 md:pl-1 select-none gap-3 md:flex-col overflow-x-auto md:pr-4 md:max-h-112 w-[calc(100vw-46px)] md:w-fit md:overflow-y-auto md:overflow-visible">
                 {images.map((img) => {
                     const isLoaded = loadedImages[img];
 
@@ -36,7 +38,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
                         <button
                             key={img}
                             onClick={() => setActiveImage(img)}
-                            className={`relative border h-20 w-20 rounded-md overflow-hidden
+                            className={`relative focus:outline-none border flex-none h-20 w-20 rounded-md overflow-hidden
                 ${activeImage === img ? "ring-2 ring-offset-2" : ""}
               `}
                         >
