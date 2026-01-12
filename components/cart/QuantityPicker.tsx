@@ -30,7 +30,7 @@ export default function QuantityPicker({ quantity, max, onChange }: Props) {
 
     return (
         <div className="relative flex gap-1">
-            <div className="flex p-1 items-center overflow-hidden border rounded-full w-fit">
+            <div className="flex px-1 h-11 items-center overflow-hidden border rounded-full w-fit">
                 <button
                     onClick={decrement}
                     disabled={quantity <= 1 || isDisabled}

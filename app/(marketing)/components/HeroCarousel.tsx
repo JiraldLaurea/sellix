@@ -55,7 +55,7 @@ export default function HeroCarousel() {
                                 {/* LEFT */}
                                 <div className="space-y-6">
                                     <span className="inline-block rounded-full bg-white text-black px-4 py-1 text-sm font-semibold">
-                                        Opening Sale 50%
+                                        Opening Sale 50% Discount
                                     </span>
 
                                     <h1 className="text-3xl md:text-5xl font-bold leading-tight">
