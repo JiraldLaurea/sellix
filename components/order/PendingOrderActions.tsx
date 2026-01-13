@@ -23,9 +23,8 @@ export default function PendingOrderActions({
             method: "POST",
         });
 
-        showSuccessToast("Order Cancelled Successfully");
-
         router.push("/orders/");
+        showSuccessToast("Order Cancelled Successfully");
     }
 
     return (
