@@ -7,18 +7,22 @@ import { delay } from "./delay";
 
 const CartContext = createContext<{
     state: CartState;
+    loading: boolean;
     addToCart: (
         productId: string,
         quantity: number
     ) => Promise<AddToCartResult>;
     refreshCart: () => Promise<void>;
+    removeCartItem: (cartItemId: string) => Promise<void>;
     clearCart: () => Promise<void>;
     updateQuantity: (cartItemId: string, quantity: number) => void;
     hydrateCart: (items: CartItem[]) => void;
 }>({
     state: { items: [] },
+    loading: false,
     addToCart: async () => ({ success: false }),
     refreshCart: async () => {},
+    removeCartItem: async () => {},
     clearCart: async () => {},
     updateQuantity: () => {},
     hydrateCart: () => {},
@@ -27,6 +31,7 @@ const CartContext = createContext<{
 export function CartProvider({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const [state, setState] = useState<CartState>({ items: [] });
+    const [loading, setLoading] = useState<boolean>(true);
 
     // 🔁 Debounce timer for quantity sync
     const syncTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -69,11 +74,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     };
 
     const refreshCart = async () => {
-        const res = await fetch("/api/cart", { cache: "no-store" });
+        const res = await fetch("/api/cart", {
+            next: { revalidate: 0 }, // Disable caching
+        });
+
         const data = await res.json();
-        if (data?.items) {
-            setState({ items: data.items });
-        }
+        setState({ items: data?.items ?? [] });
+        setLoading(false);
+    };
+
+    const removeCartItem = async (cartItemId: string) => {
+        // Optimistic UI
+        setState((prev) => ({
+            ...prev,
+            items: prev.items.filter((i) => i.id !== cartItemId),
+        }));
+
+        await fetch("/api/cart", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cartItemId }),
+        });
     };
 
     const clearCart = async () => {
@@ -131,8 +152,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         <CartContext.Provider
             value={{
                 state,
+                loading,
                 addToCart,
                 refreshCart,
+                removeCartItem,
                 clearCart,
                 updateQuantity,
                 hydrateCart,
