@@ -1,9 +1,7 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { SideMenuItem } from "@/components/account/side-menu-item";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
     MdFavorite,
     MdFavoriteBorder,
@@ -23,8 +21,6 @@ export default function AccountSideMenu({
     orderCount = 0,
     favoritesCount = 0,
 }: Props) {
-    const pathname = usePathname();
-
     const dashboardLinks = [
         {
             label: "Orders",
@@ -52,89 +48,34 @@ export default function AccountSideMenu({
     ];
 
     return (
-        <aside className="w-64 sticky top-24 shrink-0 rounded-lg border bg-white h-fit p-4 hidden lg:block">
-            <h2 className="text-xs text-gray-500 px-3 pt-3 mb-2 font-medium">
+        <aside className="w-64 sticky top-24 shrink-0 rounded-lg border bg-white h-fit py-4 hidden lg:block">
+            <h2 className="text-xs text-gray-500 px-5 pt-3 mb-2 font-medium">
                 DASHBOARD
             </h2>
 
-            <ul className="space-y-1">
-                {dashboardLinks.map((link) => {
-                    const isActive =
-                        pathname === link.href ||
-                        pathname.startsWith(`${link.href}/`);
+            <ul>
+                {dashboardLinks.map((link) => (
+                    <SideMenuItem key={link.href} {...link} />
+                ))}
 
-                    const Icon = isActive ? link.activeIcon : link.icon;
+                <hr className="my-4" />
 
-                    return (
-                        <li key={link.href}>
-                            <Link
-                                href={link.href}
-                                className={cn(
-                                    "flex items-center gap-3 rounded-lg text-gray-500 hover:text-black px-3 py-2 text-sm hover:transition-colors hover:bg-gray-100",
-                                    isActive &&
-                                        "bg-gray-100 text-black hover:transition-none"
-                                )}
-                            >
-                                <Icon
-                                    className={cn("h-5 w-5", isActive && "")}
-                                />
-                                <span className="flex-1">{link.label}</span>
-
-                                {link.count !== undefined && (
-                                    <span
-                                        className={cn(
-                                            "text-xs text-gray-500",
-                                            isActive && ""
-                                        )}
-                                    >
-                                        {link.count}
-                                    </span>
-                                )}
-                            </Link>
-                        </li>
-                    );
-                })}
-
-                <hr className="my-3" />
-
-                <h2 className="text-xs text-gray-500 px-3 pt-3 mb-2 font-medium">
+                <h2 className="text-xs text-gray-500 px-5 pt-3 mb-2 font-medium">
                     ACCOUNT
                 </h2>
 
-                {accountLinks.map((link) => {
-                    const isActive =
-                        pathname === link.href ||
-                        pathname.startsWith(`${link.href}/`);
+                {accountLinks.map((link) => (
+                    <SideMenuItem key={link.href} {...link} />
+                ))}
 
-                    const Icon = isActive ? link.activeIcon : link.icon;
+                <hr className="mt-4 mb-6" />
 
-                    return (
-                        <li key={link.href}>
-                            <Link
-                                href={link.href}
-                                className={cn(
-                                    "flex items-center gap-3 rounded-lg text-gray-500 hover:text-black px-3 py-2 text-sm hover:transition-colors hover:bg-gray-100",
-                                    isActive &&
-                                        "bg-gray-100 text-black hover:transition-none"
-                                )}
-                            >
-                                <Icon
-                                    className={cn("h-5 w-5", isActive && "")}
-                                />
-                                <span className="flex-1">{link.label}</span>
-                            </Link>
-                        </li>
-                    );
-                })}
-
-                <hr className="my-3" />
-
-                <li>
+                <li className="px-4">
                     <button
                         onClick={() => signOut({ callbackUrl: "/login" })}
-                        className="flex hover:text-black w-full items-center gap-3 rounded-lg text-gray-500 px-3 py-2 text-sm transition hover:bg-gray-100"
+                        className="flex border bg-accent text-white justify-center w-full items-center gap-2 rounded-lg px-3 h-12 text-sm hover:bg-neutral-700 transition-colors"
                     >
-                        <MdLogout className="h-5 w-5 " />
+                        <MdLogout className="h-5 w-5" />
                         <span>Sign out</span>
                     </button>
                 </li>

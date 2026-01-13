@@ -117,7 +117,7 @@ export default function CartClient({ cart }: CartClientProps) {
                         <button
                             disabled={clearingCart}
                             onClick={handleClearCart}
-                            className="disabled:opacity-15 flex items-center h-12 w-31.25 justify-center space-x-2 text-sm text-white transition-colors rounded-lg bg-accent disabled:hover:bg-accent hover:bg-neutral-700"
+                            className="disabled:opacity-15 flex items-center h-10 w-31.25 justify-center space-x-2 text-sm text-white transition-colors rounded-lg bg-accent disabled:hover:bg-accent hover:bg-neutral-700"
                         >
                             {clearingCart ? (
                                 <Spinner />
