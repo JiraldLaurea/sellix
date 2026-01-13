@@ -1,8 +1,8 @@
 "use client";
 
+import { Product } from "@/app/types";
 import ProductCard from "@/components/product/ProductCard";
 import PageContainer from "@/components/ui/PageContainer";
-import { Product } from "../../types/product";
 
 type ShopClientProps = {
     products: Product[];
