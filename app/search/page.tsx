@@ -1,10 +1,10 @@
-import { Suspense } from "react";
-import { getProducts } from "@/lib/getProducts";
-import SearchResults from "./search-results";
 import PageContainer from "@/components/ui/PageContainer";
+import { getAllProducts } from "@/lib/getAllProducts";
+import { Suspense } from "react";
+import SearchResults from "./search-results";
 
 export default async function SearchPage() {
-    const products = await getProducts();
+    const products = await getAllProducts();
 
     return (
         <Suspense fallback={<SearchSkeleton />}>
