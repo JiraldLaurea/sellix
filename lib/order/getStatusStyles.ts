@@ -1,7 +1,7 @@
 export default function getStatusStyles(status: string) {
     switch (status) {
         case "PAID":
-            return "bg-green-100 text-green-600 border-green-500";
+            return "bg-green-50 text-green-600";
         case "PENDING":
             return "bg-amber-100 text-amber-600 border-amber-500";
         case "FAILED":
