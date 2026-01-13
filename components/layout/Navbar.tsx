@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "@/lib/cart-context";
+import { useCart, useCartCount } from "@/lib/cart-context";
 import * as Popover from "@radix-ui/react-popover";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -12,8 +12,7 @@ import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import AccountMenu from "../navbar/AccountMenu";
 
 export default function Navbar() {
-    const { state } = useCart();
-    const { status } = useSession();
+    const { status } = useSession({ required: false });
     const [searchInput, setSearchInput] = useState<string>("");
     const [isSearchOpened, setIsSearchOpened] = useState<boolean>(false);
 
@@ -25,7 +24,7 @@ export default function Navbar() {
         router.push(`/search?q=${encodeURIComponent(searchInput.trim())}`);
     };
 
-    const itemCount = state.items.length;
+    const itemCount = useCartCount();
 
     const searchInputRef = useRef<HTMLInputElement>(null);
 

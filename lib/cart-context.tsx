@@ -3,10 +3,18 @@
 import { AddToCartResult, CartItem, CartState } from "@/app/types";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { delay } from "./delay";
 
-const CartContext = createContext<{
+type CartContextType = {
     state: CartState;
     loading: boolean;
     addToCart: (
@@ -18,84 +26,88 @@ const CartContext = createContext<{
     clearCart: () => Promise<void>;
     updateQuantity: (cartItemId: string, quantity: number) => void;
     hydrateCart: (items: CartItem[]) => void;
-}>({
-    state: { items: [] },
-    loading: false,
-    addToCart: async () => ({ success: false }),
-    refreshCart: async () => {},
-    removeCartItem: async () => {},
-    clearCart: async () => {},
-    updateQuantity: () => {},
-    hydrateCart: () => {},
-});
+};
+
+const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const [state, setState] = useState<CartState>({ items: [] });
-    const [loading, setLoading] = useState<boolean>(true);
     const { status } = useSession();
 
+    const [state, setState] = useState<CartState>({ items: [] });
+    const [loading, setLoading] = useState(true);
+
+    // 🔁 Debounce timer for quantity sync
+    const syncTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    // Fetch cart when user becomes authenticated
     useEffect(() => {
         if (status === "authenticated") {
             refreshCart();
         }
     }, [status]);
 
-    // 🔁 Debounce timer for quantity sync
-    const syncTimeout = useRef<NodeJS.Timeout | null>(null);
+    // Cleanup debounce timer on unmount / HMR
+    useEffect(() => {
+        return () => {
+            if (syncTimeout.current) clearTimeout(syncTimeout.current);
+        };
+    }, []);
 
-    const hydrateCart = (items: CartItem[]) => {
+    const hydrateCart = useCallback((items: CartItem[]) => {
         setState({ items });
         setLoading(false);
-    };
+    }, []);
 
-    const refreshCart = async () => {
+    const refreshCart = useCallback(async () => {
         const res = await fetch("/api/cart", {
-            next: { revalidate: 0 }, // Disable caching
+            cache: "no-store", // Disable caching
         });
 
         const data = await res.json();
         setState({ items: data?.items ?? [] });
         setLoading(false);
-    };
+    }, []);
 
-    const addToCart = async (
-        productId: string,
-        quantity: number
-    ): Promise<AddToCartResult> => {
-        const res = await fetch("/api/cart", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ productId, quantity }),
-        });
+    const addToCart = useCallback(
+        async (
+            productId: string,
+            quantity: number
+        ): Promise<AddToCartResult> => {
+            const res = await fetch("/api/cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ productId, quantity }),
+            });
 
-        // Force visible loading state
-        await delay(500);
+            // Force visible loading state
+            await delay(350);
 
-        if (!res.ok) {
-            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
 
-            if (res.status === 401) {
-                return { success: false, reason: "unauthorized" };
+                if (res.status === 401) {
+                    return { success: false, reason: "unauthorized" };
+                }
+
+                if (data.error === "Max stock reached") {
+                    return { success: false, reason: "max_stock" };
+                }
+
+                return { success: false, reason: "unknown" };
             }
 
-            if (data.error === "Max stock reached") {
-                return { success: false, reason: "max_stock" };
-            }
+            // Sync cart after success
+            await refreshCart();
 
-            return { success: false, reason: "unknown" };
-        }
+            return { success: true };
+        },
+        [refreshCart]
+    );
 
-        // Sync cart after success
-        await refreshCart();
-
-        return { success: true };
-    };
-
-    const removeCartItem = async (cartItemId: string) => {
+    const removeCartItem = useCallback(async (cartItemId: string) => {
         // Optimistic UI
         setState((prev) => ({
-            ...prev,
             items: prev.items.filter((i) => i.id !== cartItemId),
         }));
 
@@ -104,9 +116,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ cartItemId }),
         });
-    };
+    }, []);
 
-    const clearCart = async () => {
+    const clearCart = useCallback(async () => {
         await fetch("/api/cart/clear", {
             method: "DELETE",
         });
@@ -119,55 +131,77 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
         // Full refresh is OK here (rare action)
         router.refresh();
-    };
+    }, [router]);
 
     // Optimistic + debounced quantity update
-    const updateQuantity = (cartItemId: string, quantity: number) => {
-        // 1️⃣ Optimistic UI update
-        setState((prev) => ({
-            ...prev,
-            items: prev.items.map((item) =>
-                item.id === cartItemId ? { ...item, quantity } : item
-            ),
-        }));
+    const updateQuantity = useCallback(
+        (cartItemId: string, quantity: number) => {
+            // 1️⃣ Optimistic UI update
+            setState((prev) => ({
+                items: prev.items.map((item) =>
+                    item.id === cartItemId ? { ...item, quantity } : item
+                ),
+            }));
 
-        // 2️⃣ Debounced server sync
-        if (syncTimeout.current) {
-            clearTimeout(syncTimeout.current);
-        }
-
-        syncTimeout.current = setTimeout(async () => {
-            const res = await fetch("/api/cart", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ cartItemId, quantity }),
-            });
-
-            // Rollback on failure
-            if (!res.ok) {
-                await refreshCart();
+            // 2️⃣ Debounced server sync
+            if (syncTimeout.current) {
+                clearTimeout(syncTimeout.current);
             }
-        }, 400);
-    };
+
+            syncTimeout.current = setTimeout(async () => {
+                const res = await fetch("/api/cart", {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ cartItemId, quantity }),
+                });
+
+                // Rollback on failure
+                if (!res.ok) {
+                    await refreshCart();
+                }
+            }, 400);
+        },
+        [refreshCart]
+    );
+
+    const value = useMemo(
+        () => ({
+            state,
+            loading,
+            addToCart,
+            refreshCart,
+            removeCartItem,
+            clearCart,
+            updateQuantity,
+            hydrateCart,
+        }),
+        [
+            state,
+            loading,
+            addToCart,
+            refreshCart,
+            removeCartItem,
+            clearCart,
+            updateQuantity,
+            hydrateCart,
+        ]
+    );
 
     return (
-        <CartContext.Provider
-            value={{
-                state,
-                loading,
-                addToCart,
-                refreshCart,
-                removeCartItem,
-                clearCart,
-                updateQuantity,
-                hydrateCart,
-            }}
-        >
-            {children}
-        </CartContext.Provider>
+        <CartContext.Provider value={value}>{children}</CartContext.Provider>
     );
 }
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => {
+    const ctx = useContext(CartContext);
+    if (!ctx) throw new Error("useCart must be used within CartProvider");
+    return ctx;
+};
+
+// ✅ Selector (use this in Navbar)
+export const useCartCount = () => {
+    const { state } = useCart();
+    return state.items.length;
+};
