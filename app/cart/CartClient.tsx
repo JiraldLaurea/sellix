@@ -92,7 +92,7 @@ export default function CartClient({ cart }: CartClientProps) {
         <PageContainer>
             {/* Back */}
             <BackButton text="Back" />
-            <div className="flex flex-col gap-6 mt-4 lg:flex-row">
+            <div className="flex flex-col sm:gap-6 mt-4 lg:flex-row">
                 {/* LEFT: ITEMS */}
                 <div className="grow">
                     <div className="flex items-center justify-between mb-2">
@@ -207,7 +207,7 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <Container className="p-4 border lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
+                <Container className="p-0 sm:border border-t rounded-none sm:rounded-lg pt-6 lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
                     {/* <div className="p-8 text-sm border rounded-lg h-fit sm:sticky sm:top-24"> */}
                     <h2 className="mb-4 text-2xl font-semibold">Summary</h2>
                     <OrderBreakdown
