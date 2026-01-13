@@ -35,9 +35,7 @@ export default function Navbar() {
         }
     }, [isSearchOpened]);
 
-    if (status !== "authenticated") {
-        return null;
-    }
+    if (status === "unauthenticated") return null;
 
     return (
         <header className="sticky top-0 z-50 block h-16 bg-white border-b">
@@ -85,7 +83,7 @@ export default function Navbar() {
                 </div>
             )}
 
-            <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_100px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
+            <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
                 {/* Left controls */}
                 <Link href="/" className="w-fit">
                     <Image

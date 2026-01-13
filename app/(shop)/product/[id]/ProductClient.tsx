@@ -1,16 +1,13 @@
 "use client";
 
+import { Product } from "@/app/types";
 import ProductImageGallery from "@/components/product/ProductImageGallery";
 import ProductPurchase from "@/components/product/ProductPurchase";
 import { BackButton } from "@/components/ui/BackButton";
 import PageContainer from "@/components/ui/PageContainer";
 import { formatMoney } from "@/lib/formatMoney";
 
-type Props = {
-    product: any;
-};
-
-export default function ProductClient({ product }: Props) {
+export default function ProductClient({ product }: { product: Product }) {
     return (
         <PageContainer className="grid gap-8 py-8 md:grid-cols-2 w-full items-center">
             {/* Image */}

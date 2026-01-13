@@ -6,9 +6,7 @@ export default function Footer() {
     const { status } = useSession();
 
     // Hide footer if not authenticated
-    if (status !== "authenticated") {
-        return null;
-    }
+    if (status === "unauthenticated") return null;
 
     return (
         <div className="flex justify-center py-10 border-t bg-gray-50">
