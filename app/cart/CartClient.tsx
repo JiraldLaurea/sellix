@@ -27,9 +27,21 @@ type CartClientProps = {
 
 export default function CartClient({ cart }: CartClientProps) {
     const router = useRouter();
-    const { state, loading, removeCartItem, clearCart, updateQuantity } =
-        useCart();
+    const {
+        state,
+        loading,
+        hydrateCart,
+        removeCartItem,
+        clearCart,
+        updateQuantity,
+    } = useCart();
     const [clearingCart, setClearingCart] = useState(false);
+
+    useEffect(() => {
+        if (state.items.length === 0 && cart?.items) {
+            hydrateCart(cart.items);
+        }
+    }, [cart]);
 
     const items = state.items;
 
