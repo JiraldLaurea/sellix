@@ -11,7 +11,7 @@ const FEATURED_PRODUCTS = [
 export async function GET() {
     const products = await prisma.product.findMany({
         where: {
-            name: { in: FEATURED_PRODUCTS },
+            name: { in: FEATURED_PRODUCTS, mode: "insensitive" },
         },
         orderBy: { name: "asc" },
         take: 4,
