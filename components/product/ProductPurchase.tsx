@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "@/app/types/product";
+import { Product } from "@/app/types";
 import QuantityPicker from "@/components/cart/QuantityPicker";
 import AddToCartButton from "@/components/product/AddToCartButton";
 import { useCart } from "@/lib/cart-context";
