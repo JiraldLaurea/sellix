@@ -1,6 +1,7 @@
 "use client";
 
 import { AddToCartResult, CartItem, CartState } from "@/app/types";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { delay } from "./delay";
@@ -32,12 +33,30 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const [state, setState] = useState<CartState>({ items: [] });
     const [loading, setLoading] = useState<boolean>(true);
+    const { status } = useSession();
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            refreshCart();
+        }
+    }, [status]);
 
     // 🔁 Debounce timer for quantity sync
     const syncTimeout = useRef<NodeJS.Timeout | null>(null);
 
     const hydrateCart = (items: CartItem[]) => {
         setState({ items });
+        setLoading(false);
+    };
+
+    const refreshCart = async () => {
+        const res = await fetch("/api/cart", {
+            next: { revalidate: 0 }, // Disable caching
+        });
+
+        const data = await res.json();
+        setState({ items: data?.items ?? [] });
+        setLoading(false);
     };
 
     const addToCart = async (
@@ -71,16 +90,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         await refreshCart();
 
         return { success: true };
-    };
-
-    const refreshCart = async () => {
-        const res = await fetch("/api/cart", {
-            next: { revalidate: 0 }, // Disable caching
-        });
-
-        const data = await res.json();
-        setState({ items: data?.items ?? [] });
-        setLoading(false);
     };
 
     const removeCartItem = async (cartItemId: string) => {
@@ -142,11 +151,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             }
         }, 400);
     };
-
-    // 🔄 Fetch cart on mount
-    useEffect(() => {
-        refreshCart();
-    }, []);
 
     return (
         <CartContext.Provider
