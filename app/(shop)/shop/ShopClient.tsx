@@ -3,42 +3,65 @@
 import { Product } from "@/app/types";
 import ProductCard from "@/components/product/ProductCard";
 import PageContainer from "@/components/ui/PageContainer";
+import { useEffect, useRef, useState } from "react";
 
 type ShopClientProps = {
-    products: Product[];
+    initialProducts: Product[];
+    initialCursor: string | null;
 };
 
-export default function ShopClient({ products }: ShopClientProps) {
+export default function ShopClient({
+    initialProducts,
+    initialCursor,
+}: ShopClientProps) {
+    const [products, setProducts] = useState(initialProducts);
+    const [cursor, setCursor] = useState<string | null>(initialCursor);
+    const [loading, setLoading] = useState(false);
+
+    const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (!cursor) return;
+
+        const observer = new IntersectionObserver(async ([entry]) => {
+            if (!entry.isIntersecting || loading) return;
+
+            setLoading(true);
+
+            const res = await fetch(`/api/products?cursor=${cursor}`);
+            const data = await res.json();
+
+            setProducts((prev) => [...prev, ...data.items]);
+            setCursor(data.nextCursor);
+            setLoading(false);
+        });
+
+        if (loadMoreRef.current) {
+            observer.observe(loadMoreRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [cursor, loading]);
+
     return (
-        <>
-            <PageContainer>
-                <div id="nav-trigger" className="h-px w-px" />
-                <h1 className="mb-4 text-4xl font-semibold">
-                    Products Catalog
-                </h1>
-                <div
-                    id="nav-trigger"
-                    className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4"
-                >
-                    {products ? (
-                        <>
-                            {products.map((product: Product) => (
-                                <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                />
-                            ))}
-                        </>
-                    ) : (
-                        <>
-                            <div className="flex flex-col bg-gray-100 border rounded-lg h-107 animate-pulse" />
-                            <div className="flex flex-col bg-gray-100 border rounded-lg h-107 animate-pulse" />
-                            <div className="flex flex-col bg-gray-100 border rounded-lg h-107 animate-pulse" />
-                            <div className="flex flex-col bg-gray-100 border rounded-lg h-107 animate-pulse" />
-                        </>
-                    )}
-                </div>
-            </PageContainer>
-        </>
+        <PageContainer>
+            <h1 className="mb-4 text-4xl font-semibold">Products Catalog</h1>
+
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
+                {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                ))}
+
+                {loading &&
+                    Array.from({ length: 4 }).map((_, i) => (
+                        <div
+                            key={i}
+                            className="h-107 rounded-lg border bg-gray-100 animate-pulse"
+                        />
+                    ))}
+            </div>
+
+            {cursor && <div ref={loadMoreRef} className="h-1" />}
+        </PageContainer>
     );
 }

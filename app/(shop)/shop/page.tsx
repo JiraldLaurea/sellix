@@ -11,7 +11,7 @@ export default async function ShopPage() {
         redirect("/login");
     }
 
-    const products = await getProducts();
+    const { items, nextCursor } = await getProducts();
 
-    return <ShopClient products={products} />;
+    return <ShopClient initialProducts={items} initialCursor={nextCursor} />;
 }
