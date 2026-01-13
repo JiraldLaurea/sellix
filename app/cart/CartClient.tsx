@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { CartItem } from "../types";
 import PageContainer from "@/components/ui/PageContainer";
+import CartSkeleton from "@/components/cart/CartSkeleton";
 
 type Cart = {
     items: CartItem[];
@@ -26,18 +27,15 @@ type CartClientProps = {
 
 export default function CartClient({ cart }: CartClientProps) {
     const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false);
-    const { refreshCart, clearCart, state, updateQuantity, hydrateCart } =
+    const { state, loading, removeCartItem, clearCart, updateQuantity } =
         useCart();
     const [clearingCart, setClearingCart] = useState(false);
 
     const items = state.items;
 
-    useEffect(() => {
-        if (cart?.items) {
-            hydrateCart(cart.items);
-        }
-    }, []);
+    async function handleRemoveCartItem(cartItemId: string) {
+        await removeCartItem(cartItemId);
+    }
 
     async function handleClearCart() {
         setClearingCart(true);
@@ -45,6 +43,26 @@ export default function CartClient({ cart }: CartClientProps) {
         setClearingCart(false);
     }
 
+    const subtotal = items.reduce(
+        (sum, item) => sum + item.product.price * item.quantity,
+        0
+    );
+
+    const SHIPPING_FEE = 1500; // $15.00
+    const TAX_RATE = 0.07;
+
+    const tax = Math.round(subtotal * TAX_RATE);
+    const total = subtotal + SHIPPING_FEE + tax;
+
+    // LOADING CART
+    if (loading)
+        return (
+            <PageContainer>
+                <CartSkeleton />
+            </PageContainer>
+        );
+
+    // EMPTY CART
     if (items.length === 0) {
         return (
             <PageContainer className="flex flex-col items-center justify-center text-center space-y-6">
@@ -68,28 +86,6 @@ export default function CartClient({ cart }: CartClientProps) {
                 </Link>
             </PageContainer>
         );
-    }
-
-    const subtotal = items.reduce(
-        (sum, item) => sum + item.product.price * item.quantity,
-        0
-    );
-
-    const SHIPPING_FEE = 1500; // $15.00
-    const TAX_RATE = 0.07;
-
-    const tax = Math.round(subtotal * TAX_RATE);
-    const total = subtotal + SHIPPING_FEE + tax;
-
-    async function removeItem(cartItemId: string) {
-        await fetch("/api/cart", {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ cartItemId }),
-        });
-
-        await refreshCart();
-        router.refresh();
     }
 
     return (
@@ -117,7 +113,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                 <HiOutlineTrash size={18} />
                             )}
 
-                            {clearingCart ? "" : <p>Clear Cart </p>}
+                            {!clearingCart && <p>Clear Cart </p>}
                         </button>
                     </div>
                     <div className="overflow-x-auto">
@@ -189,7 +185,9 @@ export default function CartClient({ cart }: CartClientProps) {
                                                 <div className="flex justify-end w-full">
                                                     <button
                                                         onClick={() =>
-                                                            removeItem(item.id)
+                                                            handleRemoveCartItem(
+                                                                item.id
+                                                            )
                                                         }
                                                         className="flex items-center justify-center w-10 h-10 transition-colors border rounded-full hover:bg-gray-100"
                                                         aria-label="Remove item"
@@ -220,10 +218,9 @@ export default function CartClient({ cart }: CartClientProps) {
                         removeTopBorder
                     />
                     <Button
-                        disabled={loading || clearingCart}
+                        disabled={clearingCart}
                         className="mt-4"
                         onClick={() => {
-                            setLoading(true);
                             router.push("/checkout");
                         }}
                     >
