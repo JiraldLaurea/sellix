@@ -132,7 +132,7 @@ export default function AccountSideMenu({
                 <li>
                     <button
                         onClick={() => signOut({ callbackUrl: "/login" })}
-                        className="flex w-full items-center gap-3 rounded-lg text-gray-500 px-3 py-2 text-sm transition hover:bg-gray-100"
+                        className="flex hover:text-black w-full items-center gap-3 rounded-lg text-gray-500 px-3 py-2 text-sm transition hover:bg-gray-100"
                     >
                         <MdLogout className="h-5 w-5 " />
                         <span>Sign out</span>
