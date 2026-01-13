@@ -9,10 +9,11 @@ type Props = {
 };
 
 const MIN_LOADING_MS = 350;
-const FADE_OUT_MS = 150;
+const FADE_OUT_MS = 100;
 
 export default function ProductImageGallery({ images, alt }: Props) {
-    const [activeImage, setActiveImage] = useState(images[0]);
+    const [selectedImage, setSelectedImage] = useState(images[0]); // UI feedback
+    const [activeImage, setActiveImage] = useState(images[0]); // rendered image
     const [isMainLoading, setIsMainLoading] = useState(false);
     const [isFadingOut, setIsFadingOut] = useState(false);
     const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>(
@@ -22,8 +23,12 @@ export default function ProductImageGallery({ images, alt }: Props) {
     const loadStartRef = useRef(0);
 
     const handleSelect = (img: string) => {
-        if (img === activeImage) return;
+        if (img === selectedImage) return;
 
+        // instant outline update
+        setSelectedImage(img);
+
+        // fade current image
         setIsFadingOut(true);
 
         setTimeout(() => {
@@ -76,7 +81,11 @@ export default function ProductImageGallery({ images, alt }: Props) {
                             key={img}
                             onClick={() => handleSelect(img)}
                             className={`relative border flex-none h-20 w-20 rounded-md overflow-hidden
-                            ${activeImage === img ? "ring-2 ring-offset-2" : ""}
+                            ${
+                                selectedImage === img
+                                    ? "outline outline-2 outline-black"
+                                    : ""
+                            }
                             `}
                         >
                             {!isLoaded && (
