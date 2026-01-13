@@ -2,8 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 const FEATURED_PRODUCTS = [
+    "Realme XT",
     "Rolex Cellini Moonphase",
-    "iPhone X",
     "Apple Airpods",
     "Gucci Bloom Eau de",
 ];
