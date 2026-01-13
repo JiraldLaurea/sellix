@@ -43,7 +43,7 @@ export default function ProductPurchase({ product }: Props) {
     };
 
     return (
-        <div className="flex items-center pt-4 space-x-4">
+        <div className="flex items-center space-x-4">
             <QuantityPicker
                 quantity={quantity}
                 max={max}

@@ -113,10 +113,11 @@ export default function HeroCarousel() {
                                         src={product.images[0]}
                                         alt={product.name}
                                         fill
+                                        preload
+                                        loading="eager"
                                         quality={100}
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                                         className="object-cover"
-                                        priority
                                     />
                                 </div>
                             </div>
