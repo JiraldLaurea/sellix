@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 
 type Props = {
@@ -8,24 +8,61 @@ type Props = {
     alt: string;
 };
 
+const MIN_LOADING_MS = 350;
+const FADE_OUT_MS = 150;
+
 export default function ProductImageGallery({ images, alt }: Props) {
     const [activeImage, setActiveImage] = useState(images[0]);
+    const [isMainLoading, setIsMainLoading] = useState(false);
+    const [isFadingOut, setIsFadingOut] = useState(false);
     const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>(
         {}
     );
+
+    const loadStartRef = useRef(0);
+
+    const handleSelect = (img: string) => {
+        if (img === activeImage) return;
+
+        setIsFadingOut(true);
+
+        setTimeout(() => {
+            loadStartRef.current = Date.now();
+            setIsMainLoading(true);
+            setActiveImage(img);
+            setIsFadingOut(false);
+        }, FADE_OUT_MS);
+    };
+
+    const handleMainLoaded = () => {
+        const elapsed = Date.now() - loadStartRef.current;
+        const remaining = Math.max(0, MIN_LOADING_MS - elapsed);
+
+        setTimeout(() => {
+            setIsMainLoading(false);
+        }, remaining);
+    };
 
     return (
         <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
             {/* SELECTED IMAGE */}
             <div className="relative overflow-hidden bg-gray-100 rounded-md grow aspect-square">
+                {isMainLoading && (
+                    <div className="absolute inset-0 z-10 bg-[#F3F4F6] animate-pulse" />
+                )}
+
                 <Image
                     src={activeImage}
                     alt={alt}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-                    className="object-cover"
-                    preload
-                    loading="eager"
+                    sizes="(max-width: 768px) 100vw, 100vw"
+                    className={`object-cover transition-opacity duration-300 ${
+                        isFadingOut || isMainLoading
+                            ? "opacity-0"
+                            : "opacity-100"
+                    }`}
+                    priority
+                    onLoadingComplete={handleMainLoaded}
                 />
             </div>
 
@@ -37,12 +74,11 @@ export default function ProductImageGallery({ images, alt }: Props) {
                     return (
                         <button
                             key={img}
-                            onClick={() => setActiveImage(img)}
-                            className={`relative focus:outline-none border flex-none h-20 w-20 rounded-md overflow-hidden
-                ${activeImage === img ? "ring-2 ring-offset-2" : ""}
-              `}
+                            onClick={() => handleSelect(img)}
+                            className={`relative border flex-none h-20 w-20 rounded-md overflow-hidden
+                            ${activeImage === img ? "ring-2 ring-offset-2" : ""}
+                            `}
                         >
-                            {/* Skeleton */}
                             {!isLoaded && (
                                 <div className="absolute inset-0 bg-gray-200 animate-pulse" />
                             )}
@@ -52,10 +88,10 @@ export default function ProductImageGallery({ images, alt }: Props) {
                                 alt=""
                                 fill
                                 quality={50}
-                                sizes="(max-width: 768px) 10vw, (max-width: 1200px) 10vw, 10vw"
-                                className={`object-cover transition-opacity duration-300
-                  ${isLoaded ? "opacity-100" : "opacity-0"}
-                `}
+                                sizes="10vw"
+                                className={`object-cover transition-opacity duration-300 ${
+                                    isLoaded ? "opacity-100" : "opacity-0"
+                                }`}
                                 onLoad={() =>
                                     setLoadedImages((prev) => ({
                                         ...prev,

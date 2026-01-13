@@ -1,11 +1,11 @@
 "use client";
 
-import { Product } from "@/app/types/product";
 import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AddToCartButton from "./AddToCartButton";
+import { Product } from "@/app/types";
 
 type Props = {
     product: Product;
@@ -38,10 +38,13 @@ export default function ProductCard({ product }: Props) {
 
             {/* Product Info */}
             <div className="flex flex-col p-3 space-y-6 sm:p-4 grow">
-                <div className="truncate grow text-ellipsis text-wrap ">
+                <div className="truncate grow text-ellipsis text-wrap flex flex-col">
+                    <small className="text-xs sm:text-sm text-gray-500 w-fit">
+                        {product.category.name}
+                    </small>
                     <Link
                         href={`/product/${product.id}`}
-                        className="block text-xs w-fit hover:underline text sm:text-sm"
+                        className="text-xs w-fit hover:underline text sm:text-sm font-medium"
                     >
                         {product.name}
                     </Link>
