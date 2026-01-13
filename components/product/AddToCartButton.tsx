@@ -1,6 +1,5 @@
 "use client";
 
-import { Product } from "@/app/types/product";
 import { useCart } from "@/lib/cart-context";
 import { showSuccessToast } from "@/lib/toast/showSuccessToast";
 import { showWarningToast } from "@/lib/toast/showWarningToast";
@@ -8,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { Spinner } from "../ui/Spinner";
+import { Product } from "@/app/types";
 
 type ButtonType = "regular" | "mini";
 

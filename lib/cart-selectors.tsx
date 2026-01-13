@@ -1,4 +1,4 @@
-import { Product } from "@/app/types/product";
+import { Product } from "@/app/types";
 
 type CartItem = {
     product: Product;
