@@ -3,7 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import RetryPaymentClient from "./RetryPaymentClient";
+import RetryPaymentClient from "../../../(account)/orders/[id]/pay/RetryPaymentClient";
 
 type Props = {
     params: Promise<{

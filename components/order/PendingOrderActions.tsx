@@ -44,7 +44,7 @@ export default function PendingOrderActions({
             <Button
                 className="sm:w-fit!"
                 disabled={loading}
-                onClick={() => router.push(`/orders//${orderNumber}/pay`)}
+                onClick={() => router.push(`/retry-payment/${orderNumber}`)}
             >
                 Complete Payment
             </Button>

@@ -179,7 +179,7 @@ export default function CheckoutClient() {
                         disabled={cancelling || loading}
                         onClick={() => {
                             setLoading(true);
-                            router.push(`/orders/${pendingOrder}/pay`);
+                            router.push(`/retry-payment/${pendingOrder}`);
                         }}
                     >
                         {loading ? <Spinner /> : "Continue Payment"}

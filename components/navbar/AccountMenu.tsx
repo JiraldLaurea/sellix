@@ -45,16 +45,8 @@ export default function AccountMenu() {
                     href="/orders/"
                     text="Orders"
                 />
-                <MenuItem
-                    Icon={FaRegHeart}
-                    href="/account/profile"
-                    text="Favorites"
-                />
-                <MenuItem
-                    Icon={FaRegUser}
-                    href="/account/profile"
-                    text="Profile"
-                />
+                <MenuItem Icon={FaRegHeart} href="/profile" text="Favorites" />
+                <MenuItem Icon={FaRegUser} href="/profile" text="Profile" />
 
                 <hr className="my-3" />
 
