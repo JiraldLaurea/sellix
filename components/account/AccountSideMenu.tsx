@@ -5,10 +5,13 @@ import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+    MdFavorite,
     MdFavoriteBorder,
-    MdOutlineLogout,
+    MdLogout,
     MdOutlineShoppingBag,
+    MdPerson,
     MdPersonOutline,
+    MdShoppingBag,
 } from "react-icons/md";
 
 type Props = {
@@ -22,51 +25,68 @@ export default function AccountSideMenu({
 }: Props) {
     const pathname = usePathname();
 
-    const links = [
+    const dashboardLinks = [
         {
             label: "Orders",
             href: "/orders",
             count: orderCount,
             icon: MdOutlineShoppingBag,
+            activeIcon: MdShoppingBag,
         },
         {
             label: "Favorites",
             href: "/favorites",
             count: favoritesCount,
             icon: MdFavoriteBorder,
+            activeIcon: MdFavorite,
         },
+    ];
+
+    const accountLinks = [
         {
             label: "Profile",
             href: "/profile",
             icon: MdPersonOutline,
+            activeIcon: MdPerson,
         },
     ];
 
     return (
-        <aside className="w-64 shrink-0 rounded-lg border bg-white h-fit p-4 hidden lg:block">
-            <h2 className="text-xs text-gray-500 px-4 py-3">DASHBOARD</h2>
+        <aside className="w-64 sticky top-24 shrink-0 rounded-lg border bg-white h-fit p-4 hidden lg:block">
+            <h2 className="text-xs text-gray-500 px-3 pt-3 mb-2 font-medium">
+                DASHBOARD
+            </h2>
 
-            <ul className="space-y-2">
-                {links.map((link) => {
-                    const Icon = link.icon;
+            <ul className="space-y-1">
+                {dashboardLinks.map((link) => {
                     const isActive =
                         pathname === link.href ||
                         pathname.startsWith(`${link.href}/`);
+
+                    const Icon = isActive ? link.activeIcon : link.icon;
 
                     return (
                         <li key={link.href}>
                             <Link
                                 href={link.href}
                                 className={cn(
-                                    "flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition hover:bg-gray-100",
-                                    isActive && "bg-gray-100"
+                                    "flex items-center gap-3 rounded-lg text-gray-500 hover:text-black px-3 py-2 text-sm hover:transition-colors hover:bg-gray-100",
+                                    isActive &&
+                                        "bg-gray-100 text-black hover:transition-none"
                                 )}
                             >
-                                <Icon className="h-5 w-5 text-gray-600" />
+                                <Icon
+                                    className={cn("h-5 w-5", isActive && "")}
+                                />
                                 <span className="flex-1">{link.label}</span>
 
                                 {link.count !== undefined && (
-                                    <span className="text-xs text-gray-500">
+                                    <span
+                                        className={cn(
+                                            "text-xs text-gray-500",
+                                            isActive && ""
+                                        )}
+                                    >
                                         {link.count}
                                     </span>
                                 )}
@@ -77,12 +97,44 @@ export default function AccountSideMenu({
 
                 <hr className="my-3" />
 
+                <h2 className="text-xs text-gray-500 px-3 pt-3 mb-2 font-medium">
+                    ACCOUNT
+                </h2>
+
+                {accountLinks.map((link) => {
+                    const isActive =
+                        pathname === link.href ||
+                        pathname.startsWith(`${link.href}/`);
+
+                    const Icon = isActive ? link.activeIcon : link.icon;
+
+                    return (
+                        <li key={link.href}>
+                            <Link
+                                href={link.href}
+                                className={cn(
+                                    "flex items-center gap-3 rounded-lg text-gray-500 hover:text-black px-3 py-2 text-sm hover:transition-colors hover:bg-gray-100",
+                                    isActive &&
+                                        "bg-gray-100 text-black hover:transition-none"
+                                )}
+                            >
+                                <Icon
+                                    className={cn("h-5 w-5", isActive && "")}
+                                />
+                                <span className="flex-1">{link.label}</span>
+                            </Link>
+                        </li>
+                    );
+                })}
+
+                <hr className="my-3" />
+
                 <li>
                     <button
                         onClick={() => signOut({ callbackUrl: "/login" })}
-                        className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm transition hover:bg-gray-100"
+                        className="flex w-full items-center gap-3 rounded-lg text-gray-500 px-3 py-2 text-sm transition hover:bg-gray-100"
                     >
-                        <MdOutlineLogout className="h-5 w-5 text-gray-600" />
+                        <MdLogout className="h-5 w-5 " />
                         <span>Sign out</span>
                     </button>
                 </li>

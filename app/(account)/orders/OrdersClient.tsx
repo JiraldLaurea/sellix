@@ -20,7 +20,7 @@ type Props = {
 export default function OrdersClient({ orders, orderCount }: Props) {
     return (
         <section className="flex-1">
-            <h1 className="mb-6 text-3xl font-semibold">My Orders</h1>
+            <h1 className="mb-6 text-3xl font-semibold">Orders</h1>
 
             <div className="space-y-4">
                 {orders.map((order) => (
@@ -30,7 +30,7 @@ export default function OrdersClient({ orders, orderCount }: Props) {
                         className="block rounded-lg border p-3 sm:p-5 transition-colors hover:bg-gray-100"
                     >
                         <div className="grid grid-cols-[1fr_70px] sm:grid-cols-[1fr_100px_100px_100px] text-xs sm:text-sm items-center lg:gap-4">
-                            <div className="truncate space-y-1">
+                            <div className="truncate space-y-1 sm:space-y-0">
                                 <p className="font-medium truncate text-sm sm:text-base">
                                     #{order.orderNumber}
                                 </p>

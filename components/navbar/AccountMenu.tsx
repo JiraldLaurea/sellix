@@ -1,16 +1,18 @@
 "use client";
 
 import * as Popover from "@radix-ui/react-popover";
-import { LucideReceiptText } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import { FaRegUser } from "react-icons/fa";
-import { MdOutlineLogout } from "react-icons/md";
+import {
+    MdFavoriteBorder,
+    MdLogout,
+    MdOutlineShoppingBag,
+    MdPersonOutline,
+} from "react-icons/md";
 import { MenuItem } from "../account/MenuItem";
 import Avatar from "./Avatar";
-import { FaRegHeart } from "react-icons/fa6";
 
 export default function AccountMenu() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
 
     return (
         <Popover.Root>
@@ -41,12 +43,20 @@ export default function AccountMenu() {
                 <hr className="mt-5 mb-3" />
 
                 <MenuItem
-                    Icon={LucideReceiptText}
+                    Icon={MdOutlineShoppingBag}
                     href="/orders/"
                     text="Orders"
                 />
-                <MenuItem Icon={FaRegHeart} href="/profile" text="Favorites" />
-                <MenuItem Icon={FaRegUser} href="/profile" text="Profile" />
+                <MenuItem
+                    Icon={MdFavoriteBorder}
+                    href="/favorites"
+                    text="Favorites"
+                />
+                <MenuItem
+                    Icon={MdPersonOutline}
+                    href="/profile"
+                    text="Profile"
+                />
 
                 <hr className="my-3" />
 
@@ -56,7 +66,7 @@ export default function AccountMenu() {
                             callbackUrl: "/login",
                         })
                     }
-                    Icon={MdOutlineLogout}
+                    Icon={MdLogout}
                     href=""
                     text="Sign Out"
                     extraClassName=""
