@@ -78,13 +78,14 @@ export async function POST() {
 
     const tax = Math.round(subtotal * TAX_RATE);
     const total = subtotal + SHIPPING_FEE + tax;
+    const orderNumber = Math.floor(100000 + Math.random() * 900000).toString();
 
     /* ======================================================
        4️⃣ Create order (LOCK TOTALS)
     ====================================================== */
     const order = await prisma.order.create({
         data: {
-            orderNumber: crypto.randomUUID(),
+            orderNumber: orderNumber,
             subtotal: subtotal,
             shipping: SHIPPING_FEE,
             tax: tax,
