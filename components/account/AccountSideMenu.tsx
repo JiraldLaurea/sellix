@@ -48,9 +48,9 @@ export default function AccountSideMenu({
     ];
 
     return (
-        <aside className="w-64 sticky top-24 shrink-0 rounded-lg border bg-white h-fit py-4 hidden lg:block">
-            <h2 className="text-xs text-gray-500 px-5 pt-3 mb-2 font-medium">
-                DASHBOARD
+        <aside className="w-64 sticky top-24 shrink-0 rounded-lg border bg-white h-fit py-3 hidden lg:block">
+            <h2 className="text-xs text-gray-500 px-5 my-3 font-medium">
+                Dashboard
             </h2>
 
             <ul>
@@ -58,27 +58,40 @@ export default function AccountSideMenu({
                     <SideMenuItem key={link.href} {...link} />
                 ))}
 
-                <hr className="my-4" />
-
-                <h2 className="text-xs text-gray-500 px-5 pt-3 mb-2 font-medium">
-                    ACCOUNT
+                <h2 className="text-xs text-gray-500 px-5 my-3 font-medium">
+                    Account
                 </h2>
 
                 {accountLinks.map((link) => (
                     <SideMenuItem key={link.href} {...link} />
                 ))}
 
-                <hr className="mt-4 mb-6" />
+                <hr className="my-3" />
 
-                <li className="px-4">
+                <li>
                     <button
                         onClick={() => signOut({ callbackUrl: "/login" })}
-                        className="flex border bg-accent text-white justify-center w-full items-center gap-2 rounded-lg px-3 h-12 text-sm hover:bg-neutral-700 transition-colors"
+                        className="group w-full relative flex items-center gap-3 h-12 px-5 text-sm text-gray-500 transition-colors hover:bg-gray-100 hover:text-black"
                     >
                         <MdLogout className="h-5 w-5" />
-                        <span>Sign out</span>
+                        <span>Sign Out</span>
                     </button>
                 </li>
+
+                {/* <li className="px-4">
+                    <button
+                        onClick={() => signOut({ callbackUrl: "/login" })}
+                        className={`flex items-center space-x-1 w-full px-2 py-1.5 transition-colors hover:bg-gray-100 focus:outline-none 
+              `}
+                    >
+                        <div className={`p-2`}>
+                            <div className="relative w-5 h-5">
+                                <MdLogout className="h-5 w-5" />
+                            </div>
+                        </div>
+                        <p className="text-sm">Sign out</p>
+                    </button>
+                </li> */}
             </ul>
         </aside>
     );

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import PageContainer from "@/components/ui/PageContainer";
+import { Spinner } from "@/components/ui/Spinner";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -27,7 +28,8 @@ export default function LoginPage() {
 
     if (status === "loading") {
         return (
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="flex flex-col items-center justify-center space-y-2 min-h-screen">
+                <Spinner className="w-6 h-6" borderColor="border-black" />
                 <p className="text-sm text-gray-500">Checking session…</p>
             </div>
         );

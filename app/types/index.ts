@@ -21,6 +21,15 @@ export type Category = {
     updatedAt: Date;
 };
 
+export type Order = {
+    id: string;
+    orderNumber: string;
+    status: string;
+    total: number;
+    createdAt: Date;
+    items: OrderItem[];
+};
+
 export type OrderItem = {
     name: string;
     id: string;
@@ -43,6 +52,15 @@ export type MenuItemProps = {
     href: string;
     text: string;
     extraClassName?: string;
+    onClick?: () => void;
+};
+
+export type SideMenuItemProps = {
+    label: string;
+    href: string;
+    icon: IconType;
+    activeIcon?: IconType;
+    count?: number;
     onClick?: () => void;
 };
 

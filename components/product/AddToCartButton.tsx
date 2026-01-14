@@ -79,7 +79,7 @@ export default function AddToCartButton({
         <button
             disabled={disabled || loading}
             onClick={handleAddToCart}
-            className={`rounded-lg h-12 text-sm bg-accent text-white hover:bg-neutral-700 w-full sm:max-w-30 transition-colors disabled:opacity-15 disabled:hover:bg-accent
+            className={`rounded-lg h-10 text-sm bg-accent text-white hover:bg-neutral-700 w-full sm:max-w-60 transition-colors disabled:opacity-15 disabled:hover:bg-accent
             ${className}`}
         >
             {product.stock === 0 ? (

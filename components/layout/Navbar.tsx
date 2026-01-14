@@ -10,11 +10,13 @@ import { useEffect, useRef, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import AccountMenu from "../navbar/AccountMenu";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
     const { status } = useSession({ required: false });
     const [searchInput, setSearchInput] = useState<string>("");
     const [isSearchOpened, setIsSearchOpened] = useState<boolean>(false);
+    const pathname = usePathname();
 
     const router = useRouter();
 
@@ -34,54 +36,30 @@ export default function Navbar() {
         }
     }, [isSearchOpened]);
 
-    if (status === "unauthenticated") return null;
+    if (status === "loading" && pathname !== "/login")
+        return (
+            <header className="sticky top-0 z-50 block h-16 bg-white border-b">
+                <div className="containe animate-pulse grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
+                    <div className="h-9 w-30 rounded-lg bg-gray-200" />
+                    <div className="w-full flex-1 h-11  sm:flex justify-center hidden">
+                        <div
+                            className={`w-full max-w-md bg-gray-200 flex items-center h-11 p-1 pl-4 border overflow-hidden rounded-full`}
+                        ></div>
+                    </div>
+                    {/* Right controls */}
+                    <div className="flex items-center gap-3 justify-end">
+                        <div className="sm:hidden flex w-10 h-10 rounded-lg bg-gray-200" />
+                        <div className=" w-10 h-10 transition rounded-lg bg-gray-200" />
+                        <div className=" w-10 h-10 transition rounded-full bg-gray-200" />
+                    </div>
+                </div>
+            </header>
+        );
+
+    if (status !== "authenticated") return null;
 
     return (
         <header className="sticky top-0 z-50 block h-16 bg-white border-b">
-            {/* Mobile Search Overlay */}
-            {isSearchOpened && (
-                <div className="absolute space-x-2 flex items-center px-4 inset-0 z-50 bg-white sm:hidden">
-                    <div className="flex grow border rounded-full items-center h-13 px-4 gap-2">
-                        <IoSearchOutline size={22} className="text-gray-500" />
-                        <input
-                            ref={searchInputRef}
-                            type="search"
-                            enterKeyHint="search"
-                            placeholder="Search products"
-                            value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    handleSearch();
-                                    setIsSearchOpened(false);
-                                }
-                            }}
-                            className="flex-1 h-11 sm:text-sm focus:outline-none"
-                        />
-                        {searchInput && (
-                            <div
-                                onClick={() => {
-                                    setSearchInput("");
-                                    searchInputRef.current?.focus();
-                                }}
-                                className="bg-accent text-white rounded-full p-0.5 cursor-pointer"
-                            >
-                                <IoCloseOutline size={20} />
-                            </div>
-                        )}
-                    </div>
-                    <button
-                        onClick={() => {
-                            setSearchInput("");
-                            setIsSearchOpened(false);
-                        }}
-                        className="w-11 h-11 border flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
-                    >
-                        <IoCloseOutline size={30} />
-                    </button>
-                </div>
-            )}
-
             <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
                 {/* Left controls */}
                 <Link href="/" className="w-fit">
@@ -99,7 +77,7 @@ export default function Navbar() {
                 </Link>
 
                 {/* Middle controls */}
-                <div className="flex-1 sm:flex justify-center hidden ">
+                <div className="flex-1 sm:flex justify-center hidden">
                     <div
                         className={`w-full max-w-md flex items-center h-11 p-1 pl-4 border overflow-hidden rounded-full`}
                     >
@@ -164,6 +142,49 @@ export default function Navbar() {
                     <AccountMenu />
                 </div>
             </div>
+            {/* Mobile Search Overlay */}
+            {isSearchOpened && (
+                <div className="absolute space-x-2 flex items-center px-4 inset-0 z-50 bg-white sm:hidden">
+                    <div className="flex grow border rounded-full items-center h-13 px-4 gap-2">
+                        <IoSearchOutline size={22} className="text-gray-500" />
+                        <input
+                            ref={searchInputRef}
+                            type="search"
+                            enterKeyHint="search"
+                            placeholder="Search products"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleSearch();
+                                    setIsSearchOpened(false);
+                                }
+                            }}
+                            className="flex-1 h-11 sm:text-sm focus:outline-none"
+                        />
+                        {searchInput && (
+                            <div
+                                onClick={() => {
+                                    setSearchInput("");
+                                    searchInputRef.current?.focus();
+                                }}
+                                className="bg-accent text-white rounded-full p-0.5 cursor-pointer"
+                            >
+                                <IoCloseOutline size={20} />
+                            </div>
+                        )}
+                    </div>
+                    <button
+                        onClick={() => {
+                            setSearchInput("");
+                            setIsSearchOpened(false);
+                        }}
+                        className="w-11 h-11 border flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+                    >
+                        <IoCloseOutline size={30} />
+                    </button>
+                </div>
+            )}
         </header>
     );
 }

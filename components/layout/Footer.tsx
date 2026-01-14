@@ -1,12 +1,14 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
     const { status } = useSession();
+    const pathname = usePathname();
 
     // Hide footer if not authenticated
-    if (status === "unauthenticated") return null;
+    if (pathname === "/login") return null;
 
     return (
         <div className="flex justify-center py-10 border-t bg-gray-50">

@@ -66,7 +66,7 @@ export default function ProfilePage() {
                     {/* Right: Change photo button */}
                     <button
                         onClick={() => fileRef.current?.click()}
-                        className="flex sm:w-fit w-full justify-center items-center bg-accent text-white gap-2 transition-colors rounded-lg border px-4 h-12 text-sm hover:bg-neutral-700"
+                        className="flex sm:w-fit w-full justify-center items-center bg-accent text-white gap-2 transition-colors rounded-lg border px-4 h-10 text-sm hover:bg-neutral-700"
                     >
                         <MdCameraAlt className="h-4 w-4" />
                         Change photo

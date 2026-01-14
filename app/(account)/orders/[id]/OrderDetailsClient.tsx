@@ -28,14 +28,16 @@ export default function OrderDetailsClient({ order }: any) {
                         </p>
                     </div>
 
-                    <span
-                        className={`px-2 sm:px-3 py-1 text-sm rounded-full ${getStatusStyles(
-                            order.status
-                        )}`}
-                    >
-                        {order.status.charAt(0).toUpperCase() +
-                            order.status.slice(1).toLowerCase()}
-                    </span>
+                    <div className="flex justify-center">
+                        <p
+                            className={`rounded-full px-3 py-1 text-[10px] sm:text-xs ${getStatusStyles(
+                                order.status
+                            )}`}
+                        >
+                            {order.status.charAt(0).toUpperCase() +
+                                order.status.slice(1).toLowerCase()}
+                        </p>
+                    </div>
                 </div>
                 <Container className="w-full sm:p-6 sm:border">
                     <ul className="space-y-2">
@@ -67,7 +69,7 @@ export default function OrderDetailsClient({ order }: any) {
                         <Link
                             href={order.receiptUrl}
                             target="_blank"
-                            className="flex items-center justify-center w-full px-6 h-12 space-x-2 text-sm text-white transition-colors bg-black rounded-md sm:w-fit hover:bg-neutral-700"
+                            className="flex items-center justify-center w-full px-6 h-10 space-x-2 text-sm text-white transition-colors bg-black rounded-md sm:w-fit hover:bg-neutral-700"
                         >
                             <p>View Stripe Receipt</p>
                             <FaArrowUpRightFromSquare />

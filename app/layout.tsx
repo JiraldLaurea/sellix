@@ -36,7 +36,6 @@ export default function RootLayout({
                     color="black"
                     height={2}
                     crawl
-                    shadow="none"
                     showSpinner={false}
                 />
                 <Providers>
