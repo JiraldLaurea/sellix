@@ -55,7 +55,7 @@ async function seedProducts() {
                     price: product.price * 100,
                     stock: product.stock ?? 10,
                     images: product.images,
-                    categoryId: product.category, // string category
+                    categoryId: product.category,
                 },
             });
 
@@ -68,9 +68,36 @@ async function seedProducts() {
     console.log(`✅ Seeded ${total} products`);
 }
 
+async function attachCategoryImages() {
+    const categories = await prisma.category.findMany({
+        where: { image: null },
+    });
+
+    for (const category of categories) {
+        const product = await prisma.product.findFirst({
+            where: {
+                categoryId: category.id,
+                images: { isEmpty: false },
+            },
+        });
+
+        if (!product) continue;
+
+        await prisma.category.update({
+            where: { id: category.id },
+            data: {
+                image: product.images[0],
+            },
+        });
+    }
+
+    console.log("✅ Attached category images from products");
+}
+
 async function main() {
     await seedCategories();
     await seedProducts();
+    await attachCategoryImages();
 }
 
 main()
