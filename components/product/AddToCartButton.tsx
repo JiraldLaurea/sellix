@@ -44,12 +44,10 @@ export default function AddToCartButton({
 
             if (result.reason === "max_stock") {
                 showWarningToast("You've reached the maximum available stock");
-
                 return;
             }
 
             showWarningToast("You've reached the maximum available stock");
-
             return;
         }
 
