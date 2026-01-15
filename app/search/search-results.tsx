@@ -6,6 +6,7 @@ import ProductCard from "@/components/product/ProductCard";
 import { Product } from "../types";
 import PageContainer from "@/components/ui/PageContainer";
 import SearchSidebar from "@/components/search/SearchSidebar";
+import ProductCardSkeleton from "@/components/product/ProductCardSkeleton";
 
 type Category = {
     id: string;
@@ -27,6 +28,7 @@ export default function SearchResults({
 }: SearchResultsProps) {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const [isFiltering, setIsFiltering] = useState(false);
 
     const query = searchParams.get("q")?.toLowerCase() ?? "";
     const category = searchParams.get("category");
@@ -98,6 +100,37 @@ export default function SearchResults({
         return () => observer.disconnect();
     }, [cursor, category, query]);
 
+    useEffect(() => {
+        if (!category && !query) return;
+
+        const fetchFiltered = async () => {
+            setIsFiltering(true);
+
+            const params = new URLSearchParams();
+            if (category) params.set("category", category);
+            if (query) params.set("q", query);
+
+            const res = await fetch(`/api/products?${params.toString()}`);
+            const data = await res.json();
+
+            setItems(data.items);
+            setCursor(null);
+            setHasMore(false);
+            setIsFiltering(false);
+        };
+
+        fetchFiltered();
+    }, [category, query]);
+
+    useEffect(() => {
+        if (category || query) return;
+
+        // ✅ reset back to All Products state
+        setItems(initialProducts);
+        setCursor(initialCursor);
+        setHasMore(Boolean(initialCursor));
+    }, [category, query, initialProducts, initialCursor]);
+
     const visibleProducts = !category && !query ? items : filteredProducts;
 
     return (
@@ -146,14 +179,22 @@ export default function SearchResults({
                             <h1 className="text-2xl font-semibold">
                                 {activeCategory}
                             </h1>
-                            <p className="text-sm text-gray-500">
-                                {filteredProducts.length} items
-                            </p>
+                            {!isFiltering ? (
+                                <p className="text-sm text-gray-500">
+                                    {filteredProducts.length} items
+                                </p>
+                            ) : (
+                                <div className="w-10 h-5 bg-gray-200 rounded-lg animate-pulse" />
+                            )}
                         </div>
                     )}
 
                     {filteredProducts.length === 0 ? (
-                        <p className="text-gray-500">No products found.</p>
+                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                            {Array.from({ length: 8 }).map((_, i) => (
+                                <ProductCardSkeleton key={i} />
+                            ))}
+                        </div>
                     ) : (
                         <>
                             <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
