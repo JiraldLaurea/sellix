@@ -2,19 +2,23 @@
 
 import PageContainer from "@/components/ui/PageContainer";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
-const INITIAL_COUNT = 10;
+const INITIAL_COUNT = 5;
 const STEP = 20;
+
+type Category = {
+    id: string;
+    name: string;
+    image: string | null;
+    itemCount: number;
+};
 
 export default function CategoryClient({
     categories,
 }: {
-    categories: {
-        id: string;
-        name: string;
-        image: string | null;
-    }[];
+    categories: Category[];
 }) {
     const [visible, setVisible] = useState(INITIAL_COUNT);
 
@@ -22,35 +26,36 @@ export default function CategoryClient({
 
     return (
         <PageContainer>
-            <h1 className="mb-4 text-4xl font-semibold">Categories</h1>
+            <h1 className="mb-8 text-3xl font-semibold">Browse Categories</h1>
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-5">
                 {categories.slice(0, visible).map((category) => (
-                    <div key={category.id} className="space-y-2">
-                        <div
-                            // href={`/shop?category=${category.id}`}
-                            className="group rounded-lg border overflow-hidden block"
-                        >
-                            <div className="bg-gray-100 py-2">
-                                <div className="relative aspect-square">
-                                    {category.image && (
-                                        <Image
-                                            src={category.image}
-                                            alt={category.name}
-                                            fill
-                                            className="object-contain"
-                                        />
-                                    )}
-                                </div>
-                            </div>
+                    <Link
+                        key={category.id}
+                        href={`/search?category=${category.id}`}
+                        className="flex h-full flex-col overflow-hidden rounded-xl border"
+                    >
+                        <div className="relative aspect-square w-full bg-gray-50 p-2">
+                            {category.image && (
+                                <Image
+                                    src={category.image}
+                                    alt={category.name}
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 100vw"
+                                    className="object-contain"
+                                />
+                            )}
                         </div>
 
-                        <div className="flex justify-center">
-                            <p className="text-sm font-medium cursor-pointer hover:underline">
+                        <div className="w-full border-t p-4 text-left">
+                            <p className="text-sm font-medium">
                                 {category.name}
                             </p>
+                            <p className="text-xs text-gray-500">
+                                {category.itemCount} items
+                            </p>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
 
@@ -58,7 +63,7 @@ export default function CategoryClient({
                 <div className="mt-8 flex justify-center">
                     <button
                         onClick={showMore}
-                        className="px-6 hover:from-blue-700 from-blue-600 text-sm  to-blue-500 text-white font-medium bg-linear-to-t py-2 w-full sm:w-fit border rounded-lg hover:bg-gray-100 transition-colors"
+                        className="w-full sm:w-fit rounded-lg border bg-linear-to-t from-blue-600 to-blue-500 px-6 py-2 text-sm font-medium text-white transition hover:from-blue-700"
                     >
                         Show All Categories
                     </button>

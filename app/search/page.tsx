@@ -1,14 +1,30 @@
+import { getProducts } from "@/lib/getProducts";
 import PageContainer from "@/components/ui/PageContainer";
-import { getAllProducts } from "@/lib/getAllProducts";
 import { Suspense } from "react";
 import SearchResults from "./search-results";
+import { prisma } from "@/lib/prisma";
 
 export default async function SearchPage() {
-    const products = await getAllProducts();
+    const { items, nextCursor, totalCount } = await getProducts();
+
+    const categories = await prisma.category.findMany({
+        select: {
+            id: true,
+            name: true,
+        },
+        orderBy: {
+            name: "asc",
+        },
+    });
 
     return (
-        <Suspense fallback={<SearchSkeleton />}>
-            <SearchResults products={products} />
+        <Suspense fallback={null}>
+            <SearchResults
+                initialProducts={items}
+                initialCursor={nextCursor}
+                categories={categories}
+                totalCount={totalCount}
+            />
         </Suspense>
     );
 }
@@ -16,10 +32,10 @@ export default async function SearchPage() {
 function SearchSkeleton() {
     return (
         <PageContainer>
-            <div className="h-6 w-48 bg-gray-200 rounded mb-4" />
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="mb-4 h-6 w-48 rounded bg-gray-200" />
+            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
                 {Array.from({ length: 8 }).map((_, i) => (
-                    <div key={i} className="h-64 bg-gray-100 rounded" />
+                    <div key={i} className="h-64 rounded bg-gray-100" />
                 ))}
             </div>
         </PageContainer>

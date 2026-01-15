@@ -1,14 +1,30 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ProductCard from "@/components/product/ProductCard";
 import { Product } from "../types";
 import PageContainer from "@/components/ui/PageContainer";
+import SearchSidebar from "@/components/search/SearchSidebar";
 
-const CATEGORIES = ["Hoodies", "Sweatshirts", "Joggers"];
+type Category = {
+    id: string;
+    name: string;
+};
 
-export default function SearchResults({ products }: { products: Product[] }) {
+type SearchResultsProps = {
+    initialProducts: Product[];
+    initialCursor: string | null;
+    totalCount: number;
+    categories: Category[];
+};
+
+export default function SearchResults({
+    initialProducts,
+    initialCursor,
+    totalCount,
+    categories,
+}: SearchResultsProps) {
     const searchParams = useSearchParams();
     const router = useRouter();
 
@@ -17,110 +33,144 @@ export default function SearchResults({ products }: { products: Product[] }) {
     const min = Number(searchParams.get("min")) || 0;
     const max = Number(searchParams.get("max")) || Infinity;
 
+    const [items, setItems] = useState(initialProducts);
+    const [cursor, setCursor] = useState<string | null>(initialCursor);
+
+    const [hasMore, setHasMore] = useState(true);
+    const loaderRef = useRef<HTMLDivElement | null>(null);
+
+    const activeCategory = useMemo(() => {
+        if (!category) return null;
+        return categories.find((c) => c.id === category)?.name ?? null;
+    }, [category, categories]);
+
     const filteredProducts = useMemo(() => {
-        return products.filter((product) => {
+        return items.filter((product) => {
             const matchesQuery = product.name.toLowerCase().includes(query);
+
             const matchesCategory = category
-                ? product.category.name === category
+                ? product.category.id === category
                 : true;
+
             const matchesPrice = product.price >= min && product.price <= max;
 
             return matchesQuery && matchesCategory && matchesPrice;
         });
-    }, [products, query, category, min, max]);
+    }, [items, query, category, min, max]);
 
     const updateParam = (key: string, value?: string) => {
         const params = new URLSearchParams(searchParams.toString());
 
-        if (!value) params.delete(key);
-        else params.set(key, value);
+        if (!value) {
+            params.delete(key);
+        } else {
+            params.set(key, value);
+        }
+
+        // ✅ when selecting a category, remove search query
+        if (key === "category") {
+            params.delete("q");
+        }
 
         router.push(`/search?${params.toString()}`);
     };
 
+    const loadMore = async () => {
+        if (!hasMore || !cursor) return;
+
+        const res = await fetch(`/api/products?cursor=${cursor}`);
+        const data = await res.json();
+
+        setItems((prev) => [...prev, ...data.items]);
+        setCursor(data.nextCursor);
+        setHasMore(Boolean(data.nextCursor));
+    };
+
+    useEffect(() => {
+        if (category || query) return; // ✅ only All Products
+
+        const observer = new IntersectionObserver(
+            ([entry]) => entry.isIntersecting && loadMore(),
+            { rootMargin: "200px" }
+        );
+
+        if (loaderRef.current) observer.observe(loaderRef.current);
+        return () => observer.disconnect();
+    }, [cursor, category, query]);
+
+    const visibleProducts = !category && !query ? items : filteredProducts;
+
     return (
-        <PageContainer className="grid grid-cols-12 gap-6">
-            {/* Sidebar */}
-            <aside className="hidden md:block col-span-3">
-                <div className="space-y-6">
-                    {/* Categories */}
-                    <div>
-                        <h3 className="font-medium mb-3">Categories</h3>
-                        <div className="space-y-2">
-                            {CATEGORIES.map((cat) => (
-                                <label
-                                    key={cat}
-                                    className="flex items-center gap-2 text-sm cursor-pointer"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={category === cat}
-                                        onChange={() =>
-                                            updateParam(
-                                                "category",
-                                                category === cat
-                                                    ? undefined
-                                                    : cat
-                                            )
-                                        }
+        <PageContainer>
+            <div className="flex gap-6">
+                <SearchSidebar
+                    categories={categories}
+                    activeCategory={category}
+                    min={min}
+                    max={max}
+                    onParamChange={updateParam}
+                />
+                {/* Results */}
+                <section className="flex-1">
+                    {/* ALL PRODUCTS */}
+                    {!category && !query && (
+                        <div className="mb-6">
+                            <h1 className="text-2xl font-semibold">
+                                All Products
+                            </h1>
+                            <p className="text-sm text-gray-500">
+                                {totalCount} items
+                            </p>
+                        </div>
+                    )}
+
+                    {/* SEARCH RESULTS */}
+                    {!category && query && (
+                        <div className="mb-6">
+                            <h1 className="text-2xl font-semibold">
+                                Search results for “{query}”
+                            </h1>
+                            <p className="text-sm text-gray-500">
+                                {filteredProducts.length}{" "}
+                                {filteredProducts.length === 1
+                                    ? "result"
+                                    : "results"}{" "}
+                                found
+                            </p>
+                        </div>
+                    )}
+
+                    {/* SELECTED CATEGORY */}
+                    {activeCategory && (
+                        <div className="mb-6">
+                            <h1 className="text-2xl font-semibold">
+                                {activeCategory}
+                            </h1>
+                            <p className="text-sm text-gray-500">
+                                {filteredProducts.length} items
+                            </p>
+                        </div>
+                    )}
+
+                    {filteredProducts.length === 0 ? (
+                        <p className="text-gray-500">No products found.</p>
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                                {visibleProducts.map((product) => (
+                                    <ProductCard
+                                        key={product.id}
+                                        product={product}
                                     />
-                                    {cat}
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Price Range */}
-                    <div>
-                        <h3 className="font-medium mb-3">Price Range</h3>
-                        <div className="flex gap-2">
-                            <input
-                                type="number"
-                                placeholder="Min"
-                                defaultValue={min || ""}
-                                className="w-full border rounded px-2 py-1 text-sm"
-                                onBlur={(e) =>
-                                    updateParam("min", e.target.value)
-                                }
-                            />
-                            <input
-                                type="number"
-                                placeholder="Max"
-                                defaultValue={max !== Infinity ? max : ""}
-                                className="w-full border rounded px-2 py-1 text-sm"
-                                onBlur={(e) =>
-                                    updateParam("max", e.target.value)
-                                }
-                            />
-                        </div>
-                    </div>
-                </div>
-            </aside>
-
-            {/* Results */}
-            <section className="col-span-12 md:col-span-9">
-                {/* Header */}
-                <div className="mb-6">
-                    <h1 className="text-lg font-semibold">
-                        Search results for “{query}”
-                    </h1>
-                    <p className="text-sm text-gray-600">
-                        {filteredProducts.length}{" "}
-                        {filteredProducts.length > 1 ? "results" : "result"}{" "}
-                        found
-                    </p>
-                </div>
-
-                {filteredProducts.length === 0 ? (
-                    <p className="text-gray-500">No products found.</p>
-                ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {filteredProducts.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
-                )}
-            </section>
+                                ))}
+                            </div>
+                            {!category && !query && hasMore && (
+                                <div ref={loaderRef} className="h-10" />
+                            )}
+                        </>
+                    )}
+                </section>
+            </div>
         </PageContainer>
     );
 }
