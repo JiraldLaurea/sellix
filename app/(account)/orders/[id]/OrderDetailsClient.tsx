@@ -8,37 +8,59 @@ import { Container } from "@/components/ui/Container";
 import PageContainer from "@/components/ui/PageContainer";
 import { formatMoney } from "@/lib/formatMoney";
 import getStatusStyles from "@/lib/order/getStatusStyles";
+import { Check } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import { PiDotsThreeCircle } from "react-icons/pi";
+import { PiDotsThreeCircleFill } from "react-icons/pi";
 
 export default function OrderDetailsClient({ order }: any) {
     return (
         <PageContainer className=" p-0! mx-0!">
             <div className="space-y-6">
                 <BackButton text="Orders" href="/orders" />
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className=" font-semibold sm:text-lg">
-                            Order #{order.orderNumber}
-                        </h1>{" "}
-                        <p className="text-sm text-gray-500">
-                            Placed on:{" "}
-                            {new Date(order.createdAt).toLocaleDateString()}
-                        </p>
-                    </div>
+                <div>
+                    <h1 className="font-semibold sm:text-lg mb-3 sm:mb-4">
+                        Order Details
+                    </h1>
 
-                    <div className="flex justify-center">
-                        <p
-                            className={`rounded-full px-3 py-1 text-[10px] sm:text-xs ${getStatusStyles(
-                                order.status
-                            )}`}
-                        >
-                            {order.status.charAt(0).toUpperCase() +
-                                order.status.slice(1).toLowerCase()}
-                        </p>
+                    <div className="sm:rounded-xl sm:border bg-white sm:divide-y text-sm space-y-2 sm:space-y-0">
+                        <div className="grid grid-cols-2 sm:py-3 px-0 sm:px-6">
+                            <p className="text-gray-500">Order Number</p>
+                            <p className=" text-right font-medium">
+                                {order.orderNumber}
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 sm:py-3 px-0 sm:px-6 items-center">
+                            <p className=" text-gray-500">Date</p>
+                            <p className="text-sm font-medium text-right">
+                                {new Date(order.createdAt).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                        month: "long",
+                                        day: "2-digit",
+                                        year: "numeric",
+                                    }
+                                )}
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 sm:py-3 px-0 sm:px-6">
+                            <p className=" text-gray-500">Status</p>
+                            <span
+                                className={`inline-flex justify-self-end w-fit border items-center rounded-full px-3 py-1 text-xs font-medium ${getStatusStyles(
+                                    order.status
+                                )}`}
+                            >
+                                {order.status.charAt(0) +
+                                    order.status.slice(1).toLowerCase()}
+                            </span>
+                        </div>
                     </div>
                 </div>
+                <h1 className="font-semibold sm:text-lg mb-3 sm:mb-4">
+                    Checkout Summary
+                </h1>
                 <Container className="w-full sm:p-6 sm:border">
                     <ul className="space-y-2">
                         {order.items.map((item: OrderItem) => (
@@ -69,7 +91,7 @@ export default function OrderDetailsClient({ order }: any) {
                         <Link
                             href={order.receiptUrl}
                             target="_blank"
-                            className="flex items-center justify-center w-full px-6 h-10 space-x-2 text-sm text-white transition-colors bg-black rounded-md sm:w-fit hover:bg-neutral-700"
+                            className="flex bg-linear-to-t font-medium from-blue-600  to-blue-500 items-center justify-center w-full px-6 h-10 space-x-2 text-sm text-white transition-colors rounded-lg sm:w-fit hover:from-blue-700 hover:to-blue-500"
                         >
                             <p>View Stripe Receipt</p>
                             <FaArrowUpRightFromSquare />
