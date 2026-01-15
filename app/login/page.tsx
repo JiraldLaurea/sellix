@@ -67,7 +67,8 @@ export default function LoginPage() {
                             alt="Brand Logo"
                             width={120}
                             height={40}
-                            priority
+                            preload
+                            loading="eager"
                             className="mb-12 object-contain"
                         />
                         <div className="mb-6 space-y-2">
