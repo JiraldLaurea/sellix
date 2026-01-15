@@ -8,7 +8,7 @@ type ContainerProps = {
 export function Container({ children, className }: ContainerProps) {
     return (
         <div
-            className={`w-full text-sm bg-white rounded-lg
+            className={`w-full text-sm bg-white rounded-xl
                 ${
                     className
                         ? `${className}`

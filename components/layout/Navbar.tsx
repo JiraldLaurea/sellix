@@ -1,16 +1,16 @@
 "use client";
 
-import { useCart, useCartCount } from "@/lib/cart-context";
+import { useCartCount } from "@/lib/cart-context";
 import * as Popover from "@radix-ui/react-popover";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import AccountMenu from "../navbar/AccountMenu";
-import { usePathname } from "next/navigation";
 
 export default function Navbar() {
     const { status } = useSession({ required: false });

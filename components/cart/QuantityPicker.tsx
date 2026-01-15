@@ -22,7 +22,9 @@ export default function QuantityPicker({ quantity, max, onChange }: Props) {
         }
         // Show toast when max quantity is reached
         else {
-            showWarningToast("You've reached the maximum available stock");
+            showWarningToast(
+                "You have reached the maximum quantity available for this item"
+            );
         }
     };
 
@@ -52,7 +54,6 @@ export default function QuantityPicker({ quantity, max, onChange }: Props) {
                     <FaPlus size={12} />
                 </button>
             </div>
-            {/* Optional helper text */}
         </div>
     );
 }

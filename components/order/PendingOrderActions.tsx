@@ -28,7 +28,7 @@ export default function PendingOrderActions({
     }
 
     return (
-        <div className="flex gap-3 justify-end w-full">
+        <div className="flex sm:flex-row flex-col gap-3 justify-end w-full">
             <Button
                 className="sm:w-34 sm:p-0"
                 variant="secondary"

@@ -89,13 +89,12 @@ export default function CartClient({ cart }: CartClientProps) {
                         You haven't added anything to your cart yet.
                     </p>
                 </div>
-
-                <Link
-                    href="/"
-                    className="px-6 py-3 text-white transition rounded-md bg-accent hover:bg-neutral-700"
+                <Button
+                    className="h-12 w-fit!"
+                    onClick={() => router.push("/")}
                 >
                     Start shopping
-                </Link>
+                </Button>
             </PageContainer>
         );
     }
@@ -117,15 +116,16 @@ export default function CartClient({ cart }: CartClientProps) {
                         <button
                             disabled={clearingCart}
                             onClick={handleClearCart}
-                            className="disabled:opacity-15 flex items-center h-10 w-31.25 justify-center space-x-2 text-sm text-white transition-colors rounded-lg bg-accent disabled:hover:bg-accent hover:bg-neutral-700"
+                            className="disabled:opacity-50 hover:bg-gray-100 disabled:hover:bg-inherit flex items-center h-10 w-31.25 justify-center space-x-2 text-sm border transition-colors rounded-lg"
                         >
                             {clearingCart ? (
-                                <Spinner />
+                                <Spinner borderColor="border-black" />
                             ) : (
-                                <HiOutlineTrash size={18} />
+                                <>
+                                    <HiOutlineTrash size={18} />{" "}
+                                    <p>Clear Cart </p>
+                                </>
                             )}
-
-                            {!clearingCart && <p>Clear Cart </p>}
                         </button>
                     </div>
                     <div className="overflow-x-auto">
@@ -175,7 +175,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                             <div className="truncate">
                                                 <Link
                                                     href={`/product/${item.product.id}`}
-                                                    className="font-medium sm:text-lg hover:underline"
+                                                    className="font-medium hover:underline"
                                                 >
                                                     {item.product.name}
                                                 </Link>
@@ -187,7 +187,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                             </div>
                                             <div className="flex flex-row items-end justify-between sm:flex-col sm:items-end grow">
                                                 {/* Subtotal */}
-                                                <p className="flex items-center h-11 font-medium sm:text-lg sm:h-auto">
+                                                <p className="flex items-center h-11 font-medium sm:h-auto">
                                                     {formatMoney(
                                                         item.product.price *
                                                             item.quantity
@@ -219,7 +219,7 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <Container className="p-0 sm:border border-t rounded-none sm:rounded-lg pt-6 lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
+                <Container className="p-0 sm:border border-t rounded-none sm:rounded-xl pt-6 lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
                     {/* <div className="p-8 text-sm border rounded-lg h-fit sm:sticky sm:top-24"> */}
                     <h2 className="mb-4 text-2xl font-semibold">Summary</h2>
                     <OrderBreakdown
@@ -236,7 +236,7 @@ export default function CartClient({ cart }: CartClientProps) {
                             router.push("/checkout");
                         }}
                     >
-                        {loading ? <Spinner /> : "Checkout"}
+                        Checkout
                     </Button>
                 </Container>
             </div>

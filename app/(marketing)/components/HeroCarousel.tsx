@@ -70,7 +70,7 @@ export default function HeroCarousel() {
     }, []);
 
     return (
-        <PageContainer className="relative max-w-full px-0! flex items-center  bg-linear-to-r from-black via-neutral-900 to-black text-white">
+        <PageContainer className="relative max-w-full px-0! flex items-center bg-accent text-white">
             <div
                 className="overflow-hidden relative embla md:h-115 select-none  flex justify-center"
                 ref={emblaRef}
@@ -101,9 +101,9 @@ export default function HeroCarousel() {
                                                 `/product/${product.id}`
                                             )
                                         }
-                                        className="bg-blue-500 md:w-fit! text-base! h-12 font-semibold hover:bg-blue-600!"
+                                        className="md:w-fit! text-base! h-12 font-semibold hover:bg-blue-600!"
                                     >
-                                        Shop now
+                                        Shop Now
                                     </Button>
                                 </div>
 

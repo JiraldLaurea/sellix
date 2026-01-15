@@ -15,22 +15,22 @@ export default function OrderBreakdown({
             {!removeTopBorder && <hr className="my-4" />}
             <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                    <span className="text-gray-600">Subtotal</span>
+                    <span className="text-gray-500">Subtotal</span>
                     <span>{formatMoney(subtotal)}</span>
                 </div>
                 <div className="flex justify-between">
-                    <span className="text-gray-600">Shipping</span>
+                    <span className="text-gray-500">Shipping</span>
                     <span>{formatMoney(shippingFee)}</span>
                 </div>
                 <div className="flex justify-between">
-                    <span className="text-gray-600">Tax (7%)</span>
+                    <span className="text-gray-500">Tax (7%)</span>
                     <span>{formatMoney(tax)}</span>
                 </div>
 
                 <hr className="my-4" />
 
                 <div className="flex justify-between font-semibold">
-                    <span>Total</span>
+                    <span>Grand Total</span>
                     <span>{formatMoney(total)}</span>
                 </div>
             </div>

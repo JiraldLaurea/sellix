@@ -21,7 +21,7 @@ export default function CategoryClient({
     const showMore = () => setVisible((v) => v + STEP);
 
     return (
-        <PageContainer className="pb-0">
+        <PageContainer>
             <h1 className="mb-4 text-4xl font-semibold">Categories</h1>
 
             <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4 lg:grid-cols-5">
@@ -58,9 +58,9 @@ export default function CategoryClient({
                 <div className="mt-8 flex justify-center">
                     <button
                         onClick={showMore}
-                        className="px-6 py-2 w-full sm:w-fit border rounded-lg hover:bg-gray-100 transition-colors"
+                        className="px-6 hover:from-blue-700 from-blue-600 text-sm  to-blue-500 text-white font-medium bg-linear-to-t py-2 w-full sm:w-fit border rounded-lg hover:bg-gray-100 transition-colors"
                     >
-                        Show All
+                        Show All Categories
                     </button>
                 </div>
             )}

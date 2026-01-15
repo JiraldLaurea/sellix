@@ -2,12 +2,8 @@
 
 import * as Popover from "@radix-ui/react-popover";
 import { signOut, useSession } from "next-auth/react";
-import {
-    MdFavoriteBorder,
-    MdLogout,
-    MdOutlineShoppingBag,
-    MdPersonOutline,
-} from "react-icons/md";
+import { LuPackage } from "react-icons/lu";
+import { MdFavoriteBorder, MdLogout, MdPersonOutline } from "react-icons/md";
 import { MenuItem } from "../account/MenuItem";
 import Avatar from "./Avatar";
 
@@ -23,7 +19,7 @@ export default function AccountMenu() {
             <Popover.Content
                 align="end"
                 sideOffset={0}
-                className=" bg-white pb-3 border rounded-lg shadow-md w-60 focus:outline-none"
+                className=" bg-white pb-3 border rounded-lg shadow-md w-64 focus:outline-none"
             >
                 <div className="flex flex-col items-center px-4 pt-4 space-y-2 text-center">
                     <Avatar
@@ -42,11 +38,7 @@ export default function AccountMenu() {
 
                 <hr className="mt-5 mb-3" />
 
-                <MenuItem
-                    Icon={MdOutlineShoppingBag}
-                    href="/orders/"
-                    text="Orders"
-                />
+                <MenuItem Icon={LuPackage} href="/orders/" text="Orders" />
                 <MenuItem
                     Icon={MdFavoriteBorder}
                     href="/favorites"

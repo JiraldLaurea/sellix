@@ -10,20 +10,21 @@ export function MenuItem({
     onClick,
 }: MenuItemProps) {
     return (
-        <Popover.Close asChild className="w-full">
-            <Link
-                onClick={onClick}
-                href={href}
-                className={`flex items-center space-x-1 w-full px-2 py-1.5 transition-colors hover:bg-gray-100 focus:outline-none 
+        <div className="px-4">
+            <Popover.Close asChild className="w-full rounded-lg px-4">
+                <Link
+                    onClick={onClick}
+                    href={href}
+                    className={`flex items-center space-x-3 w-full px-0 h-10 text-gray-500 hover:text-black transition-colors hover:bg-gray-100 focus:outline-none 
                     ${extraClassName}`}
-            >
-                <div className={`p-2`}>
+                >
                     <div className="relative w-5 h-5">
                         <Icon className="w-full h-full" />
                     </div>
-                </div>
-                <p className="text-sm">{text}</p>
-            </Link>
-        </Popover.Close>
+
+                    <p className="text-sm">{text}</p>
+                </Link>
+            </Popover.Close>
+        </div>
     );
 }

@@ -16,6 +16,7 @@ type AddToCartButtonProps = {
     quantity: number;
     className?: string;
     buttonType: ButtonType;
+    disabled?: boolean; // ✅ new prop
 };
 
 export default function AddToCartButton({
@@ -23,46 +24,44 @@ export default function AddToCartButton({
     quantity,
     className,
     buttonType,
+    disabled = false,
 }: AddToCartButtonProps) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const { addToCart } = useCart();
 
+    const isDisabled = disabled || loading;
+
     async function handleAddToCart() {
+        if (isDisabled) return;
+
         setLoading(true);
-
         const result = await addToCart(product.id, quantity);
-
         setLoading(false);
 
-        // Check for errors
         if (!result.success) {
             if (result.reason === "unauthorized") {
                 router.push("/login");
                 return;
             }
 
-            if (result.reason === "max_stock") {
-                showWarningToast("You've reached the maximum available stock");
-                return;
-            }
-
-            showWarningToast("You've reached the maximum available stock");
+            showWarningToast(
+                "You have reached the maximum quantity available for this item"
+            );
             return;
         }
 
-        showSuccessToast("Item Added to Cart", `${product.name}`);
+        showSuccessToast("Item Added to Cart", product.name);
     }
-
-    const disabled = product.stock === 0 || loading;
 
     if (buttonType === "mini") {
         return (
             <button
-                disabled={disabled || loading}
+                disabled={isDisabled}
                 onClick={handleAddToCart}
-                className={`rounded-lg flex items-center justify-center border w-9 h-9 sm:w-10 sm:h-10 hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:hover:bg-inherit
-            ${className}`}
+                className={`rounded-lg flex items-center justify-center border w-9 h-9 sm:w-10 sm:h-10
+                hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:hover:bg-inherit
+                ${className}`}
             >
                 {loading ? (
                     <div className="w-3 h-3 border-2 border-black rounded-full animate-spin border-t-transparent" />
@@ -75,9 +74,10 @@ export default function AddToCartButton({
 
     return (
         <button
-            disabled={disabled || loading}
+            disabled={isDisabled}
             onClick={handleAddToCart}
-            className={`rounded-lg h-10 text-sm bg-accent text-white hover:bg-neutral-700 w-full sm:max-w-60 transition-colors disabled:opacity-15 disabled:hover:bg-accent
+            className={`rounded-lg h-10 text-sm bg-linear-to-t font-medium from-blue-600  to-blue-500 hover:from-blue-700 hover:to-blue-500 text-white hover:bg-neutral-700
+            w-full transition-colors disabled:opacity-15
             ${className}`}
         >
             {product.stock === 0 ? (
