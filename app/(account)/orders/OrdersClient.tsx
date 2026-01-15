@@ -41,7 +41,7 @@ export default function OrdersClient({ orders }: Props) {
 
                 <Link
                     href="/"
-                    className="px-6 py-3 text-white transition rounded-lg bg-accent hover:bg-neutral-700"
+                    className="px-6 text-sm h-12 flex items-center justify-center bg-linear-to-t font-medium from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-500 text-white transition rounded-lg"
                 >
                     Start shopping
                 </Link>

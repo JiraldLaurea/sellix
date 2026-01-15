@@ -45,7 +45,7 @@ export default function ShopClient({
 
     return (
         <PageContainer>
-            <h1 className="mb-4 text-4xl font-semibold">Products Catalog</h1>
+            <h1 className="mb-8 text-3xl font-semibold">Products Catalog</h1>
 
             <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
                 {products.map((product) => (

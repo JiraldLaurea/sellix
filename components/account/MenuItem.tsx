@@ -15,7 +15,7 @@ export function MenuItem({
                 <Link
                     onClick={onClick}
                     href={href}
-                    className={`flex items-center space-x-3 w-full px-0 h-10 text-gray-500 hover:text-black transition-colors hover:bg-gray-100 focus:outline-none 
+                    className={`flex items-center space-x-3 w-full px-0 h-10 transition-colors hover:bg-gray-100 focus:outline-none 
                     ${extraClassName}`}
                 >
                     <div className="relative w-5 h-5">

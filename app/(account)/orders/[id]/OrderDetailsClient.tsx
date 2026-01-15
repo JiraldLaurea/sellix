@@ -28,13 +28,11 @@ export default function OrderDetailsClient({ order }: any) {
                     <div className="sm:rounded-xl sm:border bg-white sm:divide-y text-sm space-y-2 sm:space-y-0">
                         <div className="grid grid-cols-2 sm:py-3 px-0 sm:px-6">
                             <p className="text-gray-500">Order Number</p>
-                            <p className=" text-right font-medium">
-                                {order.orderNumber}
-                            </p>
+                            <p className=" text-right">{order.orderNumber}</p>
                         </div>
                         <div className="grid grid-cols-2 sm:py-3 px-0 sm:px-6 items-center">
-                            <p className=" text-gray-500">Date</p>
-                            <p className="text-sm font-medium text-right">
+                            <p className="text-gray-500">Date</p>
+                            <p className="text-sm text-right">
                                 {new Date(order.createdAt).toLocaleDateString(
                                     "en-US",
                                     {
@@ -48,7 +46,7 @@ export default function OrderDetailsClient({ order }: any) {
                         <div className="grid grid-cols-2 sm:py-3 px-0 sm:px-6">
                             <p className=" text-gray-500">Status</p>
                             <span
-                                className={`inline-flex justify-self-end w-fit border items-center rounded-full px-3 py-1 text-xs font-medium ${getStatusStyles(
+                                className={`inline-flex justify-self-end w-fit border items-center rounded-full px-3 py-1 text-xs ${getStatusStyles(
                                     order.status
                                 )}`}
                             >
@@ -68,9 +66,12 @@ export default function OrderDetailsClient({ order }: any) {
                                 key={item.id}
                                 className="flex justify-between text-sm"
                             >
-                                <span>
+                                <Link
+                                    href={`/product/${item.productId}`}
+                                    className="hover:underline"
+                                >
                                     {item.quantity} x {item.name}
-                                </span>
+                                </Link>
                                 <span>
                                     {formatMoney(item.price * item.quantity)}
                                 </span>

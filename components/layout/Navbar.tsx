@@ -145,7 +145,7 @@ export default function Navbar() {
             {/* Mobile Search Overlay */}
             {isSearchOpened && (
                 <div className="absolute space-x-2 flex items-center px-4 inset-0 z-50 bg-white sm:hidden">
-                    <div className="flex grow border rounded-full items-center h-11 px-3 gap-2">
+                    <div className="flex grow border rounded-full items-center h-12 px-3 gap-2">
                         <IoSearchOutline size={22} className="text-gray-500" />
                         <input
                             ref={searchInputRef}
@@ -160,7 +160,7 @@ export default function Navbar() {
                                     setIsSearchOpened(false);
                                 }
                             }}
-                            className="flex-1 h-10 sm:text-sm focus:outline-none"
+                            className="flex-1 h-12 sm:text-sm focus:outline-none"
                         />
                         {searchInput && (
                             <div

@@ -83,7 +83,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
                             className={`relative border flex-none h-20 w-20 rounded-md overflow-hidden
                             ${
                                 selectedImage === img
-                                    ? "outline outline-2 outline-black"
+                                    ? "outline-2 outline-black"
                                     : ""
                             }
                             `}
@@ -98,7 +98,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
                                 fill
                                 quality={50}
                                 sizes="10vw"
-                                className={`object-cover transition-opacity duration-300 ${
+                                className={`object-cover bg-gray-100 transition-opacity duration-300 ${
                                     isLoaded ? "opacity-100" : "opacity-0"
                                 }`}
                                 onLoad={() =>

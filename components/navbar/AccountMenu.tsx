@@ -37,19 +37,19 @@ export default function AccountMenu() {
                 </div>
 
                 <hr className="mt-5 mb-3" />
-
-                <MenuItem Icon={LuPackage} href="/orders/" text="Orders" />
-                <MenuItem
-                    Icon={MdFavoriteBorder}
-                    href="/favorites"
-                    text="Favorites"
-                />
-                <MenuItem
-                    Icon={MdPersonOutline}
-                    href="/profile"
-                    text="Profile"
-                />
-
+                <div className="space-y-2">
+                    <MenuItem Icon={LuPackage} href="/orders/" text="Orders" />
+                    <MenuItem
+                        Icon={MdFavoriteBorder}
+                        href="/favorites"
+                        text="Favorites"
+                    />
+                    <MenuItem
+                        Icon={MdPersonOutline}
+                        href="/profile"
+                        text="Profile"
+                    />
+                </div>
                 <hr className="my-3" />
 
                 <MenuItem

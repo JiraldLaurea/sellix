@@ -22,10 +22,10 @@ export default function ProductCard({ product }: Props) {
     }, [quantity, product.stock]);
 
     return (
-        <div className="flex flex-col h-full overflow-hidden border rounded-lg">
+        <div className="flex flex-col h-full overflow-hidden border rounded-xl">
             {/* Clickable area */}
             <Link href={`/product/${product.id}`}>
-                <div className="relative bg-gray-100 aspect-square">
+                <div className="relative bg-gray-50 border-b transition-colors aspect-square">
                     <Image
                         src={product.images[0]}
                         alt={product.name}
