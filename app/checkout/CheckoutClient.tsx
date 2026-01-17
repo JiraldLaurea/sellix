@@ -150,7 +150,7 @@ export default function CheckoutClient() {
 
                 <div className="mt-6 mb-4 rounded-lg sm:p-6 sm:border">
                     <ul className="space-y-2">
-                        {!loading ? (
+                        {pendingItems ? (
                             <>
                                 {pendingItems.map((item) => (
                                     <li

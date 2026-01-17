@@ -76,7 +76,7 @@ export default function AddToFavoriteButton({
             onClick={handleToggle}
             disabled={isDisabled}
             className={`rounded-lg h-10 text-sm border w-full flex items-center justify-center space-x-2
-            hover:bg-gray-100 disabled:opacity-50
+            hover:bg-gray-100 transition-colors disabled:opacity-50
             ${className}
             ${favorited ? "" : ""}`}
         >
