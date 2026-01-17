@@ -44,7 +44,7 @@ export default function CheckoutClient() {
 
     const subtotal = state.items.reduce(
         (sum: number, item) => sum + item.product.price * item.quantity,
-        0
+        0,
     );
 
     const tax = Math.round(subtotal * TAX_RATE);
@@ -110,7 +110,7 @@ export default function CheckoutClient() {
             setError(
                 err instanceof Error
                     ? err.message
-                    : "Something went wrong. Please try again."
+                    : "Something went wrong. Please try again.",
             );
             setLoading(false);
         }
@@ -150,19 +150,40 @@ export default function CheckoutClient() {
 
                 <div className="mt-6 mb-4 rounded-lg sm:p-6 sm:border">
                     <ul className="space-y-2">
-                        {pendingItems.map((item) => (
-                            <li
-                                key={item.id}
-                                className="flex justify-between space-x-6"
-                            >
-                                <ul className="truncate">
-                                    {item.quantity} x {item.name}
-                                </ul>
-                                <ul>
-                                    {formatMoney(item.price * item.quantity)}
-                                </ul>
-                            </li>
-                        ))}
+                        {!loading ? (
+                            <>
+                                {pendingItems.map((item) => (
+                                    <li
+                                        key={item.id}
+                                        className="flex justify-between space-x-6"
+                                    >
+                                        <ul className="truncate">
+                                            {item.quantity} x {item.name}
+                                        </ul>
+                                        <ul>
+                                            {formatMoney(
+                                                item.price * item.quantity,
+                                            )}
+                                        </ul>
+                                    </li>
+                                ))}
+                            </>
+                        ) : (
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <div className="w-40 h-5 bg-gray-200 rounded-md animate-pulse" />
+                                    <div className="w-20 h-5 bg-gray-200 rounded-md animate-pulse" />
+                                </div>
+                                <div className="flex justify-between">
+                                    <div className="h-5 bg-gray-200 rounded-md w-34 animate-pulse" />
+                                    <div className="h-5 bg-gray-200 rounded-md w-30 animate-pulse" />
+                                </div>
+                                <div className="flex justify-between">
+                                    <div className="h-5 bg-gray-200 rounded-md w-46 animate-pulse" />
+                                    <div className="w-24 h-5 bg-gray-200 rounded-md animate-pulse" />
+                                </div>
+                            </div>
+                        )}
                     </ul>
 
                     {/* PENDING Breakdown */}
@@ -232,7 +253,7 @@ export default function CheckoutClient() {
                                 </ul>
                                 <ul>
                                     {formatMoney(
-                                        item.product.price * item.quantity
+                                        item.product.price * item.quantity,
                                     )}
                                 </ul>
                             </li>

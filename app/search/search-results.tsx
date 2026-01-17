@@ -93,7 +93,7 @@ export default function SearchResults({
 
         const observer = new IntersectionObserver(
             ([entry]) => entry.isIntersecting && loadMore(),
-            { rootMargin: "200px" }
+            { rootMargin: "200px" },
         );
 
         if (loaderRef.current) observer.observe(loaderRef.current);
@@ -190,14 +190,14 @@ export default function SearchResults({
                     )}
 
                     {filteredProducts.length === 0 ? (
-                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             {Array.from({ length: 8 }).map((_, i) => (
                                 <ProductCardSkeleton key={i} />
                             ))}
                         </div>
                     ) : (
                         <>
-                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                 {visibleProducts.map((product) => (
                                     <ProductCard
                                         key={product.id}

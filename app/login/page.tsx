@@ -29,7 +29,7 @@ export default function LoginPage() {
 
     if (status === "loading") {
         return (
-            <div className="flex flex-col items-center justify-center space-y-2 min-h-screen">
+            <div className="flex flex-col items-center justify-center min-h-screen space-y-2">
                 <Spinner className="w-6 h-6" borderColor="border-black" />
                 <p className="text-sm text-gray-500">Checking session…</p>
             </div>
@@ -38,20 +38,31 @@ export default function LoginPage() {
 
     return (
         <PageContainer className="py-0! max-w-full sm:px-0!">
-            <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[500px_1fr]">
+            <div className="grid min-h-screen grid-cols-1 md:grid-cols-2">
                 {/* LEFT — SIDE CONTENT */}
-                <div className="hidden lg:flex flex-col justify-center bg-gray-50 px-8 border-r w-full">
-                    <h1 className="mb-4 text-4xl font-semibold">
-                        Welcome to Sellix
-                    </h1>
+                <div className="flex-col items-center justify-center hidden w-full px-8 space-y-10 text-center text-white border-r md:flex bg-accent">
+                    <Image
+                        src="/img/brand_logo_dark.png"
+                        alt="Brand Logo"
+                        width={180}
+                        height={40}
+                        preload
+                        loading="eager"
+                        className="object-contain"
+                    />
+                    <div className="space-y-2">
+                        <h1 className="text-4xl font-semibold">
+                            Welcome to Sellix
+                        </h1>
 
-                    <p className="mb-10 max-w-md text-gray-500 leading-relaxed">
-                        A modern e-commerce platform built to help you manage
-                        orders and payments in one place. Fast, secure, and
-                        designed to scale with your business.
-                    </p>
+                        <p className="max-w-md leading-relaxed text-gray-400">
+                            A modern e-commerce platform built to help you
+                            manage orders and payments in one place. Fast,
+                            secure, and designed to scale with your business.
+                        </p>
+                    </div>
 
-                    <div className="flex gap-8 text-gray-400 font-medium">
+                    <div className="flex gap-8 font-medium text-gray-500">
                         <span>Next.js</span>
                         <span>Stripe</span>
                         <span>Prisma</span>
@@ -69,7 +80,7 @@ export default function LoginPage() {
                             height={40}
                             preload
                             loading="eager"
-                            className="mb-12 object-contain"
+                            className="object-contain mb-12 md:hidden"
                         />
                         <div className="mb-6 space-y-2">
                             <h1 className="text-3xl font-semibold">Sign in</h1>

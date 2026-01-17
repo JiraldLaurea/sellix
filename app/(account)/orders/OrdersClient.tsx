@@ -36,7 +36,7 @@ export default function OrdersClient({ orders }: Props) {
                         No orders yet
                     </h1>
                     <p className="text-gray-600">
-                        You haven't processed an order yet.
+                        You haven't processed an order yet
                     </p>
                 </div>
 
@@ -83,7 +83,7 @@ export default function OrdersClient({ orders }: Props) {
                                 >
                                     <span>{s.label}</span>
 
-                                    <span className="items-center justify-center hidden w-5 h-5 text-xs text-gray-700 border rounded-full sm:flex">
+                                    <span className="items-center justify-center hidden w-5 h-5 text-xs text-gray-700 border rounded-full md:flex">
                                         {count}
                                     </span>
 
@@ -101,7 +101,7 @@ export default function OrdersClient({ orders }: Props) {
                 </div>
 
                 {filteredOrders.length === 0 && activeStatus !== "ALL" ? (
-                    <div className="py-8 text-sm text-center text-gray-500">
+                    <div className="h-23.25 flex items-center justify-center text-sm text-gray-500">
                         No {activeStatus.toLowerCase()} orders
                     </div>
                 ) : (

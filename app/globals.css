@@ -34,12 +34,14 @@ input[type="search"]::-webkit-search-cancel-button {
 
 :root {
     --toastify-color-success: black;
-    --toastify-color-progress-success: black;
+    --toastify-color-progress-success: #2b7ffe;
     --toastify-color-progress-warning: #ff6900;
     --toastify-color-progress-error: #e7000b;
     --toastify-toast-bd-radius: 0px !important;
     --toastify-toast-padding: 0px;
     --toastify-toast-min-height: 0px;
+
+    --toastify-color-progress-success: #2b7ffe;
 }
 
 .Toastify__toast {

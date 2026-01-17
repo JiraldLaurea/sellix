@@ -27,24 +27,24 @@ export function SideMenuItem({
     const Icon = isActive ? activeIcon : icon;
 
     return (
-        <li className="space-y-10 px-4">
+        <li className="px-4 space-y-10">
             <Link
                 href={href}
                 className={cn(
-                    "group relative flex rounded-lg items-center gap-3 h-10 px-4 text-sm text-gray-500",
+                    "group relative flex rounded-lg items-center gap-3 h-10 px-4 text-sm text-gray-700",
                     isActive
-                        ? "bg-linear-to-t font-medium from-blue-600  to-blue-500 text-white"
-                        : "hover:bg-gray-100 hover:text-black hover:transition-colors"
+                        ? "bg-gray-100"
+                        : "hover:bg-gray-100 hover:transition-colors",
                 )}
             >
-                <Icon className="h-5 w-5 shrink-0" />
+                <Icon className="w-5 h-5 shrink-0" />
                 <span className="flex-1">{label}</span>
 
                 {count !== undefined && (
                     <span
                         className={cn(
-                            "text-xs text-gray-500",
-                            isActive && "transition-none text-white"
+                            "text-xs text-gray-700",
+                            isActive && "transition-none",
                         )}
                     >
                         {count}

@@ -19,7 +19,7 @@ type CartContextType = {
     loading: boolean;
     addToCart: (
         productId: string,
-        quantity: number
+        quantity: number,
     ) => Promise<AddToCartResult>;
     refreshCart: () => Promise<void>;
     removeCartItem: (cartItemId: string) => Promise<void>;
@@ -72,7 +72,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const addToCart = useCallback(
         async (
             productId: string,
-            quantity: number
+            quantity: number,
         ): Promise<AddToCartResult> => {
             const res = await fetch("/api/cart", {
                 method: "POST",
@@ -102,7 +102,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
             return { success: true };
         },
-        [refreshCart]
+        [refreshCart],
     );
 
     const removeCartItem = useCallback(async (cartItemId: string) => {
@@ -139,7 +139,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             // 1️⃣ Optimistic UI update
             setState((prev) => ({
                 items: prev.items.map((item) =>
-                    item.id === cartItemId ? { ...item, quantity } : item
+                    item.id === cartItemId ? { ...item, quantity } : item,
                 ),
             }));
 
@@ -163,7 +163,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 }
             }, 400);
         },
-        [refreshCart]
+        [refreshCart],
     );
 
     const value = useMemo(
@@ -186,7 +186,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             clearCart,
             updateQuantity,
             hydrateCart,
-        ]
+        ],
     );
 
     return (

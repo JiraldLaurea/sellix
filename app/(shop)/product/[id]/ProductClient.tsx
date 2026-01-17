@@ -7,9 +7,13 @@ import { BackButton } from "@/components/ui/BackButton";
 import PageContainer from "@/components/ui/PageContainer";
 import { formatMoney } from "@/lib/formatMoney";
 
-export default function ProductClient({ product }: { product: Product }) {
+type Props = {
+    product: Product;
+};
+
+export default function ProductClient({ product }: Props) {
     return (
-        <PageContainer className="grid gap-8 py-8 md:grid-cols-2 w-full items-center">
+        <PageContainer className="grid items-center w-full gap-8 py-8 md:grid-cols-2">
             {/* Image */}
             <ProductImageGallery images={product.images} alt={product.name} />
 
@@ -22,7 +26,7 @@ export default function ProductClient({ product }: { product: Product }) {
                         <h1 className="text-2xl font-semibold">
                             {product.name}
                         </h1>
-                        <p className="text-gray-600 text-sm">
+                        <p className="text-sm text-gray-600">
                             Category:{" "}
                             <span className="font-semibold">
                                 {product.category.name}

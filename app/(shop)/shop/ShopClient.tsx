@@ -56,7 +56,7 @@ export default function ShopClient({
                     Array.from({ length: 4 }).map((_, i) => (
                         <div
                             key={i}
-                            className="h-107 rounded-lg border bg-gray-100 animate-pulse"
+                            className="bg-gray-100 border rounded-lg h-107 animate-pulse"
                         />
                     ))}
             </div>

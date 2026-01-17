@@ -11,7 +11,7 @@ export function Spinner({
 }: SpinnerProps) {
     return (
         <div
-            className={`${borderColor} ${className} w-4 h-4 border-2 rounded-full animate-spin border-t-transparent`}
+            className={`${borderColor} ${className} w-3.5 h-3.5 border-2 rounded-full animate-spin border-t-transparent`}
         />
     );
 }

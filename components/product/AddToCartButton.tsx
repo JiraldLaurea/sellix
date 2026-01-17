@@ -64,7 +64,7 @@ export default function AddToCartButton({
                 ${className}`}
             >
                 {loading ? (
-                    <div className="w-3 h-3 border-2 border-black rounded-full animate-spin border-t-transparent" />
+                    <Spinner borderColor="border-black" />
                 ) : (
                     <FaPlus size={14} />
                 )}
