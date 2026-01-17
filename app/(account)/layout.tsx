@@ -25,7 +25,7 @@ export default async function AccountLayout({
 
     return (
         <PageContainer>
-            <div className="flex gap-6">
+            <div className="flex md:gap-6">
                 <div className="min-h-[calc(100vh-128px)]">
                     <AccountSideMenu
                         orderCount={orderCount}
