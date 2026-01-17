@@ -42,7 +42,7 @@ export default function CategoryClient({
                                         src={category.image}
                                         alt={category.name}
                                         fill
-                                        sizes="(max-width: 768px) 100vw, 100vw"
+                                        sizes="10vw"
                                         className="object-contain"
                                     />
                                 )}

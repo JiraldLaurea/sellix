@@ -154,7 +154,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                                         }
                                                         alt={item.product.name}
                                                         fill
-                                                        sizes="(max-width: 768px) 100vw, 100vw"
+                                                        sizes="10vw"
                                                         className="object-cover"
                                                     />
                                                 </div>

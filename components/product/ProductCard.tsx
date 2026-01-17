@@ -31,7 +31,7 @@ export default function ProductCard({ product }: Props) {
                             src={product.images[0]}
                             alt={product.name}
                             fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                            sizes="10vw"
                             className="object-cover"
                         />
                     </div>

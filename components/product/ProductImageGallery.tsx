@@ -17,7 +17,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
     const [isMainLoading, setIsMainLoading] = useState(false);
     const [isFadingOut, setIsFadingOut] = useState(false);
     const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>(
-        {}
+        {},
     );
 
     const loadStartRef = useRef(0);
@@ -51,24 +51,27 @@ export default function ProductImageGallery({ images, alt }: Props) {
     return (
         <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
             {/* SELECTED IMAGE */}
-            <div className="relative overflow-hidden bg-gray-100 rounded-md grow aspect-square">
-                {isMainLoading && (
-                    <div className="absolute inset-0 z-10 bg-[#F3F4F6] animate-pulse" />
-                )}
+            <div className="p-4 overflow-hidden border rounded-md bg-gray-50 grow">
+                <div className="relative aspect-square">
+                    {isMainLoading && (
+                        <div className="absolute inset-0 z-10 bg-gray-50 animate-pulse" />
+                    )}
 
-                <Image
-                    src={activeImage}
-                    alt={alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 100vw"
-                    className={`object-cover transition-opacity duration-300 ${
-                        isFadingOut || isMainLoading
-                            ? "opacity-0"
-                            : "opacity-100"
-                    }`}
-                    priority
-                    onLoadingComplete={handleMainLoaded}
-                />
+                    <Image
+                        src={activeImage}
+                        alt={alt}
+                        quality={25}
+                        fill
+                        sizes="(max-width: 768px) 25vw, 25vw"
+                        className={`object-cover transition-opacity duration-300 ${
+                            isFadingOut || isMainLoading
+                                ? "opacity-0"
+                                : "opacity-100"
+                        }`}
+                        priority
+                        onLoadingComplete={handleMainLoaded}
+                    />
+                </div>
             </div>
 
             {/* IMAGE GALLERY */}
@@ -89,25 +92,30 @@ export default function ProductImageGallery({ images, alt }: Props) {
                             `}
                         >
                             {!isLoaded && (
-                                <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+                                <div className="absolute inset-0 bg-gray-100 animate-pulse" />
                             )}
-
-                            <Image
-                                src={img}
-                                alt=""
-                                fill
-                                quality={50}
-                                sizes="10vw"
-                                className={`object-cover bg-gray-100 transition-opacity duration-300 ${
-                                    isLoaded ? "opacity-100" : "opacity-0"
-                                }`}
-                                onLoad={() =>
-                                    setLoadedImages((prev) => ({
-                                        ...prev,
-                                        [img]: true,
-                                    }))
-                                }
-                            />
+                            <div className="p-2 bg-gray-50">
+                                <div className="relative aspect aspect-square">
+                                    <Image
+                                        src={img}
+                                        alt=""
+                                        fill
+                                        quality={50}
+                                        sizes="10vw"
+                                        className={`object-cover transition-opacity duration-300 ${
+                                            isLoaded
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                        }`}
+                                        onLoad={() =>
+                                            setLoadedImages((prev) => ({
+                                                ...prev,
+                                                [img]: true,
+                                            }))
+                                        }
+                                    />
+                                </div>
+                            </div>
                         </button>
                     );
                 })}
