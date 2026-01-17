@@ -7,7 +7,7 @@ import RetryPaymentClient from "../../../(account)/orders/[id]/pay/RetryPaymentC
 
 type Props = {
     params: Promise<{
-        id: string;
+        orderNumber: string;
     }>;
 };
 
@@ -18,7 +18,7 @@ export default async function RetryPaymentPage({ params }: Props) {
         redirect("/login");
     }
 
-    const orderNumber = (await params).id;
+    const orderNumber = (await params).orderNumber;
 
     const order = await prisma.order.findFirst({
         where: {
