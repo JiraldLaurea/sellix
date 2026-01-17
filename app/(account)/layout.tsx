@@ -14,14 +14,24 @@ export default async function AccountLayout({
 
     if (!session?.user?.id) redirect("/login");
 
-    const orderCount = await prisma.order.count({
-        where: { userId: session.user.id },
-    });
+    const [orderCount, favoritesCount] = await Promise.all([
+        prisma.order.count({
+            where: { userId: session.user.id },
+        }),
+        prisma.favorite.count({
+            where: { userId: session.user.id },
+        }),
+    ]);
 
     return (
         <PageContainer>
             <div className="flex gap-6">
-                <AccountSideMenu orderCount={orderCount} />
+                <div className="min-h-[calc(100vh-128px)]">
+                    <AccountSideMenu
+                        orderCount={orderCount}
+                        favoritesCount={favoritesCount}
+                    />
+                </div>
                 <main className="flex-1">{children}</main>
             </div>
         </PageContainer>
