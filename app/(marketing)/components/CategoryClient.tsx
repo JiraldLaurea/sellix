@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const INITIAL_COUNT = 5;
+const INITIAL_COUNT = 4;
 const STEP = 20;
 
 type Category = {
@@ -25,29 +25,30 @@ export default function CategoryClient({
     const showMore = () => setVisible((v) => v + STEP);
 
     return (
-        <PageContainer>
+        <PageContainer className="min-h-auto">
             <h1 className="mb-8 text-3xl font-semibold">Browse Categories</h1>
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
                 {categories.slice(0, visible).map((category) => (
                     <Link
                         key={category.id}
                         href={`/search?category=${category.id}`}
-                        className="flex h-full flex-col overflow-hidden rounded-xl border"
+                        className="flex flex-col h-full overflow-hidden border rounded-xl"
                     >
-                        <div className="relative aspect-square w-full bg-gray-50 p-2">
-                            {category.image && (
-                                <Image
-                                    src={category.image}
-                                    alt={category.name}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, 100vw"
-                                    className="object-contain"
-                                />
-                            )}
+                        <div className="p-4 bg-gray-50">
+                            <div className="relative w-full aspect-square">
+                                {category.image && (
+                                    <Image
+                                        src={category.image}
+                                        alt={category.name}
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 100vw"
+                                        className="object-contain"
+                                    />
+                                )}
+                            </div>
                         </div>
-
-                        <div className="w-full border-t p-4 text-left">
+                        <div className="w-full p-4 text-left border-t">
                             <p className="text-sm font-medium">
                                 {category.name}
                             </p>
@@ -60,10 +61,10 @@ export default function CategoryClient({
             </div>
 
             {visible < categories.length && (
-                <div className="mt-8 flex justify-center">
+                <div className="flex justify-center mt-8">
                     <button
                         onClick={showMore}
-                        className="w-full sm:w-fit rounded-lg border bg-linear-to-t from-blue-600 to-blue-500 px-6 py-2 text-sm font-medium text-white transition hover:from-blue-700"
+                        className="w-full px-6 py-2 text-sm font-medium text-white transition border rounded-lg sm:w-fit bg-linear-to-t from-blue-600 to-blue-500 hover:from-blue-700"
                     >
                         Show All Categories
                     </button>

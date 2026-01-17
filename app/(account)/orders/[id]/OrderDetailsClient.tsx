@@ -39,15 +39,15 @@ export default function OrderDetailsClient({ order }: any) {
                                         month: "long",
                                         day: "2-digit",
                                         year: "numeric",
-                                    }
+                                    },
                                 )}
                             </p>
                         </div>
                         <div className="grid grid-cols-2 sm:py-3 px-0 sm:px-6">
                             <p className=" text-gray-500">Status</p>
                             <span
-                                className={`inline-flex justify-self-end w-fit border items-center rounded-full px-3 py-1 text-xs ${getStatusStyles(
-                                    order.status
+                                className={`inline-flex justify-self-end w-fit border items-center rounded-full px-2 py-0 text-xs ${getStatusStyles(
+                                    order.status,
                                 )}`}
                             >
                                 {order.status.charAt(0) +

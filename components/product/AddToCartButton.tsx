@@ -46,7 +46,7 @@ export default function AddToCartButton({
             }
 
             showWarningToast(
-                "You have reached the maximum quantity available for this item"
+                "You have reached the maximum quantity available for this item",
             );
             return;
         }

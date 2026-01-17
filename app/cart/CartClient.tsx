@@ -57,7 +57,7 @@ export default function CartClient({ cart }: CartClientProps) {
 
     const subtotal = items.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
-        0
+        0,
     );
 
     const SHIPPING_FEE = 1500; // $15.00
@@ -77,7 +77,7 @@ export default function CartClient({ cart }: CartClientProps) {
     // EMPTY CART
     if (items.length === 0) {
         return (
-            <PageContainer className="flex flex-col items-center justify-center text-center space-y-6">
+            <PageContainer className="flex flex-col items-center justify-center space-y-6 text-center">
                 <div className="p-6 bg-gray-100 rounded-lg">
                     <HiOutlineTrash size={40} className="text-gray-500" />
                 </div>
@@ -103,7 +103,7 @@ export default function CartClient({ cart }: CartClientProps) {
         <PageContainer>
             {/* Back */}
             <BackButton text="Back" />
-            <div className="flex flex-col sm:gap-6 mt-4 lg:flex-row">
+            <div className="flex flex-col mt-4 sm:gap-6 lg:flex-row">
                 {/* LEFT: ITEMS */}
                 <div className="grow">
                     <div className="flex items-center justify-between mb-2">
@@ -141,17 +141,23 @@ export default function CartClient({ cart }: CartClientProps) {
                                             <div
                                                 onClick={() =>
                                                     router.push(
-                                                        `/product/${item.product.id}`
+                                                        `/product/${item.product.id}`,
                                                     )
                                                 }
-                                                className="relative overflow-hidden bg-gray-100 cursor-pointer sm:w-40 sm:h-40 w-30 h-30 shrink-0"
+                                                className="p-4 overflow-hidden bg-gray-100 cursor-pointer sm:w-40 sm:h-40 w-30 h-30 shrink-0"
                                             >
-                                                <Image
-                                                    src={item.product.images[0]}
-                                                    alt={item.product.name}
-                                                    fill
-                                                    className="object-cover"
-                                                />
+                                                <div className="relative w-full aspect-square">
+                                                    <Image
+                                                        src={
+                                                            item.product
+                                                                .images[0]
+                                                        }
+                                                        alt={item.product.name}
+                                                        fill
+                                                        sizes="(max-width: 768px) 100vw, 100vw"
+                                                        className="object-cover"
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="flex justify-center">
                                                 {/* Qty */}
@@ -162,7 +168,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                                         onChange={(next) =>
                                                             updateQuantity(
                                                                 item.id,
-                                                                next
+                                                                next,
                                                             )
                                                         }
                                                     />
@@ -181,16 +187,16 @@ export default function CartClient({ cart }: CartClientProps) {
                                                 </Link>
                                                 <p className="text-sm text-gray-500 sm:text-base">
                                                     {formatMoney(
-                                                        item.product.price
+                                                        item.product.price,
                                                     )}
                                                 </p>
                                             </div>
                                             <div className="flex flex-row items-end justify-between sm:flex-col sm:items-end grow">
                                                 {/* Subtotal */}
-                                                <p className="flex items-center h-11 font-medium sm:h-auto">
+                                                <p className="flex items-center font-medium h-11 sm:h-auto">
                                                     {formatMoney(
                                                         item.product.price *
-                                                            item.quantity
+                                                            item.quantity,
                                                     )}
                                                 </p>
                                                 {/* Remove */}
@@ -198,7 +204,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                                     <button
                                                         onClick={() =>
                                                             handleRemoveCartItem(
-                                                                item.id
+                                                                item.id,
                                                             )
                                                         }
                                                         className="flex items-center justify-center w-10 h-10 transition-colors border rounded-full hover:bg-gray-100"
@@ -219,7 +225,7 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <Container className="p-0 sm:border border-t rounded-none sm:rounded-xl pt-6 lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
+                <Container className="p-0 pt-6 border-t rounded-none sm:border sm:rounded-xl lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
                     {/* <div className="p-8 text-sm border rounded-lg h-fit sm:sticky sm:top-24"> */}
                     <h2 className="mb-4 text-2xl font-semibold">Summary</h2>
                     <OrderBreakdown

@@ -25,26 +25,28 @@ export default function ProductCard({ product }: Props) {
         <div className="flex flex-col h-full overflow-hidden border rounded-xl">
             {/* Clickable area */}
             <Link href={`/product/${product.id}`}>
-                <div className="relative bg-gray-50 border-b transition-colors aspect-square">
-                    <Image
-                        src={product.images[0]}
-                        alt={product.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-                        className="object-cover"
-                    />
+                <div className="p-4 border-b bg-gray-50">
+                    <div className="relative aspect-square">
+                        <Image
+                            src={product.images[0]}
+                            alt={product.name}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                            className="object-cover"
+                        />
+                    </div>
                 </div>
             </Link>
 
             {/* Product Info */}
             <div className="flex flex-col p-3 space-y-6 sm:p-4 grow">
-                <div className="truncate grow text-ellipsis text-wrap flex flex-col">
-                    <small className="text-xs sm:text-sm text-gray-500 w-fit">
+                <div className="flex flex-col truncate grow text-ellipsis text-wrap">
+                    <small className="text-xs text-gray-500 sm:text-sm w-fit">
                         {product.category.name}
                     </small>
                     <Link
                         href={`/product/${product.id}`}
-                        className="text-xs w-fit hover:underline text sm:text-sm font-medium"
+                        className="text-xs font-medium w-fit hover:underline text sm:text-sm"
                     >
                         {product.name}
                     </Link>
