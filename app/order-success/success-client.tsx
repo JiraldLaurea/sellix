@@ -8,7 +8,7 @@ import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useState } from "react";
-import { FaCheckCircle } from "react-icons/fa";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 
 type OrderStatus = "PENDING" | "PAID" | "FULFILLED" | "REFUNDED";
 
@@ -124,7 +124,10 @@ export default function SuccessClient({
             <div className="flex flex-col items-center w-full max-w-xl space-y-6 text-center">
                 <div className="space-y-4">
                     <div className="flex flex-col items-center space-y-2">
-                        <FaCheckCircle size={60} className="text-green-500" />
+                        <IoIosCheckmarkCircle
+                            size={60}
+                            className="text-green-500"
+                        />
                         <h1 className="text-2xl font-semibold">
                             Order confirmed
                         </h1>
