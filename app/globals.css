@@ -40,8 +40,6 @@ input[type="search"]::-webkit-search-cancel-button {
     --toastify-toast-bd-radius: 0px !important;
     --toastify-toast-padding: 0px;
     --toastify-toast-min-height: 0px;
-
-    --toastify-color-progress-success: #2b7ffe;
 }
 
 .Toastify__toast {
