@@ -1,13 +1,8 @@
 "use client";
 
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
 import PaymentForm from "@/components/PaymentForm";
+import StripeProvider from "@/components/StripeProvider";
 import { Container } from "@/components/ui/Container";
-
-const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-);
 
 export default function RetryPaymentClient({
     orderNumber,
@@ -19,9 +14,9 @@ export default function RetryPaymentClient({
     return (
         <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
             <Container>
-                <Elements stripe={stripePromise} options={{ clientSecret }}>
+                <StripeProvider clientSecret={clientSecret}>
                     <PaymentForm orderNumber={orderNumber} />
-                </Elements>
+                </StripeProvider>
             </Container>
         </div>
     );
