@@ -1,6 +1,6 @@
 "use client";
 
-import { Order, OrderItem } from "@/app/types";
+import { Order } from "@/app/types";
 import { Container } from "@/components/ui/Container";
 import PageContainer from "@/components/ui/PageContainer";
 import { formatMoney } from "@/lib/formatMoney";
@@ -30,6 +30,7 @@ export default function OrdersClient({ orders }: Props) {
                 <div className="p-6 bg-gray-100 rounded-xl">
                     <LuPackage size={40} className="text-gray-500" />
                 </div>
+
                 <div>
                     <h1 className="mb-1 text-2xl font-semibold">
                         No orders yet
@@ -41,7 +42,7 @@ export default function OrdersClient({ orders }: Props) {
 
                 <Link
                     href="/"
-                    className="px-6 text-sm h-12 flex items-center justify-center bg-linear-to-t font-medium from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-500 text-white transition rounded-lg"
+                    className="flex items-center justify-center h-12 px-6 text-sm font-medium text-white transition rounded-lg bg-linear-to-t from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-500"
                 >
                     Start shopping
                 </Link>
@@ -49,13 +50,18 @@ export default function OrdersClient({ orders }: Props) {
         );
     }
 
+    const filteredOrders =
+        activeStatus === "ALL"
+            ? orders
+            : orders.filter((o) => o.status === activeStatus);
+
     return (
         <section className="flex-1">
             <h1 className="mb-6 text-3xl font-semibold">Orders</h1>
 
-            <div className="space-y-0 border rounded-xl divide-y overflow-hidden">
+            <div className="space-y-0 overflow-hidden border divide-y rounded-xl">
                 <div className="border-b">
-                    <div className="grid grid-cols-4 text-xs sm:text-sm divide-x">
+                    <div className="grid grid-cols-4 text-xs divide-x sm:text-sm">
                         {statuses.map((s) => {
                             const count =
                                 s.key === "ALL"
@@ -69,23 +75,20 @@ export default function OrdersClient({ orders }: Props) {
                                 <button
                                     key={s.key}
                                     onClick={() => setActiveStatus(s.key)}
-                                    className={`relative hover:bg-gray-50 transition-colors justify-center flex items-center gap-2 py-4 ${
+                                    className={`relative hover:bg-gray-50 transition-colors justify-center flex items-center gap-2 py-3 ${
                                         isActive
                                             ? "text-blue-500"
                                             : "text-gray-500 hover:text-gray-900"
                                     }`}
                                 >
-                                    <span> {s.label}</span>
-                                    <span
-                                        className={`hidden sm:flex justify-center rounded-full w-5 items-center h-5 text-xs border text-gray-700
-                                    `}
-                                    >
+                                    <span>{s.label}</span>
+
+                                    <span className="items-center justify-center hidden w-5 h-5 text-xs text-gray-700 border rounded-full sm:flex">
                                         {count}
                                     </span>
 
                                     <span
-                                        className={`absolute transition-all bottom-0 left-0 h-0.5 w-full bg-blue-500
-                                        ${
+                                        className={`absolute bottom-0 left-0 h-0.5 w-full bg-blue-500 transition-all ${
                                             isActive
                                                 ? "opacity-100"
                                                 : "opacity-0"
@@ -97,13 +100,12 @@ export default function OrdersClient({ orders }: Props) {
                     </div>
                 </div>
 
-                {orders
-                    .filter((order) =>
-                        activeStatus === "ALL"
-                            ? true
-                            : order.status === activeStatus
-                    )
-                    .map((order: Order) => (
+                {filteredOrders.length === 0 && activeStatus !== "ALL" ? (
+                    <div className="py-8 text-sm text-center text-gray-500">
+                        No {activeStatus.toLowerCase()} orders
+                    </div>
+                ) : (
+                    filteredOrders.map((order) => (
                         <Link
                             key={order.id}
                             href={`/orders/${order.orderNumber}`}
@@ -111,17 +113,17 @@ export default function OrdersClient({ orders }: Props) {
                         >
                             <Container className="w-full rounded-none! transition-colors px-3 sm:px-6 py-4 hover:bg-gray-50 flex items-center justify-between space-x-2 sm:space-x-4">
                                 {/* LEFT */}
-                                <div className="flex flex-col border items-center bg-gray-100 text-gray-500 px-3 py-2 rounded-xl">
+                                <div className="flex flex-col items-center px-3 py-2 text-gray-500 bg-gray-100 border rounded-xl">
                                     <span className="text-xs">
                                         {new Date(
-                                            order.createdAt
+                                            order.createdAt,
                                         ).toLocaleDateString("en-US", {
                                             month: "short",
                                         })}
                                     </span>
                                     <span className="text-lg">
                                         {new Date(
-                                            order.createdAt
+                                            order.createdAt,
                                         ).toLocaleDateString("en-US", {
                                             day: "2-digit",
                                         })}
@@ -129,25 +131,24 @@ export default function OrdersClient({ orders }: Props) {
                                 </div>
 
                                 {/* CENTER */}
-                                <div className="grow text-sm">
-                                    <div className="truncate">
-                                        <p>ORDER-{order.orderNumber}</p>
-                                    </div>
+                                <div className="text-sm grow">
+                                    <p className="truncate">
+                                        ORDER-{order.orderNumber}
+                                    </p>
                                     <p className="text-gray-500">
                                         {order.items.length}{" "}
                                         {order.items.length === 1
                                             ? "Item"
-                                            : "Items"}
-                                        {" • "}
-                                        {formatMoney(order.total)}
+                                            : "Items"}{" "}
+                                        • {formatMoney(order.total)}
                                     </p>
                                 </div>
 
                                 {/* RIGHT */}
-                                <div className="">
+                                <div>
                                     <p
                                         className={`rounded-full px-3 border py-1 text-xs ${getStatusStyles(
-                                            order.status
+                                            order.status,
                                         )}`}
                                     >
                                         {order.status.charAt(0).toUpperCase() +
@@ -156,7 +157,8 @@ export default function OrdersClient({ orders }: Props) {
                                 </div>
                             </Container>
                         </Link>
-                    ))}
+                    ))
+                )}
             </div>
         </section>
     );
