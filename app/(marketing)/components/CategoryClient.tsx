@@ -1,24 +1,17 @@
 "use client";
 
+import { CategoryCardProps } from "@/app/types";
+import CategoryCard from "@/components/category/CategoryCard";
 import PageContainer from "@/components/ui/PageContainer";
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 
 const INITIAL_COUNT = 4;
 const STEP = 20;
 
-type Category = {
-    id: string;
-    name: string;
-    image: string | null;
-    itemCount: number;
-};
-
 export default function CategoryClient({
     categories,
 }: {
-    categories: Category[];
+    categories: CategoryCardProps[];
 }) {
     const [visible, setVisible] = useState(INITIAL_COUNT);
 
@@ -30,33 +23,7 @@ export default function CategoryClient({
 
             <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
                 {categories.slice(0, visible).map((category) => (
-                    <Link
-                        key={category.id}
-                        href={`/search?category=${category.id}`}
-                        className="flex flex-col h-full overflow-hidden border rounded-xl"
-                    >
-                        <div className="p-4 bg-gray-50">
-                            <div className="relative w-full aspect-square">
-                                {category.image && (
-                                    <Image
-                                        src={category.image}
-                                        alt={category.name}
-                                        fill
-                                        sizes="10vw"
-                                        className="object-contain"
-                                    />
-                                )}
-                            </div>
-                        </div>
-                        <div className="w-full p-4 text-left border-t">
-                            <p className="text-sm font-medium">
-                                {category.name}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                                {category.itemCount} items
-                            </p>
-                        </div>
-                    </Link>
+                    <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 

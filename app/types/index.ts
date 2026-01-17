@@ -84,3 +84,10 @@ export type AddToCartResult = {
     success: boolean;
     reason?: "unauthorized" | "max_stock" | "unknown";
 };
+
+export type CategoryCardProps = {
+    id: string;
+    name: string;
+    image: string | null;
+    itemCount: number;
+};
