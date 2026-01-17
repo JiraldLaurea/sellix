@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 4;
 
 export async function getProducts(cursor?: string) {
     const [products, totalCount] = await Promise.all([
