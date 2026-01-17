@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import AddToCartButton from "./AddToCartButton";
 import { Product } from "@/app/types";
+import AddToFavoriteButton from "./AddToFavoriteButton";
 
 type Props = {
     product: Product;
@@ -55,11 +56,17 @@ export default function ProductCard({ product }: Props) {
                     <p className="font-semibold text-black sm:text-lg">
                         {formatMoney(product.price)}
                     </p>
-                    <AddToCartButton
-                        product={product}
-                        quantity={quantity}
-                        buttonType="mini"
-                    />
+                    <div className="flex space-x-1">
+                        <AddToFavoriteButton
+                            product={product}
+                            buttonType="mini"
+                        />
+                        <AddToCartButton
+                            product={product}
+                            quantity={quantity}
+                            buttonType="mini"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

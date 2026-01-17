@@ -6,6 +6,7 @@ import AddToCartButton from "@/components/product/AddToCartButton";
 import { useCart } from "@/lib/cart-context";
 import { showWarningToast } from "@/lib/toast/showWarningToast";
 import { useEffect, useState } from "react";
+import AddToFavoriteButton from "./AddToFavoriteButton";
 
 type Props = {
     product: Product;
@@ -47,26 +48,32 @@ export default function ProductPurchase({ product }: Props) {
     };
 
     return (
-        <div>
-            <div className="flex items-center space-x-4">
-                <QuantityPicker
-                    quantity={quantity}
-                    max={remainingStock}
-                    onChange={handleQuantityChange}
-                />
-                <AddToCartButton
-                    buttonType="regular"
-                    product={product}
-                    quantity={quantity}
-                    disabled={quantity === 0} // ✅ disable when 0
-                />
+        <div className="space-y-6">
+            <QuantityPicker
+                quantity={quantity}
+                max={remainingStock}
+                onChange={handleQuantityChange}
+            />
+            <div>
+                <div className="flex flex-col items-center gap-2 sm:flex-row">
+                    <AddToCartButton
+                        buttonType="regular"
+                        product={product}
+                        quantity={quantity}
+                        disabled={quantity === 0} // ✅ disable when 0
+                    />
+                    <AddToFavoriteButton
+                        buttonType="regular"
+                        product={product}
+                    />
+                </div>
+                {remainingStock === 0 && (
+                    <p className="p-4 mt-2 text-xs text-center rounded-lg bg-amber-50 text-amber-500 sm:text-left">
+                        You have reached the maximum quantity available for this
+                        item
+                    </p>
+                )}
             </div>
-            {remainingStock === 0 && (
-                <p className="text-xs p-4 bg-amber-50 rounded-lg text-amber-500 mt-2 sm:text-left text-center">
-                    You have reached the maximum quantity available for this
-                    item
-                </p>
-            )}
         </div>
     );
 }

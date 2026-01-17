@@ -7,6 +7,11 @@ import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Inter } from "next/font/google";
+import { FavoritesProvider } from "@/lib/favorites-context";
+import FavoritesHydrator from "@/components/favorites/FavoritesHydrator";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
+import { prisma } from "@/lib/prisma";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +23,20 @@ export const metadata: Metadata = {
     description: "Quality in every order",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const session = await getServerSession(authOptions);
+
+    const favorites = session?.user?.id
+        ? await prisma.favorite.findMany({
+              where: { userId: session.user.id },
+              select: { productId: true },
+          })
+        : [];
+
     return (
         <html lang="en" className={inter.className}>
             <head>
@@ -38,16 +52,25 @@ export default function RootLayout({
                 />
                 <Providers>
                     <CartProvider>
-                        <Navbar />
-                        <main>{children}</main>
-                        <Footer />
-                        <ToastContainer
-                            position="bottom-right"
-                            autoClose={2500}
-                            className="w-[calc(100vw-32px)]! xs:w-80! xs:left-auto! left-4! xs:right-6! xs:bottom-2! bottom-4!"
-                            toastClassName="xs:w-full! rounded-none!"
-                            closeOnClick={true}
-                        />
+                        <FavoritesProvider>
+                            <Navbar />
+                            <main>
+                                <FavoritesHydrator
+                                    favoriteIds={favorites.map(
+                                        (f) => f.productId,
+                                    )}
+                                />
+                                {children}
+                            </main>
+                            <Footer />
+                            <ToastContainer
+                                position="bottom-left"
+                                autoClose={2500}
+                                className="w-[calc(100vw-32px)]! xs:w-80! xs:right-auto! right-4! xs:left-6! xs:bottom-2! bottom-4!"
+                                toastClassName="xs:w-full! rounded-none!"
+                                closeOnClick={true}
+                            />
+                        </FavoritesProvider>
                     </CartProvider>
                 </Providers>
             </body>

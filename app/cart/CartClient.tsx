@@ -1,10 +1,13 @@
 "use client";
 
+import CartSkeleton from "@/components/cart/CartSkeleton";
 import QuantityPicker from "@/components/cart/QuantityPicker";
 import OrderBreakdown from "@/components/order/OrderBreakdown";
+import AddToFavoriteButton from "@/components/product/AddToFavoriteButton";
 import { BackButton } from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import PageContainer from "@/components/ui/PageContainer";
 import { Spinner } from "@/components/ui/Spinner";
 import { useCart } from "@/lib/cart-context";
 import { formatMoney } from "@/lib/formatMoney";
@@ -13,9 +16,7 @@ import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect, useState } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
-import { CartItem } from "../types";
-import PageContainer from "@/components/ui/PageContainer";
-import CartSkeleton from "@/components/cart/CartSkeleton";
+import { CartItem, Product } from "../types";
 
 type Cart = {
     items: CartItem[];
@@ -144,7 +145,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                                         `/product/${item.product.id}`,
                                                     )
                                                 }
-                                                className="p-4 overflow-hidden bg-gray-100 cursor-pointer sm:w-40 sm:h-40 w-30 h-30 shrink-0"
+                                                className="p-4 overflow-hidden bg-gray-100 border cursor-pointer sm:w-40 sm:h-40 w-30 h-30 shrink-0"
                                             >
                                                 <div className="relative w-full aspect-square">
                                                     <Image
@@ -161,7 +162,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                             </div>
                                             <div className="flex justify-center">
                                                 {/* Qty */}
-                                                <div className="flex justify-center">
+                                                <div className="flex justify-between space-x-1">
                                                     <QuantityPicker
                                                         quantity={item.quantity}
                                                         max={item.product.stock}
@@ -193,14 +194,21 @@ export default function CartClient({ cart }: CartClientProps) {
                                             </div>
                                             <div className="flex flex-row items-end justify-between sm:flex-col sm:items-end grow">
                                                 {/* Subtotal */}
-                                                <p className="flex items-center font-medium h-11 sm:h-auto">
+                                                <p className="flex items-center h-10 font-medium sm:h-auto">
                                                     {formatMoney(
                                                         item.product.price *
                                                             item.quantity,
                                                     )}
                                                 </p>
                                                 {/* Remove */}
-                                                <div className="flex justify-end w-full">
+                                                <div className="flex flex-col items-end justify-end w-full gap-2 sm:flex-row">
+                                                    <AddToFavoriteButton
+                                                        className="rounded-full! h-10! w-10!"
+                                                        buttonType="mini"
+                                                        product={
+                                                            item.product as Product
+                                                        }
+                                                    />
                                                     <button
                                                         onClick={() =>
                                                             handleRemoveCartItem(

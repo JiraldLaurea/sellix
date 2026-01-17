@@ -1,6 +1,7 @@
 "use client";
 
 import { SideMenuItem } from "@/components/account/side-menu-item";
+import { useFavorites } from "@/lib/favorites-context";
 import { signOut } from "next-auth/react";
 import { LuPackage } from "react-icons/lu";
 import { MdFavoriteBorder, MdLogout, MdPersonOutline } from "react-icons/md";
@@ -14,6 +15,8 @@ export default function AccountSideMenu({
     orderCount = 0,
     favoritesCount = 0,
 }: Props) {
+    const { favorites } = useFavorites();
+
     const dashboardLinks = [
         {
             label: "Orders",
@@ -25,7 +28,7 @@ export default function AccountSideMenu({
         {
             label: "Favorites",
             href: "/favorites",
-            count: favoritesCount,
+            count: favorites.length,
             icon: MdFavoriteBorder,
             activeIcon: MdFavoriteBorder,
         },
@@ -41,8 +44,8 @@ export default function AccountSideMenu({
     ];
 
     return (
-        <aside className="w-64 sticky top-24 shrink-0 rounded-xl border bg-white h-fit py-3 hidden lg:block">
-            <h2 className="text-xs text-gray-500 px-5 my-3 font-medium">
+        <aside className="sticky hidden w-64 py-3 bg-white border top-24 shrink-0 rounded-xl h-fit md:block">
+            <h2 className="px-5 my-3 text-xs font-medium text-gray-500">
                 Dashboards
             </h2>
 
@@ -51,7 +54,7 @@ export default function AccountSideMenu({
                     <SideMenuItem key={link.href} {...link} />
                 ))}
 
-                <h2 className="text-xs text-gray-500 px-5 my-3 font-medium">
+                <h2 className="px-5 my-3 text-xs font-medium text-gray-500">
                     Account
                 </h2>
 
@@ -64,9 +67,9 @@ export default function AccountSideMenu({
                 <li className="px-4">
                     <button
                         onClick={() => signOut({ callbackUrl: "/login" })}
-                        className="group w-full relative flex items-center gap-3 h-10 rounded-lg px-4 text-sm text-gray-500 transition-colors hover:bg-gray-100 hover:text-black"
+                        className="relative flex items-center w-full h-10 gap-3 px-4 text-sm text-gray-700 transition-colors rounded-lg group hover:bg-gray-100"
                     >
-                        <MdLogout className="h-5 w-5" />
+                        <MdLogout className="w-5 h-5" />
                         <span>Sign Out</span>
                     </button>
                 </li>
