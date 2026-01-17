@@ -21,7 +21,8 @@ model User {
   sessions      Session[]
   orders        Order[]
 
-  cart          Cart?    // 👈 ADD THIS
+  cart          Cart?    
+  favorites     Favorite[]   
 
   createdAt     DateTime @default(now())
 }
@@ -155,6 +156,8 @@ model Product {
   cartItems   CartItem[]
   orderItems  OrderItem[]
 
+  favorites   Favorite[]
+
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
@@ -169,4 +172,20 @@ model Category {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+
+  userId    String
+  productId String
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
 }
