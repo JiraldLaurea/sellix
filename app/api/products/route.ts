@@ -9,6 +9,8 @@ export async function GET(req: Request) {
     const category = searchParams.get("category");
     const query = searchParams.get("q");
 
+    const autocomplete = searchParams.get("autocomplete") === "true";
+
     // 🔹 Filtered fetch (category or search)
     if (category || query) {
         const items = await prisma.product.findMany({
@@ -21,6 +23,7 @@ export async function GET(req: Request) {
             include: {
                 category: true,
             },
+            take: autocomplete ? 6 : undefined, // ✅ only limit search suggestions
             orderBy: {
                 createdAt: "asc",
             },
