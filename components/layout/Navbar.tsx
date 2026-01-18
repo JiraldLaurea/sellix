@@ -256,122 +256,119 @@ export default function Navbar() {
             {/* Mobile Search Overlay */}
             {isSearchOpened && (
                 <Popover.Root open={isSearchOpened}>
-                    <>
-                        {/* MOBILE SEARCH BAR */}
-                        <div>
-                            <Popover.Anchor className="absolute inset-0 z-50 flex items-center px-4 space-x-2 bg-white sm:hidden">
-                                <div className="flex items-center w-full h-12 gap-2 px-3 border rounded-full grow">
-                                    <IoSearchOutline
-                                        size={22}
-                                        className="text-gray-500"
-                                    />
-                                    <input
-                                        ref={searchInputRef}
-                                        type="search"
-                                        enterKeyHint="search"
-                                        placeholder="Search products"
-                                        value={searchInput}
-                                        onChange={(e) => {
-                                            const value = e.target.value;
-                                            setSearchInput(value);
+                    <Popover.Anchor className="absolute inset-0 z-50 flex items-center px-4 space-x-2 bg-white sm:hidden">
+                        <>
+                            {/* MOBILE SEARCH BAR */}
+                            <div className="flex items-center w-full h-12 gap-2 px-3 border rounded-full grow">
+                                <IoSearchOutline
+                                    size={22}
+                                    className="text-gray-500"
+                                />
+                                <input
+                                    ref={searchInputRef}
+                                    type="search"
+                                    enterKeyHint="search"
+                                    placeholder="Search products"
+                                    value={searchInput}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        setSearchInput(value);
 
-                                            if (!value.trim()) {
-                                                debouncedFetch.cancel();
-                                                setSuggestions([]);
-                                                setIsLoading(false);
-                                                setIsMobileSuggestionOpen(
-                                                    false,
-                                                );
-                                                return;
-                                            }
-
-                                            setIsLoading(true);
+                                        if (!value.trim()) {
+                                            debouncedFetch.cancel();
                                             setSuggestions([]);
-                                            // setIsMobileSuggestionOpen(true);
-                                            debouncedFetch(value);
-                                        }}
-                                        onKeyDown={(e) => {
-                                            if (e.key === "Enter") {
-                                                setSearchInput("");
-                                                handleSearch();
-                                                setIsSearchOpened(false);
-                                            }
-                                        }}
-                                        className="flex-1 h-12 text-sm focus:outline-none"
-                                    />
-                                    {searchInput.trim() && (
-                                        <div
-                                            onClick={() => {
-                                                setSearchInput("");
-                                                setSuggestions([]);
-                                                // setIsSuggestionMenuOpen(false);
-                                                // searchInputRef.current?.focus();
-                                            }}
-                                            className="bg-accent  text-white rounded-full p-0.5 cursor-pointer"
-                                        >
-                                            <IoCloseOutline size={18} />
-                                        </div>
-                                    )}
-                                </div>
+                                            setIsLoading(false);
+                                            setIsMobileSuggestionOpen(false);
+                                            return;
+                                        }
 
-                                <button
-                                    onClick={() => {
-                                        setIsSearchOpened(false);
+                                        setIsLoading(true);
+                                        setSuggestions([]);
+                                        // setIsMobileSuggestionOpen(true);
+                                        debouncedFetch(value);
                                     }}
-                                    className="flex items-center justify-center flex-none transition-colors border rounded-full w-11 h-11 hover:bg-gray-100"
-                                >
-                                    <IoCloseOutline size={30} />
-                                </button>
-                            </Popover.Anchor>
-                        </div>
-
-                        {/* MOBILE SUGGESTIONS (POPOVER) NAWAWLA */}
-                        <Popover.Content
-                            side="bottom"
-                            align="start"
-                            sideOffset={0}
-                            onOpenAutoFocus={(e) => e.preventDefault()}
-                            onCloseAutoFocus={(e) => e.preventDefault()}
-                            className="z-100 sm:hidden fixed top-0 w-[calc(100vw-14px)] h-[calc(100vh-64px)] bg-white overflow-hidden"
-                        >
-                            {/* Loading */}
-                            {isLoading && (
-                                <div className="py-5 text-sm text-center text-gray-500">
-                                    Searching…
-                                </div>
-                            )}
-
-                            {/* Results */}
-                            {!isLoading &&
-                                suggestions.map((item) => (
-                                    <button
-                                        key={item.id}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            setSearchInput("");
+                                            handleSearch();
+                                            setIsSearchOpened(false);
+                                        }
+                                    }}
+                                    className="flex-1 h-12 focus:outline-none"
+                                />
+                                {searchInput.trim() && (
+                                    <div
                                         onClick={() => {
                                             setSearchInput("");
                                             setSuggestions([]);
-                                            // setIsMobileSuggestionOpen(false);
-                                            setIsSearchOpened(false);
-                                            router.push(`/product/${item.id}`);
+                                            // setIsSuggestionMenuOpen(false);
+                                            // searchInputRef.current?.focus();
                                         }}
-                                        className="flex w-full py-5 space-x-2 text-sm text-left px-[29px] hover:bg-gray-100"
+                                        className="bg-accent  text-white rounded-full p-0.5 cursor-pointer"
                                     >
-                                        <IoSearchOutline size={22} />
-                                        <span className="truncate">
-                                            {item.name}
-                                        </span>
-                                    </button>
-                                ))}
-
-                            {/* Empty */}
-                            {!isLoading &&
-                                suggestions.length === 0 &&
-                                searchInput !== "" && (
-                                    <div className="w-full px-4 py-5 text-sm text-center text-gray-500">
-                                        No search results found
+                                        <IoCloseOutline size={18} />
                                     </div>
                                 )}
-                        </Popover.Content>
-                    </>
+                            </div>
+                            {/* MOBILE SUGGESTIONS (POPOVER) NAWAWLA */}
+                            <Popover.Content
+                                side="bottom"
+                                align="start"
+                                sideOffset={0}
+                                onOpenAutoFocus={(e) => e.preventDefault()}
+                                onCloseAutoFocus={(e) => e.preventDefault()}
+                                className="z-100 sm:hidden fixed top-0 w-[calc(100vw)] h-[calc(100vh-64px)] bg-white overflow-hidden"
+                            >
+                                {/* Loading */}
+                                {isLoading && (
+                                    <div className="py-5 text-sm text-center text-gray-500">
+                                        Searching…
+                                    </div>
+                                )}
+
+                                {/* Results */}
+                                {!isLoading &&
+                                    suggestions.map((item) => (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => {
+                                                setSearchInput("");
+                                                setSuggestions([]);
+                                                // setIsMobileSuggestionOpen(false);
+                                                setIsSearchOpened(false);
+                                                router.push(
+                                                    `/product/${item.id}`,
+                                                );
+                                            }}
+                                            className="flex w-full py-5 space-x-2 text-left px-[29px] hover:bg-gray-100"
+                                        >
+                                            <IoSearchOutline size={22} />
+                                            <span className="truncate">
+                                                {item.name}
+                                            </span>
+                                        </button>
+                                    ))}
+
+                                {/* Empty */}
+                                {!isLoading &&
+                                    suggestions.length === 0 &&
+                                    searchInput !== "" && (
+                                        <div className="w-full px-4 py-5 text-sm text-center text-gray-500">
+                                            No search results found
+                                        </div>
+                                    )}
+                            </Popover.Content>
+                        </>
+
+                        <button
+                            onClick={() => {
+                                setIsSearchOpened(false);
+                            }}
+                            className="flex items-center justify-center flex-none transition-colors border rounded-full w-11 h-11 hover:bg-gray-100"
+                        >
+                            <IoCloseOutline size={30} />
+                        </button>
+                    </Popover.Anchor>
                 </Popover.Root>
             )}
         </header>
