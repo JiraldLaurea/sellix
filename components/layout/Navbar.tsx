@@ -314,8 +314,6 @@ export default function Navbar() {
                                         onClick={() => {
                                             setSearchInput("");
                                             setSuggestions([]);
-                                            // setIsSuggestionMenuOpen(false);
-                                            // searchInputRef.current?.focus();
                                         }}
                                         className="bg-accent  text-white rounded-full p-0.5 cursor-pointer"
                                     >
