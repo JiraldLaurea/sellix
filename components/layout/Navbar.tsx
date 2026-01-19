@@ -256,7 +256,11 @@ export default function Navbar() {
                 </div>
             </div>
             {/* Mobile Search Overlay */}
-            <Dialog.Root open={isSearchOpened} onOpenChange={setIsSearchOpened}>
+            <Dialog.Root
+                modal={false}
+                open={isSearchOpened}
+                onOpenChange={setIsSearchOpened}
+            >
                 <Dialog.Portal>
                     {/* Overlay */}
                     <Dialog.Overlay className="fixed inset-0 z-50 bg-white sm:hidden" />
@@ -264,7 +268,8 @@ export default function Navbar() {
                     {/* Content */}
                     <Dialog.Content
                         className="fixed inset-0 z-50 flex flex-col bg-white sm:hidden"
-                        onOpenAutoFocus={(e) => e.preventDefault()}
+                        // onOpenAutoFocus={(e) => e.preventDefault()}
+                        // onCloseAutoFocus={() => setIsSearchOpened(false)}
                     >
                         {/* REQUIRED TITLE */}
                         <Dialog.Title className="sr-only">
@@ -272,7 +277,7 @@ export default function Navbar() {
                         </Dialog.Title>
 
                         {/* TOP BAR */}
-                        <div className="flex items-center gap-3 px-4 py-3 border-b">
+                        <div className="flex items-center gap-3 px-4 h-16 border-b">
                             <div className="flex items-center w-full h-12 gap-2 px-3 border rounded-full grow">
                                 <IoSearchOutline
                                     size={22}
@@ -307,7 +312,7 @@ export default function Navbar() {
                                             setIsSearchOpened(false);
                                         }
                                     }}
-                                    className="flex-1 h-10 focus:outline-none"
+                                    className="flex-1 h-12 focus:outline-none"
                                 />
                                 {searchInput.trim() && (
                                     <div
@@ -321,14 +326,9 @@ export default function Navbar() {
                                     </div>
                                 )}
                             </div>
-                            <button
-                                onClick={() => {
-                                    setIsSearchOpened(false);
-                                }}
-                                className="flex items-center justify-center flex-none transition-colors border rounded-full w-11 h-11 hover:bg-gray-100"
-                            >
+                            <Dialog.Close className="flex items-center justify-center flex-none transition-colors border rounded-full w-11 h-11 hover:bg-gray-100">
                                 <IoCloseOutline size={30} />
-                            </button>
+                            </Dialog.Close>
                         </div>
 
                         {/* RESULTS */}
