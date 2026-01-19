@@ -256,14 +256,10 @@ export default function Navbar() {
                 </div>
             </div>
             {/* Mobile Search Overlay */}
-            <Dialog.Root
-                modal={false}
-                open={isSearchOpened}
-                onOpenChange={setIsSearchOpened}
-            >
+            <Dialog.Root open={isSearchOpened} onOpenChange={setIsSearchOpened}>
                 <Dialog.Portal>
                     {/* Overlay */}
-                    <Dialog.Overlay className="fixed inset-0 z-50 bg-white sm:hidden" />
+                    <Dialog.Overlay className="fixed inset-0 z-50 bg-red-500 sm:hidden" />
 
                     {/* Content */}
                     <Dialog.Content
@@ -277,7 +273,7 @@ export default function Navbar() {
                         </Dialog.Title>
 
                         {/* TOP BAR */}
-                        <div className="flex items-center gap-3 px-4 h-16 border-b">
+                        <div className="flex fixed top-0 w-full items-center gap-3 px-4 h-16 border-b">
                             <div className="flex items-center w-full h-12 gap-2 px-3 border rounded-full grow">
                                 <IoSearchOutline
                                     size={22}
