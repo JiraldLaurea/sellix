@@ -13,7 +13,7 @@ export default function CategoryCard({
         <Link
             key={category.id}
             href={`/search?category=${category.id}`}
-            className="flex flex-col h-full overflow-hidden border rounded-xl"
+            className="flex flex-col h-full overflow-hidden border"
         >
             <div className="p-4 bg-gray-50">
                 <div className="relative w-full aspect-square">
@@ -28,7 +28,7 @@ export default function CategoryCard({
                     )}
                 </div>
             </div>
-            <div className="w-full p-4 text-left border-t">
+            <div className="w-full p-3 text-left border-t">
                 <p className="text-sm font-medium">{category.name}</p>
                 <p className="text-xs text-gray-500">
                     {category.itemCount} items

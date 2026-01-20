@@ -2,10 +2,11 @@
 
 import { CategoryCardProps } from "@/app/types";
 import CategoryCard from "@/components/category/CategoryCard";
+import { Header } from "@/components/ui/Header";
 import PageContainer from "@/components/ui/PageContainer";
 import { useState } from "react";
 
-const INITIAL_COUNT = 4;
+const INITIAL_COUNT = 6;
 const STEP = 20;
 
 export default function CategoryClient({
@@ -19,9 +20,9 @@ export default function CategoryClient({
 
     return (
         <PageContainer className="min-h-auto">
-            <h1 className="mb-8 text-3xl font-semibold">Browse Categories</h1>
+            <Header text="Browse Categories" />
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-4 lg:grid-cols-6">
                 {categories.slice(0, visible).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}

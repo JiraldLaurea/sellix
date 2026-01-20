@@ -23,7 +23,7 @@ export default function ProductCard({ product }: Props) {
     }, [quantity, product.stock]);
 
     return (
-        <div className="flex flex-col h-full overflow-hidden border rounded-xl">
+        <div className="flex flex-col h-full overflow-hidden border">
             {/* Clickable area */}
             <Link href={`/product/${product.id}`}>
                 <div className="p-4 border-b bg-gray-50">

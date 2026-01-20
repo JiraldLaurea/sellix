@@ -2,6 +2,7 @@
 
 import { Product } from "@/app/types";
 import ProductCard from "@/components/product/ProductCard";
+import { Header } from "@/components/ui/Header";
 import PageContainer from "@/components/ui/PageContainer";
 import { useEffect, useRef, useState } from "react";
 
@@ -45,9 +46,9 @@ export default function ShopClient({
 
     return (
         <PageContainer>
-            <h1 className="mb-8 text-3xl font-semibold">Products Catalog</h1>
+            <Header text="Products Catalog" />
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}
