@@ -17,6 +17,7 @@ import { delay } from "./delay";
 type CartContextType = {
     state: CartState;
     loading: boolean;
+    clearingCartItem: string;
     addToCart: (
         productId: string,
         quantity: number,
@@ -36,6 +37,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const [state, setState] = useState<CartState>({ items: [] });
     const [loading, setLoading] = useState(true);
+    const [clearingCartItem, setClearingCartItem] = useState("");
 
     // 🔁 Debounce timer for quantity sync
     const syncTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -106,6 +108,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
 
     const removeCartItem = useCallback(async (cartItemId: string) => {
+        setClearingCartItem(cartItemId);
+
+        // Force visible loading state
+        await delay(350);
+
         // Optimistic UI
         setState((prev) => ({
             items: prev.items.filter((i) => i.id !== cartItemId),
@@ -116,6 +123,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ cartItemId }),
         });
+
+        setClearingCartItem("");
     }, []);
 
     const clearCart = useCallback(async () => {
@@ -170,6 +179,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         () => ({
             state,
             loading,
+            clearingCartItem,
             addToCart,
             refreshCart,
             removeCartItem,
@@ -180,6 +190,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         [
             state,
             loading,
+            clearingCartItem,
             addToCart,
             refreshCart,
             removeCartItem,

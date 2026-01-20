@@ -31,12 +31,14 @@ export default function CartClient({ cart }: CartClientProps) {
     const {
         state,
         loading,
+        clearingCartItem,
         hydrateCart,
         removeCartItem,
         clearCart,
         updateQuantity,
     } = useCart();
     const [clearingCart, setClearingCart] = useState(false);
+    // const [clearingCartItem, setClearingCartItem] = useState(false);
 
     useEffect(() => {
         if (state.items.length === 0 && cart?.items) {
@@ -210,17 +212,28 @@ export default function CartClient({ cart }: CartClientProps) {
                                                         }
                                                     />
                                                     <button
-                                                        onClick={() =>
+                                                        disabled={
+                                                            clearingCartItem ===
+                                                            item.id
+                                                        }
+                                                        onClick={() => {
                                                             handleRemoveCartItem(
                                                                 item.id,
-                                                            )
-                                                        }
-                                                        className="flex items-center justify-center w-10 h-10 transition-colors border rounded-full hover:bg-gray-100"
+                                                            );
+                                                        }}
+                                                        className="flex items-center disabled:opacity-50 justify-center w-10 h-10 transition-colors border rounded-full hover:bg-gray-100"
                                                         aria-label="Remove item"
                                                     >
-                                                        <HiOutlineTrash
-                                                            size={18}
-                                                        />
+                                                        {clearingCartItem ===
+                                                        item.id ? (
+                                                            <div className="flex items-center justify-center h-full">
+                                                                <Spinner borderColor="border-black" />
+                                                            </div>
+                                                        ) : (
+                                                            <HiOutlineTrash
+                                                                size={18}
+                                                            />
+                                                        )}
                                                     </button>
                                                 </div>
                                             </div>
