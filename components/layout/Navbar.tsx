@@ -75,6 +75,15 @@ export default function Navbar() {
         }
     }, [isSearchOpened]);
 
+    // Lock scrolling while search is open
+    useEffect(() => {
+        if (isSearchOpened) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+    }, [isSearchOpened]);
+
     if (status === "loading" && pathname !== "/login")
         return (
             <header className="sticky top-0 z-50 block h-16 bg-white border-b">
@@ -259,21 +268,17 @@ export default function Navbar() {
             <Dialog.Root open={isSearchOpened} onOpenChange={setIsSearchOpened}>
                 <Dialog.Portal>
                     {/* Overlay */}
-                    <Dialog.Overlay className="fixed inset-0 z-50 bg-red-500 sm:hidden" />
+                    <Dialog.Overlay className="fixed inset-0 z-50 bg-white sm:hidden" />
 
                     {/* Content */}
-                    <Dialog.Content
-                        className="fixed inset-0 z-50 flex flex-col bg-white sm:hidden"
-                        // onOpenAutoFocus={(e) => e.preventDefault()}
-                        // onCloseAutoFocus={() => setIsSearchOpened(false)}
-                    >
+                    <Dialog.Content className="fixed top-0 inset-x-0 bottom-0 z-50 flex flex-col bg-white sm:hidden">
                         {/* REQUIRED TITLE */}
                         <Dialog.Title className="sr-only">
                             Search products
                         </Dialog.Title>
 
                         {/* TOP BAR */}
-                        <div className="flex fixed top-0 w-full items-center gap-3 px-4 h-16 border-b">
+                        <div className="flex items-center gap-3 px-4 h-16 border-b">
                             <div className="flex items-center w-full h-12 gap-2 px-3 border rounded-full grow">
                                 <IoSearchOutline
                                     size={22}
