@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { Product } from "@/app/types";
+import ProductCard from "@/components/product/ProductCard";
+import { Header } from "@/components/ui/Header";
+import PageContainer from "@/components/ui/PageContainer";
+import { useFavorites } from "@/lib/favorites-context";
 import Link from "next/link";
 import { LuHeart } from "react-icons/lu";
-import ProductCard from "@/components/product/ProductCard";
-import PageContainer from "@/components/ui/PageContainer";
-import { Product } from "@/app/types";
-import { useFavorites } from "@/lib/favorites-context";
 
 type Props = {
     products: Product[];
@@ -47,9 +47,9 @@ export default function FavoritesClient({ products, favoriteIds }: Props) {
 
     return (
         <section className="max-w-6xl">
-            <h1 className="mb-6 text-3xl font-semibold">Favorites</h1>
+            <Header text="Favorites" />
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {visibleProducts.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}

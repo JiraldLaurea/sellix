@@ -1,7 +1,7 @@
 "use client";
 
+import { Header } from "@/components/ui/Header";
 import { showSuccessToast } from "@/lib/toast/showSuccessToast";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { MdCameraAlt } from "react-icons/md";
@@ -22,7 +22,7 @@ export default function ProfileClient({ user }: { user: any }) {
 
     return (
         <section>
-            <h1 className="mb-6 text-3xl font-semibold">Profile</h1>
+            <Header text="Profile" />
 
             <div className="p-6 bg-white border rounded-xl">
                 <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">

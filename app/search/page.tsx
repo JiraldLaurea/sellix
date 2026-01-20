@@ -1,8 +1,7 @@
-import { getProducts } from "@/lib/getProducts";
 import PageContainer from "@/components/ui/PageContainer";
-import { Suspense } from "react";
-import SearchResults from "./search-results";
+import { getProducts } from "@/lib/getProducts";
 import { prisma } from "@/lib/prisma";
+import SearchResults from "./search-results";
 
 export default async function SearchPage() {
     const { items, nextCursor, totalCount } = await getProducts();
@@ -18,14 +17,12 @@ export default async function SearchPage() {
     });
 
     return (
-        <Suspense fallback={null}>
-            <SearchResults
-                initialProducts={items}
-                initialCursor={nextCursor}
-                categories={categories}
-                totalCount={totalCount}
-            />
-        </Suspense>
+        <SearchResults
+            initialProducts={items}
+            initialCursor={nextCursor}
+            categories={categories}
+            totalCount={totalCount}
+        />
     );
 }
 

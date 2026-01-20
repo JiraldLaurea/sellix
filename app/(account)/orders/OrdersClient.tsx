@@ -2,6 +2,7 @@
 
 import { Order } from "@/app/types";
 import { Container } from "@/components/ui/Container";
+import { Header } from "@/components/ui/Header";
 import PageContainer from "@/components/ui/PageContainer";
 import { formatMoney } from "@/lib/formatMoney";
 import getStatusStyles from "@/lib/order/getStatusStyles";
@@ -57,7 +58,7 @@ export default function OrdersClient({ orders }: Props) {
 
     return (
         <section className="flex-1">
-            <h1 className="mb-6 text-3xl font-semibold">Orders</h1>
+            <Header text="Orders" />
 
             <div className="space-y-0 overflow-hidden border divide-y rounded-xl">
                 <div className="border-b">

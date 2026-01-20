@@ -41,7 +41,7 @@ export default function HeroCarousel() {
                 stopOnInteraction: false,
                 stopOnMouseEnter: false,
             }),
-        ]
+        ],
     );
 
     useEffect(() => {
@@ -75,13 +75,13 @@ export default function HeroCarousel() {
                 className="overflow-hidden relative embla md:h-115 select-none  flex justify-center"
                 ref={emblaRef}
             >
-                <div className="flex relative w-full max-w-6x mx-auto">
+                <div className="flex relative w-full max-w-7xl mx-auto">
                     {products.map((product) => (
                         <div
                             key={product.id}
                             className="flex-[0_0_100%] flex pb-8 md:pb-8 items-center justify-center"
                         >
-                            <div className="flex px-4 max-w-6xl md:space-y-0  md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
+                            <div className="flex px-4 sm:px-8 max-w-7xl md:space-y-0  md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
                                 {/* LEFT */}
                                 <div className="space-y-4 md:space-y-6">
                                     <span className="inline-block rounded-full bg-white text-black px-4 py-1 text-xs md:text-sm font-semibold">
@@ -98,7 +98,7 @@ export default function HeroCarousel() {
                                     <Button
                                         onClick={() =>
                                             router.push(
-                                                `/product/${product.id}`
+                                                `/product/${product.id}`,
                                             )
                                         }
                                         className="md:w-fit! text-base! h-12 font-semibold hover:bg-blue-600!"

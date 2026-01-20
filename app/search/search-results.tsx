@@ -134,7 +134,7 @@ export default function SearchResults({
     const visibleProducts = !category && !query ? items : filteredProducts;
 
     return (
-        <PageContainer>
+        <PageContainer className="md:p-0! max-w-full! ">
             <div className="flex gap-6">
                 <SearchSidebar
                     categories={categories}
@@ -144,7 +144,7 @@ export default function SearchResults({
                     onParamChange={updateParam}
                 />
                 {/* Results */}
-                <section className="flex-1">
+                <section className="flex-1 md:py-6 sm:pr-6">
                     {/* ALL PRODUCTS */}
                     {!category && !query && (
                         <div className="mb-6">
@@ -179,13 +179,10 @@ export default function SearchResults({
                             <h1 className="text-2xl font-semibold">
                                 {activeCategory}
                             </h1>
-                            {!isFiltering ? (
-                                <p className="text-sm text-gray-500">
-                                    {filteredProducts.length} items
-                                </p>
-                            ) : (
-                                <div className="w-10 h-5 bg-gray-200 rounded-lg animate-pulse" />
-                            )}
+
+                            <p className="text-sm text-gray-500">
+                                {filteredProducts.length} items
+                            </p>
                         </div>
                     )}
 

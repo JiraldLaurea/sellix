@@ -53,7 +53,7 @@ export default function ProductCard({ product }: Props) {
                     </Link>
                 </div>
                 <div className="flex items-end justify-between">
-                    <p className="font-semibold text-black sm:text-lg">
+                    <p className="font-semibold text-sm text-black sm:text-lg">
                         {formatMoney(product.price)}
                     </p>
                     <div className="flex space-x-1">

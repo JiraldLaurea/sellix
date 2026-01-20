@@ -64,9 +64,9 @@ export default async function RootLayout({
                             </main>
                             <Footer />
                             <ToastContainer
-                                position="bottom-left"
+                                position="bottom-right"
                                 autoClose={2500}
-                                className="w-[calc(100vw-32px)]! xs:w-80! xs:right-auto! left-4! xs:left-6! xs:bottom-2! bottom-4!"
+                                className="w-[calc(100vw-32px)]! xs:w-80! xs:left-auto! right-4! xs:right-6! xs:bottom-2! bottom-4!"
                                 toastClassName="xs:w-full! rounded-none!"
                                 closeOnClick={true}
                             />

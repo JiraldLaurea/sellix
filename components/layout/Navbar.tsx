@@ -1,6 +1,7 @@
 "use client";
 
 import { useCartCount } from "@/lib/cart-context";
+import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import debounce from "lodash/debounce";
 import { useSession } from "next-auth/react";
@@ -12,8 +13,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import AccountMenu from "../navbar/AccountMenu";
-import * as Dialog from "@radix-ui/react-dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 export default function Navbar() {
     const { status } = useSession({ required: false });
@@ -87,7 +86,7 @@ export default function Navbar() {
     if (status === "loading" && pathname !== "/login")
         return (
             <header className="sticky top-0 z-50 block h-16 bg-white border-b">
-                <div className="containe animate-pulse grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
+                <div className="container animate-pulse grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-7xl px-4 sm:px-8 mx-auto">
                     <div className="bg-gray-200 rounded-lg h-9 w-30" />
                     <div className="justify-center flex-1 hidden w-full h-11 sm:flex">
                         <div
@@ -108,7 +107,7 @@ export default function Navbar() {
 
     return (
         <header className="sticky top-0 z-50 block h-16 bg-white border-b">
-            <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-6xl px-4 mx-auto">
+            <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-7xl px-4 sm:px-8 mx-auto">
                 {/* Left controls */}
                 <Link href="/" className="w-fit">
                     <Image
@@ -346,6 +345,8 @@ export default function Navbar() {
                                         key={item.id}
                                         onClick={() => {
                                             setIsSearchOpened(false);
+                                            setSuggestions([]);
+                                            setSearchInput("");
                                             router.push(`/product/${item.id}`);
                                         }}
                                         className="flex w-full gap-2 py-5 text-left px-[29px] hover:bg-gray-100"
