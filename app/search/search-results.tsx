@@ -190,14 +190,14 @@ export default function SearchResults({
                     )}
 
                     {filteredProducts.length === 0 ? (
-                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                             {Array.from({ length: 8 }).map((_, i) => (
                                 <ProductCardSkeleton key={i} />
                             ))}
                         </div>
                     ) : (
                         <>
-                            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                                 {visibleProducts.map((product) => (
                                     <ProductCard
                                         key={product.id}
