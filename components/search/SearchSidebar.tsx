@@ -59,8 +59,23 @@ export default function SearchSidebar({
                         <Popover.Content
                             align="start"
                             sideOffset={6}
-                            className="w-(--radix-popover-trigger-width) max-h-60 overflow-y-auto border bg-white shadow-lg p-1 space-y-1 py-4"
+                            className="w-[var(--radix-popover-trigger-width)] max-h-60 overflow-y-auto border bg-white shadow-lg p-1 space-y-1 py-4"
                         >
+                            {/* All Categories */}
+                            <button
+                                onClick={() => {
+                                    onParamChange("category", undefined);
+                                    setOpen(false);
+                                }}
+                                className={cn(
+                                    "w-full flex items-center h-10 px-4 rounded-lg text-sm text-gray-700 hover:bg-gray-100",
+                                    !activeCategory &&
+                                        "bg-gray-100 font-medium",
+                                )}
+                            >
+                                All Categories
+                            </button>
+
                             {categories.map((cat) => {
                                 const isActive = activeCategory === cat.id;
 
@@ -72,11 +87,12 @@ export default function SearchSidebar({
                                                 "category",
                                                 isActive ? undefined : cat.id,
                                             );
-                                            setOpen(false); // ✅ close on select
+                                            setOpen(false);
                                         }}
                                         className={cn(
                                             "w-full flex items-center h-10 px-4 rounded-lg text-sm text-gray-700 hover:bg-gray-100",
-                                            isActive && "bg-gray-100",
+                                            isActive &&
+                                                "bg-gray-100 font-medium",
                                         )}
                                     >
                                         {cat.name}
