@@ -28,17 +28,15 @@ export default function SearchSidebar({
     const [open, setOpen] = useState(false);
 
     return (
-        <aside className="hidden w-72 sticky top-16 h-[calc(100vh-64px)] overflow-y-auto py-6 pl-8 shrink-0 md:block">
+        <aside className="hidden w-72 h-[calc(100vh-64px)] overflow-y-auto py-6 pl-8 shrink-0 md:block">
             <div className="space-y-8">
                 {/* Categories */}
                 <div>
-                    <h2 className="mb-3 text-xs font-medium text-gray-500">
-                        Categories
-                    </h2>
+                    <h2 className="mb-2 text-sm font-medium">Category</h2>
 
                     <Popover.Root open={open} onOpenChange={setOpen}>
                         <Popover.Trigger asChild>
-                            <button className="w-full h-11 px-4 rounded-lg border text-sm hover:bg-gray-50 flex items-center justify-between">
+                            <button className="w-full h-10 px-4 transition-colors rounded-lg text-sm bg-linear-to-t font-medium from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-500 text-white hover:bg-gray-50 flex items-center justify-between">
                                 <span className="truncate">
                                     {activeCategory
                                         ? categories.find(
@@ -49,7 +47,7 @@ export default function SearchSidebar({
 
                                 <FaCaretDown
                                     className={cn(
-                                        "text-gray-500 transition-transform",
+                                        "text-white transition-transform",
                                         open && "rotate-180",
                                     )}
                                 />
@@ -58,8 +56,8 @@ export default function SearchSidebar({
 
                         <Popover.Content
                             align="start"
-                            sideOffset={6}
-                            className="w-[var(--radix-popover-trigger-width)] max-h-60 overflow-y-auto border bg-white shadow-lg p-1 space-y-1 py-4"
+                            sideOffset={1}
+                            className="w-[var(--radix-popover-trigger-width)] rounded-xl max-h-70 overflow-y-auto border bg-white shadow-lg p-2 space-y-1"
                         >
                             {/* All Categories */}
                             <button

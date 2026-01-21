@@ -200,7 +200,7 @@ export default function Navbar() {
                             sideOffset={0}
                             onOpenAutoFocus={(e) => e.preventDefault()}
                             onCloseAutoFocus={(e) => e.preventDefault()}
-                            className="z-50 w-(--radix-popover-trigger-width) truncate text-ellipsis px-4 max-w-md py-4 bg-white border shadow-lg rounded-xl"
+                            className="z-50 w-(--radix-popover-trigger-width) truncate text-ellipsis p-2 bg-white border shadow-lg rounded-xl"
                         >
                             {/* Loading */}
                             {isLoading && (

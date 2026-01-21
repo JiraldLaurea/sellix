@@ -128,7 +128,7 @@ export default function HeroCarousel() {
                 {/* Pagination Dots + Arrows */}
                 {products.length > 0 && (
                     <div className="absolute bottom-0 w-full left-0">
-                        <div className="flex items-center space-x-4 justify-center md:justify-start px-4 max-w-6xl mx-auto">
+                        <div className="flex items-center space-x-4 justify-center md:justify-start px-8 max-w-7xl mx-auto">
                             {/* DOTS */}
                             <div className="space-x-2 w-18">
                                 {products.map((_, index) => (
