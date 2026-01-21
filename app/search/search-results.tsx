@@ -134,7 +134,7 @@ export default function SearchResults({
     const visibleProducts = !category && !query ? items : filteredProducts;
 
     return (
-        <PageContainer className="md:p-0! max-w-full! ">
+        <PageContainer className="md:p-0! max-w-7xl! ">
             <div className="flex gap-6">
                 <SearchSidebar
                     categories={categories}
@@ -144,7 +144,7 @@ export default function SearchResults({
                     onParamChange={updateParam}
                 />
                 {/* Results */}
-                <section className="flex-1 md:py-6 sm:pr-6">
+                <section className="flex-1 md:py-6 md:pr-6">
                     {/* ALL PRODUCTS */}
                     {!category && !query && (
                         <div className="mb-6">

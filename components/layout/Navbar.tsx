@@ -59,6 +59,8 @@ export default function Navbar() {
     const handleSearch = () => {
         if (!searchInput.trim()) return;
 
+        setSearchInput("");
+
         setIsDesktopSuggestionOpen(false);
 
         router.push(`/search?q=${encodeURIComponent(searchInput.trim())}`);
@@ -307,7 +309,6 @@ export default function Navbar() {
                                     }}
                                     onKeyDown={(e) => {
                                         if (e.key === "Enter") {
-                                            setSearchInput("");
                                             handleSearch();
                                             setIsSearchOpened(false);
                                         }

@@ -70,18 +70,18 @@ export default function HeroCarousel() {
     }, []);
 
     return (
-        <PageContainer className="relative max-w-full px-0! flex items-center bg-accent text-white">
+        <PageContainer className="relative max-w-full px-0! justify-center flex items-center bg-accent text-white">
             <div
-                className="overflow-hidden relative embla md:h-115 select-none  flex justify-center"
+                className="overflow-hidden relative embla md:h-115 select-none flex justify-center"
                 ref={emblaRef}
             >
                 <div className="flex relative w-full max-w-7xl mx-auto">
                     {products.map((product) => (
                         <div
                             key={product.id}
-                            className="flex-[0_0_100%] flex pb-8 md:pb-8 items-center justify-center"
+                            className="flex-[0_0_100%]  max-w-7xl flex pb-8 md:pb-8 items-center justify-center"
                         >
-                            <div className="flex px-4 sm:px-8 max-w-7xl md:space-y-0  md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
+                            <div className="flex px-4 sm:px-8 md:space-y-0  md:pb-0 w-full md:flex-row flex-col-reverse items-center justify-between">
                                 {/* LEFT */}
                                 <div className="space-y-4 md:space-y-6">
                                     <span className="inline-block rounded-full bg-white text-black px-4 py-1 text-xs md:text-sm font-semibold">
