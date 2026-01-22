@@ -2,8 +2,10 @@
 
 import { cn } from "@/lib/utils";
 import * as Popover from "@radix-ui/react-popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa6";
+import Slider from "@mui/material/Slider";
+import Button from "@mui/material/Button";
 
 type Category = {
     id: string;
@@ -26,9 +28,17 @@ export default function SearchSidebar({
     onParamChange,
 }: SearchSidebarProps) {
     const [open, setOpen] = useState(false);
+    const [priceRange, setPriceRange] = useState<[number, number]>([
+        min,
+        Number.isFinite(max) ? max : 300,
+    ]);
+
+    useEffect(() => {
+        setPriceRange([0, 300]);
+    }, [activeCategory]);
 
     return (
-        <aside className="hidden w-72 h-[calc(100vh-64px)] overflow-y-auto py-6 pl-8 shrink-0 md:block">
+        <aside className="hidden w-64 h-[calc(100vh-64px)] shrink-0 md:block">
             <div className="space-y-8">
                 {/* Categories */}
                 <div>
@@ -57,12 +67,13 @@ export default function SearchSidebar({
                         <Popover.Content
                             align="start"
                             sideOffset={1}
-                            className="w-[var(--radix-popover-trigger-width)] rounded-xl max-h-70 overflow-y-auto border bg-white shadow-lg p-2 space-y-1"
+                            className="w-[var(--radix-popover-trigger-width)] z-50 rounded-xl max-h-70 overflow-y-auto border bg-white shadow-lg p-2 space-y-1"
                         >
                             {/* All Categories */}
                             <button
                                 onClick={() => {
                                     onParamChange("category", undefined);
+
                                     setOpen(false);
                                 }}
                                 className={cn(
@@ -81,10 +92,9 @@ export default function SearchSidebar({
                                     <button
                                         key={cat.id}
                                         onClick={() => {
-                                            onParamChange(
-                                                "category",
-                                                isActive ? undefined : cat.id,
-                                            );
+                                            onParamChange("category", cat.id);
+                                            onParamChange("min", undefined);
+                                            onParamChange("max", undefined);
                                             setOpen(false);
                                         }}
                                         className={cn(
@@ -104,22 +114,78 @@ export default function SearchSidebar({
                 {/* Price Range */}
                 <div>
                     <h3 className="mb-3 text-sm font-medium">Price Range</h3>
-                    <div className="flex gap-2">
-                        <input
-                            type="number"
-                            placeholder="Min"
-                            defaultValue={min || ""}
-                            className="w-full rounded border px-2 py-1 text-sm"
-                            onBlur={(e) => onParamChange("min", e.target.value)}
-                        />
-                        <input
-                            type="number"
-                            placeholder="Max"
-                            defaultValue={max !== Infinity ? max : ""}
-                            className="w-full rounded border px-2 py-1 text-sm"
-                            onBlur={(e) => onParamChange("max", e.target.value)}
-                        />
-                    </div>
+
+                    {(() => {
+                        return (
+                            <>
+                                {/* Slider */}
+                                <Slider
+                                    size="small"
+                                    value={priceRange}
+                                    min={0}
+                                    max={300}
+                                    onChange={(_, v) =>
+                                        setPriceRange(v as [number, number])
+                                    }
+                                    valueLabelDisplay="auto"
+                                    sx={{
+                                        color: "black",
+                                        mb: 3,
+                                    }}
+                                />
+
+                                {/* Inputs */}
+                                <div className="flex items-center gap-2 mb-3">
+                                    <input
+                                        type="number"
+                                        value={priceRange[0]}
+                                        onChange={(e) =>
+                                            setPriceRange([
+                                                +e.target.value,
+                                                priceRange[1],
+                                            ])
+                                        }
+                                        className="w-full rounded-lg border px-3 py-2 text-sm"
+                                    />
+                                    <span className="text-gray-400">–</span>
+                                    <input
+                                        type="number"
+                                        value={priceRange[1]}
+                                        onChange={(e) =>
+                                            setPriceRange([
+                                                priceRange[0],
+                                                +e.target.value,
+                                            ])
+                                        }
+                                        className="w-full rounded-lg border px-3 py-2 text-sm"
+                                    />
+                                </div>
+
+                                {/* Apply Button */}
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{
+                                        backgroundColor: "black",
+                                        "&:hover": { backgroundColor: "#111" },
+                                        textTransform: "none",
+                                    }}
+                                    onClick={() => {
+                                        onParamChange(
+                                            "min",
+                                            priceRange[0].toString(),
+                                        );
+                                        onParamChange(
+                                            "max",
+                                            priceRange[1].toString(),
+                                        );
+                                    }}
+                                >
+                                    Apply
+                                </Button>
+                            </>
+                        );
+                    })()}
                 </div>
             </div>
         </aside>
