@@ -12,6 +12,7 @@ import FavoritesHydrator from "@/components/favorites/FavoritesHydrator";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
+import { FilterProvider } from "@/lib/filter-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,23 +54,25 @@ export default async function RootLayout({
                 <Providers>
                     <CartProvider>
                         <FavoritesProvider>
-                            <Navbar />
-                            <main>
-                                <FavoritesHydrator
-                                    favoriteIds={favorites.map(
-                                        (f) => f.productId,
-                                    )}
+                            <FilterProvider>
+                                <Navbar />
+                                <main>
+                                    <FavoritesHydrator
+                                        favoriteIds={favorites.map(
+                                            (f) => f.productId,
+                                        )}
+                                    />
+                                    {children}
+                                </main>
+                                <Footer />
+                                <ToastContainer
+                                    position="bottom-right"
+                                    autoClose={2500}
+                                    className="w-[calc(100vw-32px)]! xs:w-80! xs:left-auto! right-4! xs:right-6! xs:bottom-2! bottom-4!"
+                                    toastClassName="xs:w-full! rounded-none!"
+                                    closeOnClick={true}
                                 />
-                                {children}
-                            </main>
-                            <Footer />
-                            <ToastContainer
-                                position="bottom-right"
-                                autoClose={2500}
-                                className="w-[calc(100vw-32px)]! xs:w-80! xs:left-auto! right-4! xs:right-6! xs:bottom-2! bottom-4!"
-                                toastClassName="xs:w-full! rounded-none!"
-                                closeOnClick={true}
-                            />
+                            </FilterProvider>
                         </FavoritesProvider>
                     </CartProvider>
                 </Providers>
