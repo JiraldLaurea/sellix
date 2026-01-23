@@ -80,15 +80,6 @@ export default function Navbar() {
         }
     }, [isSearchOpened]);
 
-    // Lock scrolling while search is open
-    useEffect(() => {
-        if (isSearchOpened) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
-    }, [isSearchOpened]);
-
     if (status === "loading" && pathname !== "/login")
         return (
             <header className="sticky top-0 z-50 block h-16 bg-white border-b">
@@ -112,7 +103,9 @@ export default function Navbar() {
     if (status !== "authenticated") return null;
 
     return (
-        <header className="sticky top-0 z-100 block h-16 bg-white border-b">
+        <header
+            className={`sticky top-0 z-100 h-16 bg-white border-b ${isSearchOpened ? "hidden" : "block"}`}
+        >
             <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-7xl px-4 sm:px-8 mx-auto">
                 {/* Left controls */}
                 <Link href="/" className="w-fit">
@@ -273,10 +266,10 @@ export default function Navbar() {
             <Dialog.Root open={isSearchOpened} onOpenChange={setIsSearchOpened}>
                 <Dialog.Portal>
                     {/* Overlay */}
-                    <Dialog.Overlay className="fixed inset-0 z-50 bg-white sm:hidden" />
+                    <Dialog.Overlay className="fixed inset-0 z-100 bg-white sm:hidden" />
 
                     {/* Content */}
-                    <Dialog.Content className="fixed top-0 inset-x-0 bottom-0 z-50 flex flex-col bg-white sm:hidden">
+                    <Dialog.Content className="fixed top-0 inset-x-0 bottom-0 z-100 flex flex-col bg-white sm:hidden">
                         {/* REQUIRED TITLE */}
                         <Dialog.Title className="sr-only">
                             Search products

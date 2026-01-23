@@ -196,7 +196,7 @@ export default function SearchResults({
                 />
                 {/* Results */}
                 <section className="flex-1 md:py-6 md:pr-6 flex flex-col">
-                    <div className="flex justify-between items-end mb-6">
+                    <div className="flex lg:flex-row flex-col justify-between space-y-4 lg:space-y-0 lg:items-end mb-6">
                         {/* ALL PRODUCTS */}
                         {!category && !query && (
                             <div>
@@ -241,7 +241,7 @@ export default function SearchResults({
                         )}
                         {/* SORT BY BUTTON */}
                         <Popover.Root>
-                            <Popover.Trigger className="pr-3 pl-4 h-10 border flex items-center rounded-lg hover:bg-gray-100 transition-colors">
+                            <Popover.Trigger className="pr-3 w-fit pl-4 mb-0 h-10 border flex items-center rounded-lg hover:bg-gray-100 transition-colors">
                                 <p className="text-sm">{activeSortLabel}</p>
                                 <RxCaretSort size={18} />
                             </Popover.Trigger>
@@ -249,7 +249,7 @@ export default function SearchResults({
                             <Popover.Content
                                 align="end"
                                 sideOffset={1}
-                                className="z-50 w-50 rounded-lg border bg-white shadow-lg py-2 space-y-1"
+                                className="z-50 w-50 rounded-lg border absolute -right-8 lg:right-0 bg-white shadow-lg py-2 space-y-1"
                             >
                                 {SORT_OPTIONS.map((option) => (
                                     <Popover.Close
