@@ -10,12 +10,16 @@ export async function GET(req: Request) {
     const query = searchParams.get("q");
     const autocomplete = searchParams.get("autocomplete") === "true";
 
-    const min = Number(searchParams.get("min")) * 100;
-    const max = Number(searchParams.get("max")) * 100;
+    // ✅ IMPORTANT: only treat min/max as active if present
+    const minParam = searchParams.get("min");
+    const maxParam = searchParams.get("max");
 
-    const hasFilters = Boolean(category || query || min || max);
+    const min = minParam ? Number(minParam) * 100 : undefined;
+    const max = maxParam ? Number(maxParam) * 100 : undefined;
 
-    // 🔹 FILTERED QUERY (category / search ONLY)
+    const hasFilters = Boolean(category || query || minParam || maxParam);
+
+    // 🔹 FILTERED QUERY (category / search / price)
     if (hasFilters && !cursor) {
         const items = await prisma.product.findMany({
             where: {
@@ -23,11 +27,11 @@ export async function GET(req: Request) {
                 ...(query && {
                     name: { contains: query, mode: "insensitive" },
                 }),
-                ...(min || max
+                ...(min !== undefined || max !== undefined
                     ? {
                           price: {
-                              ...(min && { gte: min }),
-                              ...(max && { lte: max }),
+                              ...(min !== undefined && { gte: min }),
+                              ...(max !== undefined && { lte: max }),
                           },
                       }
                     : {}),

@@ -13,6 +13,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import AccountMenu from "../navbar/AccountMenu";
+import { useFilters } from "@/lib/filter-context";
 
 export default function Navbar() {
     const { status } = useSession({ required: false });
@@ -29,6 +30,7 @@ export default function Navbar() {
         useState(false);
     const [isMobileSuggestionOpen, setIsMobileSuggestionOpen] = useState(false);
     const [isSuggestionMenuOpen, setIsSuggestionMenuOpen] = useState(false);
+    const { resetPriceRange } = useFilters();
 
     const isOpen = Boolean(searchInput.trim());
 
@@ -62,6 +64,8 @@ export default function Navbar() {
         setSearchInput("");
 
         setIsDesktopSuggestionOpen(false);
+
+        resetPriceRange();
 
         router.push(`/search?q=${encodeURIComponent(searchInput.trim())}`);
     };
@@ -108,7 +112,7 @@ export default function Navbar() {
     if (status !== "authenticated") return null;
 
     return (
-        <header className="sticky top-0 z-50 block h-16 bg-white border-b">
+        <header className="sticky top-0 z-100 block h-16 bg-white border-b">
             <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-7xl px-4 sm:px-8 mx-auto">
                 {/* Left controls */}
                 <Link href="/" className="w-fit">
