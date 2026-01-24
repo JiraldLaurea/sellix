@@ -51,7 +51,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
     return (
         <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
             {/* SELECTED IMAGE */}
-            <div className="p-4 overflow-hidden border rounded-md bg-gray-50 grow">
+            <div className="p-4 overflow-hidden border rounded-md bg-gray-50 flex-1 max-h-fit">
                 <div className="relative aspect-square">
                     {isMainLoading && (
                         <div className="absolute inset-0 z-10 bg-gray-50 animate-pulse" />

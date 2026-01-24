@@ -86,9 +86,9 @@ export default function SearchSidebar({
                         <Popover.Content
                             align="start"
                             sideOffset={1}
-                            className="w-(--radix-popover-trigger-width) z-50 rounded-lg border bg-white shadow-lg pr-1 overflow-hidden"
+                            className="w-(--radix-popover-trigger-width) z-50 rounded-lg border bg-white shadow-lg pr-1 py-2 pl-2 overflow-hidden"
                         >
-                            <div className="max-h-70 overflow-y-auto space-y-1">
+                            <div className="max-h-70 overflow-y-auto space-y-1 pr-2">
                                 {/* All Categories */}
                                 <button
                                     onClick={() => {
@@ -100,7 +100,7 @@ export default function SearchSidebar({
                                         setOpen(false);
                                     }}
                                     className={cn(
-                                        "w-full flex items-center h-10 mt-2 mb-1 px-4 text-sm text-gray-700 hover:bg-gray-100",
+                                        "w-full flex items-center h-10 px-4 text-sm rounded-lg text-gray-700 hover:bg-gray-100 transition-colors",
                                         !activeCategory && "bg-gray-100",
                                     )}
                                 >
@@ -122,7 +122,7 @@ export default function SearchSidebar({
                                                 setOpen(false);
                                             }}
                                             className={cn(
-                                                "w-full flex items-center h-10 px-4 my-1 last:mb-2 text-sm text-gray-700 hover:bg-gray-100",
+                                                "w-full flex items-center h-10 px-4 text-sm rounded-lg text-gray-700 hover:bg-gray-100 transition-colors",
                                                 isActive && "bg-gray-100",
                                             )}
                                         >
@@ -147,7 +147,7 @@ export default function SearchSidebar({
                         size="small"
                         value={localRange}
                         min={0}
-                        max={100}
+                        max={500}
                         onChange={(_, newValue) => {
                             setLocalRange(newValue as [number, number]); // instant
                             debouncedSetPriceRange(
@@ -170,9 +170,9 @@ export default function SearchSidebar({
                             }
                             className="w-full rounded-lg border px-3 py-2 text-sm"
                         />
-                        <span className="text-gray-400">–</span>
+                        <span className="text-gray-500">-</span>
                         <input
-                            max={100}
+                            max={500}
                             type="number"
                             value={localRange[1]}
                             onChange={(e) =>

@@ -22,15 +22,14 @@ export default function FavoritesClient({ products, favoriteIds }: Props) {
     if (visibleProducts.length === 0) {
         return (
             <PageContainer className="p-0! -my-8 flex flex-col items-center justify-center text-center space-y-6">
-                <div className="p-6 bg-gray-100 rounded-xl">
-                    <LuHeart size={40} className="text-gray-500" />
+                <div className="p-4 bg-gray-100 rounded-lg">
+                    <LuHeart size={30} className="text-gray-400" />
                 </div>
-
-                <div>
-                    <h1 className="mb-1 text-2xl font-semibold">
+                <div className="text-gray-500 space-y-1">
+                    <h1 className="mb-1 text-lg font-medium">
                         No favorites yet
                     </h1>
-                    <p className="text-gray-600">
+                    <p className="text-sm">
                         Items you favorite will appear here
                     </p>
                 </div>

@@ -81,15 +81,15 @@ export default function CartClient({ cart }: CartClientProps) {
     if (items.length === 0) {
         return (
             <PageContainer className="flex flex-col items-center justify-center space-y-6 text-center">
-                <div className="p-6 bg-gray-100 rounded-lg">
-                    <HiOutlineTrash size={40} className="text-gray-500" />
+                <div className="p-4 bg-gray-100 rounded-lg">
+                    <HiOutlineTrash size={30} className="text-gray-400" />
                 </div>
-                <div>
-                    <h1 className="mb-1 text-2xl font-semibold">
+                <div className="text-gray-500 space-y-1">
+                    <h1 className="mb-1 text-lg font-medium">
                         Your cart is empty
                     </h1>
-                    <p className="text-gray-600">
-                        You haven't added anything to your cart yet.
+                    <p className="text-sm">
+                        You haven't added anything to your cart yet
                     </p>
                 </div>
                 <Button

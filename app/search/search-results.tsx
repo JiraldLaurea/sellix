@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { RxCaretSort } from "react-icons/rx";
 import { Product } from "../types";
+import { MdOutlineSearchOff } from "react-icons/md";
 
 type Category = {
     id: string;
@@ -187,8 +188,8 @@ export default function SearchResults({
     const visibleProducts = sortedProducts;
 
     return (
-        <PageContainer className="md:p-0! max-w-7xl! ">
-            <div className="flex gap-6">
+        <PageContainer className="md:p-0! max-w-7xl! flex flex-col">
+            <div className="flex gap-6 grow">
                 <SearchSidebar
                     categories={categories}
                     activeCategory={category}
@@ -240,36 +241,42 @@ export default function SearchResults({
                             </div>
                         )}
                         {/* SORT BY BUTTON */}
-                        <Popover.Root>
-                            <Popover.Trigger className="pr-3 w-fit pl-4 mb-0 h-10 border flex items-center rounded-lg hover:bg-gray-100 transition-colors">
-                                <p className="text-sm">{activeSortLabel}</p>
-                                <RxCaretSort size={18} />
-                            </Popover.Trigger>
+                        {hasActiveFilters && items.length !== 0 && (
+                            <Popover.Root>
+                                <div className="flex justify-end mb-0">
+                                    <Popover.Trigger className="pr-3 w-fit pl-4 mb-0 h-10 border flex space-x-1 items-center rounded-lg hover:bg-gray-100 transition-colors">
+                                        <p className="text-sm">
+                                            {activeSortLabel}
+                                        </p>
+                                        <RxCaretSort size={18} />
+                                    </Popover.Trigger>
+                                </div>
 
-                            <Popover.Content
-                                align="end"
-                                sideOffset={1}
-                                className="z-50 w-50 rounded-lg border absolute -right-8 lg:right-0 bg-white shadow-lg py-2 space-y-1"
-                            >
-                                {SORT_OPTIONS.map((option) => (
-                                    <Popover.Close
-                                        key={option.value}
-                                        onClick={() =>
-                                            updateParam({
-                                                sort: option.value,
-                                            })
-                                        }
-                                        className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 ${
-                                            sort === option.value
-                                                ? "bg-gray-100"
-                                                : ""
-                                        }`}
-                                    >
-                                        {option.label}
-                                    </Popover.Close>
-                                ))}
-                            </Popover.Content>
-                        </Popover.Root>
+                                <Popover.Content
+                                    align="end"
+                                    sideOffset={1}
+                                    className="z-50 w-50 rounded-lg border bg-white shadow-lg p-2 space-y-1"
+                                >
+                                    {SORT_OPTIONS.map((option) => (
+                                        <Popover.Close
+                                            key={option.value}
+                                            onClick={() =>
+                                                updateParam({
+                                                    sort: option.value,
+                                                })
+                                            }
+                                            className={`w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-gray-100 transition-colors ${
+                                                sort === option.value
+                                                    ? "bg-gray-100"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {option.label}
+                                        </Popover.Close>
+                                    ))}
+                                </Popover.Content>
+                            </Popover.Root>
+                        )}
                     </div>
 
                     {hasActiveFilters && isFiltering ? (
@@ -286,7 +293,13 @@ export default function SearchResults({
                         </>
                     ) : hasActiveFilters && items.length === 0 ? (
                         // 🔹 EMPTY STATE
-                        <div className="text-center grow pb-13 text-gray-500 flex items-center justify-center">
+                        <div className="text-center grow pb-13 text-gray-500 flex flex-col items-center justify-center space-y-6">
+                            <div className="p-4 bg-gray-100 rounded-lg">
+                                <MdOutlineSearchOff
+                                    size={30}
+                                    className="text-gray-400"
+                                />
+                            </div>
                             <div>
                                 <h2 className="text-lg font-medium">
                                     No results found

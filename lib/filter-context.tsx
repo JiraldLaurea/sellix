@@ -27,7 +27,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     const maxParam = searchParams.get("max");
 
     const min = minParam ? Number(minParam) : 0;
-    const max = maxParam ? Number(maxParam) : 100;
+    const max = maxParam ? Number(maxParam) : 500;
 
     const DEFAULT_PRICE = [min, max] as [number, number];
 
@@ -45,7 +45,7 @@ export function FilterProvider({ children }: { children: React.ReactNode }) {
     const resetPriceRange = () => {
         setFilters((prev) => ({
             ...prev,
-            priceRange: [0, 100] as [number, number],
+            priceRange: [0, 500] as [number, number],
         }));
     };
 
