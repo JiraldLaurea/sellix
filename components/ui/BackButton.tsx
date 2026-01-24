@@ -15,10 +15,12 @@ export function BackButton({ text, href }: Props) {
                 if (href) router.push(`${href}`);
                 else router.back();
             }}
-            className="flex items-center relative right-1.5 space-x-1 text-blue-500 transition-colors cursor-pointer hover:underline w-fit"
+            className="flex items-center transition-colors cursor-pointer border rounded-lg px-3 h-10 hover:bg-gray-100 w-fit"
         >
-            <IoIosArrowBack size={20} />
-            <p className="text-sm">{text}</p>
+            <div className="relative right-[3px] flex items-center space-x-1">
+                <IoIosArrowBack size={20} />
+                <p className="text-sm">{text}</p>
+            </div>
         </button>
     );
 }

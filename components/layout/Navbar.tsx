@@ -194,10 +194,10 @@ export default function Navbar() {
                         <Popover.Content
                             side="bottom"
                             align="center"
-                            sideOffset={0}
+                            sideOffset={1}
                             onOpenAutoFocus={(e) => e.preventDefault()}
                             onCloseAutoFocus={(e) => e.preventDefault()}
-                            className="z-50 w-(--radix-popover-trigger-width) truncate text-ellipsis p-2 bg-white border shadow-lg rounded-xl"
+                            className="z-50 w-(--radix-popover-trigger-width) truncate text-ellipsis p-2 bg-white border shadow-lg rounded-lg"
                         >
                             {/* Loading */}
                             {isLoading && (

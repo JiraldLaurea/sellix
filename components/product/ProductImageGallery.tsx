@@ -69,7 +69,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
                                 : "opacity-100"
                         }`}
                         priority
-                        onLoadingComplete={handleMainLoaded}
+                        onLoad={handleMainLoaded}
                     />
                 </div>
             </div>

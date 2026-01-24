@@ -49,24 +49,27 @@ export default function ProductPurchase({ product }: Props) {
 
     return (
         <div className="space-y-6">
-            <QuantityPicker
-                quantity={quantity}
-                max={remainingStock}
-                onChange={handleQuantityChange}
-            />
+            <div className="flex space-x-2">
+                <QuantityPicker
+                    quantity={quantity}
+                    max={remainingStock}
+                    onChange={handleQuantityChange}
+                />
+                <AddToFavoriteButton
+                    buttonType="mini"
+                    product={product}
+                    className="w-10 h-10"
+                />
+                <AddToCartButton
+                    buttonType="regular"
+                    product={product}
+                    quantity={quantity}
+                    disabled={quantity === 0} // ✅ disable when 0
+                    className="max-w-40"
+                />
+            </div>
             <div>
-                <div className="flex flex-col items-center gap-2 sm:flex-row">
-                    <AddToCartButton
-                        buttonType="regular"
-                        product={product}
-                        quantity={quantity}
-                        disabled={quantity === 0} // ✅ disable when 0
-                    />
-                    <AddToFavoriteButton
-                        buttonType="regular"
-                        product={product}
-                    />
-                </div>
+                <div className="flex flex-col items-center gap-2 sm:flex-row"></div>
                 {remainingStock === 0 && (
                     <p className="p-4 mt-2 text-xs text-center rounded-lg bg-amber-50 text-amber-500 sm:text-left">
                         You have reached the maximum quantity available for this

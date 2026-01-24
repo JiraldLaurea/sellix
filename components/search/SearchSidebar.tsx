@@ -29,6 +29,7 @@ export default function SearchSidebar({
 }: SearchSidebarProps) {
     const [open, setOpen] = useState(false);
     // const [priceRange, setPriceRange] = useState<[number, number]>([min, max]);
+    const clamp = (v: number) => Math.min(500, Math.max(0, v));
 
     const { filters, setPriceRange, resetPriceRange } = useFilters();
 
@@ -163,21 +164,51 @@ export default function SearchSidebar({
                     {/* Inputs */}
                     <div className="flex items-center gap-2 mb-3">
                         <input
-                            type="number"
-                            value={localRange[0]}
-                            onChange={(e) =>
-                                setLocalRange([+e.target.value, localRange[1]])
-                            }
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            value={String(localRange[0])}
+                            onChange={(e) => {
+                                let raw = e.target.value.replace(/\D/g, ""); // digits only
+                                raw = raw.replace(/^0+(?=\d)/, ""); // strip leading zeros
+
+                                const nextMin = clamp(Number(raw || 0));
+                                const nextMax = Math.max(
+                                    nextMin,
+                                    localRange[1],
+                                );
+
+                                const next: [number, number] = [
+                                    nextMin,
+                                    nextMax,
+                                ];
+                                setLocalRange(next);
+                                debouncedSetPriceRange(next);
+                            }}
                             className="w-full rounded-lg border px-3 py-2 text-sm"
                         />
                         <span className="text-gray-500">-</span>
                         <input
-                            max={500}
-                            type="number"
-                            value={localRange[1]}
-                            onChange={(e) =>
-                                setLocalRange([localRange[0], +e.target.value])
-                            }
+                            type="text"
+                            inputMode="numeric"
+                            value={String(localRange[1])}
+                            onChange={(e) => {
+                                let raw = e.target.value.replace(/\D/g, "");
+                                raw = raw.replace(/^0+(?=\d)/, "");
+
+                                const nextMax = clamp(Number(raw || 0));
+                                const nextMin = Math.min(
+                                    localRange[0],
+                                    nextMax,
+                                );
+
+                                const next: [number, number] = [
+                                    nextMin,
+                                    nextMax,
+                                ];
+                                setLocalRange(next);
+                                debouncedSetPriceRange(next);
+                            }}
                             className="w-full rounded-lg border px-3 py-2 text-sm"
                         />
                     </div>

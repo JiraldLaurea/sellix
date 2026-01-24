@@ -45,10 +45,6 @@ export default function AddToFavoriteButton({
             showWarningToast("Something went wrong");
             return;
         }
-
-        favorited
-            ? showSuccessToast("Item Removed from Favorites", product.name)
-            : showSuccessToast("Item Added to Favorites", product.name);
     }
 
     if (buttonType === "mini") {
@@ -57,13 +53,13 @@ export default function AddToFavoriteButton({
                 onClick={handleToggle}
                 disabled={isDisabled}
                 className={`rounded-lg flex items-center justify-center border w-9 h-9 sm:w-10 sm:h-10
-                hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:hover:bg-inherit
-                ${className}`}
+                hover:bg-gray-100 transition-all disabled:opacity-50 disabled:hover:bg-inherit
+                ${className} ${favorited && "border-red-400 bg-red-50 hover:bg-red-100 duration-75 border-2"}`}
             >
                 {loading ? (
                     <Spinner borderColor="border-black" />
                 ) : favorited ? (
-                    <FaHeart size={14} />
+                    <FaHeart className="text-red-500" size={14} />
                 ) : (
                     <FaRegHeart size={14} />
                 )}
@@ -76,9 +72,8 @@ export default function AddToFavoriteButton({
             onClick={handleToggle}
             disabled={isDisabled}
             className={`rounded-lg h-10 text-sm border w-full flex items-center justify-center space-x-2
-            hover:bg-gray-100 transition-colors disabled:opacity-50
-            ${className}
-            ${favorited ? "" : ""}`}
+            hover:bg-gray-100 transition-all disabled:opacity-50
+            ${className} ${favorited && "ring-black ring border-transparent"}`}
         >
             {loading ? (
                 <div className="flex items-center justify-center h-full">
@@ -86,7 +81,7 @@ export default function AddToFavoriteButton({
                 </div>
             ) : favorited ? (
                 <>
-                    <FaHeart size={14} />
+                    <FaHeart className="" size={14} />
                     <p>Remove from Favorites</p>
                 </>
             ) : (
