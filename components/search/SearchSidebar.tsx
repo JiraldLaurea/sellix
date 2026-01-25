@@ -189,7 +189,7 @@ export default function SearchSidebar({
                                 setLocalRange(next);
                                 debouncedSetPriceRange(next);
                             }}
-                            className="w-full focus:outline-none focus:ring-2 ring-blue-500 rounded-lg border px-3 py-2 text-sm"
+                            className="w-full focus:outline-none focus:ring-2 ring-offset-2 transition ring-blue-300 rounded-lg border px-3 py-2 text-sm"
                         />
 
                         <span className="text-gray-500">-</span>
@@ -215,7 +215,7 @@ export default function SearchSidebar({
                                 setLocalRange(next);
                                 debouncedSetPriceRange(next);
                             }}
-                            className="w-full rounded-lg border px-3 py-2 text-sm"
+                            className="w-full focus:outline-none focus:ring-2 ring-offset-2 transition ring-blue-300 rounded-lg border px-3 py-2 text-sm"
                         />
                     </div>
                 </div>

@@ -282,10 +282,8 @@ export default function Navbar() {
                                     size={22}
                                     className="text-gray-500"
                                 />
-
                                 <input
                                     ref={searchInputRef}
-                                    autoFocus
                                     type="search"
                                     placeholder="Search products"
                                     value={searchInput}

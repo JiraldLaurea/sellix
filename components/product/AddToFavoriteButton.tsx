@@ -54,7 +54,7 @@ export default function AddToFavoriteButton({
                 disabled={isDisabled}
                 className={`rounded-lg flex items-center justify-center border w-9 h-9 sm:w-10 sm:h-10
                 hover:bg-gray-100 transition-all disabled:opacity-50 disabled:hover:bg-inherit
-                ${className} ${favorited && "border-red-400 bg-red-50 hover:bg-red-100 duration-75 border-2"}`}
+                ${className} ${favorited && "border-red-400 bg-red-50 hover:bg-red-100 disabled:border disabled:border-inherit duration-75 border-2"}`}
             >
                 {loading ? (
                     <Spinner borderColor="border-black" />
