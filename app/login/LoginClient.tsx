@@ -93,7 +93,6 @@ export default function LoginClient() {
                                     setLoadingProvider("google");
                                     signIn("google", { callbackUrl: "/" });
                                 }}
-                                className="h-12"
                             >
                                 <GoogleLogo />
                                 <span>
@@ -115,7 +114,6 @@ export default function LoginClient() {
                                     setLoadingProvider("github");
                                     signIn("github", { callbackUrl: "/" });
                                 }}
-                                className="h-12"
                             >
                                 <GitHubLogo />
                                 <span>
@@ -125,6 +123,33 @@ export default function LoginClient() {
                                 </span>
                             </Button>
                         </div>
+
+                        <div className="relative flex items-center my-4">
+                            <div className="grow border-t" />
+                            <span className="mx-2 text-sm text-gray-500">
+                                or
+                            </span>
+                            <div className="grow border-t" />
+                        </div>
+
+                        {/* Demo credentials */}
+                        {/* TODO */}
+                        <Button
+                            disabled={!!loadingProvider}
+                            onClick={async () => {
+                                setLoadingProvider("credentials");
+                                await signIn("credentials", {
+                                    callbackUrl: "/",
+                                    redirect: true,
+                                });
+                            }}
+
+                            // className="w-full bg-accent hover:bg-gray-800 transition text-white py-2 rounded-md disabled:opacity-60"
+                        >
+                            {loadingProvider === "credentials"
+                                ? "Signing in…"
+                                : "Sign in (demo)"}
+                        </Button>
                     </Container>
                 </div>
             </div>
