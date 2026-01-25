@@ -58,7 +58,7 @@ export default function SearchSidebar({
     }, [filters.priceRange]);
 
     return (
-        <aside className="hidden w-72 h-[calc(100vh-64px)] shrink-0 md:block">
+        <div className="sticky top-16 hidden w-72 pr-4 shrink-0 md:block">
             <div className="space-y-0 pl-8 pt-6">
                 {/* Categories */}
                 <div>
@@ -256,6 +256,6 @@ export default function SearchSidebar({
                     </Button>
                 </div>
             </div>
-        </aside>
+        </div>
     );
 }

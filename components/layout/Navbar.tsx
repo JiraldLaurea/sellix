@@ -103,10 +103,10 @@ export default function Navbar() {
     if (status !== "authenticated") return null;
 
     return (
-        <header
-            className={`sticky top-0 z-100 h-16 bg-white border-b ${isSearchOpened ? "hidden" : "block"}`}
-        >
-            <div className="container grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-7xl px-4 sm:px-8 mx-auto">
+        <header className={`sticky top-0 z-100 h-16 bg-white border-b`}>
+            <div
+                className={`container grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-7xl px-4 sm:px-8 mx-auto ${isSearchOpened ? "hidden" : "block"}`}
+            >
                 {/* Left controls */}
                 <Link href="/" className="w-fit">
                     <Image

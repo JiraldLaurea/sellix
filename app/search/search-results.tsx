@@ -189,14 +189,17 @@ export default function SearchResults({
 
     return (
         <PageContainer className="md:p-0! max-w-7xl! flex flex-col">
-            <div className="flex gap-6 grow">
-                <SearchSidebar
-                    categories={categories}
-                    activeCategory={category}
-                    updateParam={updateParam}
-                />
-                {/* Results */}
-                <section className="flex-1 md:py-6 md:pr-6 flex flex-col">
+            <div className="flex">
+                {/* SEARCH FILTER */}
+                <div className="hidden md:block min-h-[calc(100vh-64px)] border-r">
+                    <SearchSidebar
+                        categories={categories}
+                        activeCategory={category}
+                        updateParam={updateParam}
+                    />
+                </div>
+                {/* RESULTS */}
+                <section className="flex-1 md:p-6 flex flex-col">
                     <div className="flex lg:flex-row flex-col justify-between space-y-4 lg:space-y-0 lg:items-end mb-6">
                         {/* ALL PRODUCTS */}
                         {!category && !query && (

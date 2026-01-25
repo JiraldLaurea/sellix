@@ -26,13 +26,13 @@ export default async function AccountLayout({
     return (
         <PageContainer className="p-0!">
             <div className="flex">
-                <div className="min-h-[calc(100vh-64px)] border-r">
+                <div className="hidden md:block min-h-[calc(100vh-64px)] border-r">
                     <AccountSideMenu
                         orderCount={orderCount}
                         favoritesCount={favoritesCount}
                     />
                 </div>
-                <main className="flex-1 p-6">{children}</main>
+                <main className="flex-1 px-4 py-6 sm:p-6">{children}</main>
             </div>
         </PageContainer>
     );
