@@ -10,7 +10,7 @@ export function MenuItem({
     onClick,
 }: MenuItemProps) {
     return (
-        <div className="px-4">
+        <div className="px-2">
             <Popover.Close asChild className="w-full rounded-lg px-4">
                 <Link
                     onClick={onClick}

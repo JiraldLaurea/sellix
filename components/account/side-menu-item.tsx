@@ -27,7 +27,7 @@ export function SideMenuItem({
     const Icon = isActive ? activeIcon : icon;
 
     return (
-        <li className="px-4 space-y-10">
+        <li className="">
             <Link
                 href={href}
                 className={cn(

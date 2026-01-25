@@ -162,6 +162,10 @@ export default function SearchSidebar({
                     />
 
                     {/* Inputs */}
+                    <div className="grid grid-cols-[116px_116px] gap-6 text-gray-500 my-1">
+                        <p className="text-xs">MIN</p>
+                        <p className="text-xs">MAX</p>
+                    </div>
                     <div className="flex items-center gap-2 mb-3">
                         <input
                             type="text"
@@ -185,9 +189,11 @@ export default function SearchSidebar({
                                 setLocalRange(next);
                                 debouncedSetPriceRange(next);
                             }}
-                            className="w-full rounded-lg border px-3 py-2 text-sm"
+                            className="w-full focus:outline-none focus:ring-2 ring-blue-500 rounded-lg border px-3 py-2 text-sm"
                         />
+
                         <span className="text-gray-500">-</span>
+
                         <input
                             type="text"
                             inputMode="numeric"

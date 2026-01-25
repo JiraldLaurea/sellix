@@ -44,27 +44,21 @@ export default function AccountSideMenu({
     ];
 
     return (
-        <aside className="sticky hidden w-64 py-3 bg-white border top-24 shrink-0 rounded-xl h-fit md:block">
-            <h2 className="px-5 my-3 text-xs font-medium text-gray-500">
-                Dashboards
-            </h2>
+        <aside className="sticky hidden w-70 py-6 bg-white top-16 shrink-0 h-fit md:block">
+            <ul className="space-y-2 pr-4 pl-8">
+                <h2 className="mb-2 text-xs font-medium">DASHBOARDS</h2>
 
-            <ul className="space-y-2">
                 {dashboardLinks.map((link) => (
                     <SideMenuItem key={link.href} {...link} />
                 ))}
 
-                <h2 className="px-5 my-3 text-xs font-medium text-gray-500">
-                    Account
-                </h2>
+                <h2 className="mb-2 text-xs font-medium">ACCOUNT</h2>
 
                 {accountLinks.map((link) => (
                     <SideMenuItem key={link.href} {...link} />
                 ))}
 
-                <hr className="my-3" />
-
-                <li className="px-4">
+                <li className="">
                     <button
                         onClick={() => signOut({ callbackUrl: "/login" })}
                         className="relative flex items-center w-full h-10 gap-3 px-4 text-sm text-gray-700 transition-colors rounded-lg group hover:bg-gray-100"

@@ -75,7 +75,7 @@ export default function ProductImageGallery({ images, alt }: Props) {
             </div>
 
             {/* IMAGE GALLERY */}
-            <div className="flex p-1 md:pt-1 md:pl-1 select-none gap-3 md:flex-col overflow-x-auto md:pr-4 md:max-h-112 w-[calc(100vw-46px)] md:w-fit md:overflow-y-auto md:overflow-visible">
+            <div className="flex p-1 md:pt-1 md:pl-1 select-none gap-3 md:flex-col overflow-x-auto md:pr-4 md:max-h-112 sm:w-[calc(100vw-78px)] w-[calc(100vw-46px)] md:w-fit md:overflow-y-auto md:overflow-visible">
                 {images.map((img) => {
                     const isLoaded = loadedImages[img];
 

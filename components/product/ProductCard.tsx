@@ -25,7 +25,7 @@ export default function ProductCard({ product }: Props) {
     return (
         <div className="flex flex-col h-full overflow-hidden border">
             {/* Clickable area */}
-            <Link scroll={false} href={`/product/${product.id}`}>
+            <Link href={`/product/${product.id}`}>
                 <div className="p-4 border-b bg-gray-50">
                     <div className="relative aspect-square">
                         <Image

@@ -19,7 +19,7 @@ export default function AccountMenu() {
             <Popover.Content
                 align="end"
                 sideOffset={0}
-                className="w-64 pb-3 bg-white border shadow-lg rounded-xl focus:outline-none"
+                className="w-64 pb-2 bg-white border shadow-lg rounded-xl focus:outline-none"
             >
                 <div className="flex flex-col items-center px-4 pt-4 space-y-2 text-center">
                     <Avatar
@@ -36,7 +36,7 @@ export default function AccountMenu() {
                     </div>
                 </div>
 
-                <hr className="mt-5 mb-3" />
+                <hr className="mt-5 mb-2" />
                 <div className="space-y-2">
                     <MenuItem Icon={LuPackage} href="/orders/" text="Orders" />
                     <MenuItem
@@ -50,7 +50,8 @@ export default function AccountMenu() {
                         text="Profile"
                     />
                 </div>
-                <hr className="my-3" />
+
+                <hr className="my-2" />
 
                 <MenuItem
                     onClick={() =>

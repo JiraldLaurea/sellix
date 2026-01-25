@@ -24,15 +24,15 @@ export default async function AccountLayout({
     ]);
 
     return (
-        <PageContainer>
-            <div className="flex md:gap-6">
-                <div className="min-h-[calc(100vh-128px)]">
+        <PageContainer className="p-0!">
+            <div className="flex">
+                <div className="min-h-[calc(100vh-64px)] border-r">
                     <AccountSideMenu
                         orderCount={orderCount}
                         favoritesCount={favoritesCount}
                     />
                 </div>
-                <main className="flex-1">{children}</main>
+                <main className="flex-1 p-6">{children}</main>
             </div>
         </PageContainer>
     );
