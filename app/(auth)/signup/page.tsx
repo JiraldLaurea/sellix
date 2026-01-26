@@ -73,7 +73,7 @@ export default function SignUpPage() {
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full h-10 leading-10 px-3 rounded-lg focus:border-transparent border focus:outline-none focus:ring-2 transition focus:ring-blue-500"
+                                    className="text-base w-full h-10 leading-10 px-3 rounded-lg focus:border-transparent border focus:outline-none focus:ring-2 transition focus:ring-blue-500"
                                 />
                             </div>
 
@@ -86,7 +86,7 @@ export default function SignUpPage() {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full h-10 leading-10 px-3 rounded-lg focus:border-transparent border focus:outline-none focus:ring-2 transition focus:ring-blue-500"
+                                    className="text-base w-full h-10 leading-10 px-3 rounded-lg focus:border-transparent border focus:outline-none focus:ring-2 transition focus:ring-blue-500"
                                 />
                             </div>
 
@@ -104,7 +104,7 @@ export default function SignUpPage() {
                                         onChange={(e) =>
                                             setPassword(e.target.value)
                                         }
-                                        className="w-full h-10 leading-10 px-3 focus:outline-none"
+                                        className="text-base w-full h-10 leading-10 px-3 focus:outline-none"
                                     />
                                     <button
                                         type="button"
@@ -139,7 +139,7 @@ export default function SignUpPage() {
                                     onChange={(e) =>
                                         setConfirmPassword(e.target.value)
                                     }
-                                    className={`w-full h-10 leading-10 px-3 transition focus:border-transparent rounded-lg border focus:outline-none focus:ring-2 
+                                    className={`text-base w-full h-10 leading-10 px-3 transition focus:border-transparent rounded-lg border focus:outline-none focus:ring-2 
                                         ${password && confirmPassword && !passwordsMatch ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
                                 />
                                 {password &&
