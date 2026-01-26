@@ -224,7 +224,7 @@ export default function LoginClient() {
                                     ? "Signing in…"
                                     : "Sign in"}
                             </Button>
-                            <div className="flex justify-center">
+                            <div className="flex">
                                 <p>
                                     Don't have an account?{" "}
                                     <Link

@@ -187,7 +187,7 @@ export default function SignUpPage() {
                                 Create account
                             </Button>
 
-                            <p className="text-sm text-center">
+                            <p>
                                 Already have an account?{" "}
                                 <Link
                                     href="/login"
