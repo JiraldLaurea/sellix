@@ -60,9 +60,9 @@ export default function ProductImageGallery({ images, alt }: Props) {
                     <Image
                         src={activeImage}
                         alt={alt}
-                        quality={25}
+                        quality={100}
                         fill
-                        sizes="(max-width: 768px) 25vw, 25vw"
+                        sizes="(max-width: 768px) 75vw, 75vw"
                         className={`object-cover transition-opacity duration-300 ${
                             isFadingOut || isMainLoading
                                 ? "opacity-0"

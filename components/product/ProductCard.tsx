@@ -32,7 +32,7 @@ export default function ProductCard({ product }: Props) {
                             src={product.images[0]}
                             alt={product.name}
                             fill
-                            sizes="10vw"
+                            sizes="50vw"
                             className="object-cover"
                         />
                     </div>
