@@ -4,6 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
+import { compare } from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -26,15 +27,38 @@ export const authOptions: NextAuthOptions = {
         }),
 
         CredentialsProvider({
-            id: "credentials", // 👈 explicit
+            id: "credentials",
             name: "Credentials",
-            credentials: {},
-            async authorize() {
-                // 🔒 TEMPORARY hardcoded user (NO Prisma)
+            credentials: {
+                email: { type: "email" },
+                password: { type: "password" },
+            },
+            async authorize(credentials) {
+                if (!credentials?.email || !credentials?.password) {
+                    return null;
+                }
+
+                const user = await prisma.user.findUnique({
+                    where: { email: credentials.email },
+                });
+
+                if (!user || !user.passwordHash) {
+                    return null;
+                }
+
+                const isValid = await compare(
+                    credentials.password,
+                    user.passwordHash,
+                );
+
+                if (!isValid) {
+                    return null;
+                }
+
                 return {
-                    id: "demo-user-id",
-                    email: "demo@example.com",
-                    name: "Demo User",
+                    id: user.id,
+                    email: user.email,
+                    name: user.name,
                 };
             },
         }),

@@ -24,6 +24,7 @@
         "@stripe/react-stripe-js": "^5.4.1",
         "@stripe/stripe-js": "^8.6.0",
         "@types/dinero.js": "^1.9.4",
+        "bcryptjs": "^3.0.3",
         "clsx": "^2.1.1",
         "dinero.js": "^1.9.1",
         "embla-carousel-autoplay": "^8.6.0",
