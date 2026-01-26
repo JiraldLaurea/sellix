@@ -38,7 +38,7 @@ export default function ProfileClient({ user }: { user: any }) {
                                     className="object-cover"
                                 />
                             ) : (
-                                <div className="flex items-center justify-center w-full h-full text-xl font-semibold text-gray-400">
+                                <div className="flex items-center justify-center w-full h-full text-3xl font-semibold text-gray-400">
                                     {user.email?.[0]?.toUpperCase()}
                                 </div>
                             )}

@@ -80,7 +80,7 @@ export default function Navbar() {
         }
     }, [isSearchOpened]);
 
-    if (status === "loading" && pathname !== "/login")
+    if (status === "loading" && pathname !== "/login" && pathname !== "/signup")
         return (
             <header className="sticky top-0 z-50 block h-16 bg-white border-b">
                 <div className="container animate-pulse grid grid-cols-2 sm:grid-cols-[120px_1fr_120px] gap-4 items-center h-full max-w-7xl px-4 sm:px-8 mx-auto">
