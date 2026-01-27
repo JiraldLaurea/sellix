@@ -21,7 +21,7 @@ export default function FavoritesClient({ products, favoriteIds }: Props) {
 
     if (visibleProducts.length === 0) {
         return (
-            <PageContainer className="p-0! -my-8 flex flex-col items-center justify-center text-center space-y-6">
+            <PageContainer className="p-0! -my-6 flex flex-col items-center justify-center text-center space-y-6">
                 <div className="p-4 bg-gray-100 rounded-lg">
                     <LuHeart size={30} className="text-gray-400" />
                 </div>

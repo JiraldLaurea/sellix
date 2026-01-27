@@ -196,7 +196,7 @@ export default function CartClient({ cart }: CartClientProps) {
                                             </div>
                                             <div className="flex flex-row items-end justify-between sm:flex-col sm:items-end grow">
                                                 {/* Subtotal */}
-                                                <p className="flex items-center h-10 font-medium sm:h-auto">
+                                                <p className="flex items-center h-9 sm:h-10 font-medium">
                                                     {formatMoney(
                                                         item.product.price *
                                                             item.quantity,
