@@ -42,9 +42,12 @@ export default function ProductCard({ product }: Props) {
             {/* Product Info */}
             <div className="flex flex-col p-3 space-y-6 sm:p-4 grow">
                 <div className="flex flex-col truncate grow text-ellipsis text-wrap">
-                    <small className="text-xs text-gray-500 sm:text-sm w-fit">
+                    <Link
+                        href={`/search?category=${product.category.id}`}
+                        className="text-xs hover:underline text-gray-500 sm:text-sm w-fit"
+                    >
                         {product.category.name}
-                    </small>
+                    </Link>
                     <Link
                         href={`/product/${product.id}`}
                         className="text-xs font-medium w-fit hover:underline text sm:text-sm"

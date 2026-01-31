@@ -106,9 +106,10 @@ export default function OrdersClient({ orders }: Props) {
                 ) : (
                     filteredOrders.map((order) => (
                         <Link
+                            id={order.orderNumber}
                             key={order.id}
                             href={`/orders/${order.orderNumber}`}
-                            className="block"
+                            className="block scroll-m-16"
                         >
                             <Container className="w-full rounded-none! transition-colors px-3 sm:px-6 py-4 hover:bg-gray-50 flex items-center justify-between space-x-2 sm:space-x-4">
                                 {/* LEFT */}

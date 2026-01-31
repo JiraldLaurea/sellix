@@ -19,7 +19,10 @@ export default function OrderDetailsClient({ order }: any) {
     return (
         <PageContainer className=" p-0! mx-0!">
             <div className="space-y-6">
-                <BackButton text="Orders" href="/orders" />
+                <BackButton
+                    text="Orders"
+                    href={`/orders#${order.orderNumber}`}
+                />
                 <div>
                     <h1 className="font-semibold sm:text-lg mb-3 sm:mb-4">
                         Order Details
