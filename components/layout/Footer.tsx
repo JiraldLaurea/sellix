@@ -8,7 +8,12 @@ export default function Footer() {
     const pathname = usePathname();
 
     // Hide footer if not authenticated
-    if (pathname === "/login" || pathname === "/signup") return null;
+    if (
+        pathname === "/login" ||
+        pathname === "/signup" ||
+        pathname.startsWith("/search")
+    )
+        return null;
 
     return (
         <div className="flex justify-center py-10 border-t bg-gray-50">

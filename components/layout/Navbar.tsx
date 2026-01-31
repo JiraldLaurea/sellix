@@ -19,7 +19,6 @@ export default function Navbar() {
     const { status } = useSession({ required: false });
     const [searchInput, setSearchInput] = useState<string>("");
     const [isSearchOpened, setIsSearchOpened] = useState<boolean>(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const pathname = usePathname();
     const searchContainerRef = useRef<HTMLDivElement>(null);
 
@@ -28,11 +27,9 @@ export default function Navbar() {
 
     const [isDesktopSuggestionOpen, setIsDesktopSuggestionOpen] =
         useState(false);
-    const [isMobileSuggestionOpen, setIsMobileSuggestionOpen] = useState(false);
-    const [isSuggestionMenuOpen, setIsSuggestionMenuOpen] = useState(false);
     const { resetPriceRange } = useFilters();
 
-    const isOpen = Boolean(searchInput.trim());
+    const authRoutes = ["/login", "/signup"];
 
     const router = useRouter();
 
@@ -100,7 +97,8 @@ export default function Navbar() {
             </header>
         );
 
-    if (status !== "authenticated") return null;
+    if (status !== "authenticated" || authRoutes.includes(pathname))
+        return null;
 
     return (
         <header className={`sticky top-0 z-100 h-16 bg-white border-b`}>

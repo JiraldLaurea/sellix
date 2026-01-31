@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { signIn } from "next-auth/react";
+import { Welcome } from "@/components/ui/Welcome";
 
 export default function SignUpClient() {
     const [name, setName] = useState("");
@@ -27,27 +28,10 @@ export default function SignUpClient() {
     return (
         <PageContainer className="py-0! max-w-full sm:px-0!">
             <div className="grid min-h-screen grid-cols-1 md:grid-cols-[400px_1fr] lg:grid-cols-[550px_1fr]">
-                {/* LEFT */}
-                <div className="hidden md:flex flex-col items-center justify-center px-8 space-y-10 text-center text-white border-r bg-accent">
-                    <Image
-                        src="/img/brand_logo_dark.png"
-                        alt="Brand Logo"
-                        width={180}
-                        height={40}
-                        className="object-contain"
-                    />
-                    <div className="space-y-2">
-                        <h1 className="text-4xl font-semibold">
-                            Create your Sellix account
-                        </h1>
-                        <p className="max-w-md text-gray-400">
-                            Get started in minutes. Manage products, orders, and
-                            payments with ease.
-                        </p>
-                    </div>
-                </div>
+                {/* LEFT — WELCOME */}
+                <Welcome />
 
-                {/* RIGHT */}
+                {/* RIGHT — SIGNUP */}
                 <div className="flex items-center justify-center w-full">
                     <Container className="w-full max-w-lg px-0 py-6 sm:p-6">
                         <Image

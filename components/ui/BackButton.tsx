@@ -17,7 +17,7 @@ export function BackButton({ text, href }: Props) {
             }}
             className="flex items-center transition-colors cursor-pointer border rounded-lg px-3 h-10 hover:bg-gray-100 w-fit"
         >
-            <div className="relative right-[3px] flex items-center space-x-1">
+            <div className="relative right-0.75 flex items-center space-x-1">
                 <IoIosArrowBack size={20} />
                 <p className="text-sm">{text}</p>
             </div>

@@ -46,7 +46,7 @@ export default async function RootLayout({
             </head>
             <body className={`min-h-screen`}>
                 <NextTopLoader
-                    color="black"
+                    color="#0088FF"
                     height={2}
                     crawl
                     showSpinner={false}

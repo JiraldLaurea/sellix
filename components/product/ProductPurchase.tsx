@@ -55,17 +55,17 @@ export default function ProductPurchase({ product }: Props) {
                     max={remainingStock}
                     onChange={handleQuantityChange}
                 />
-                <AddToFavoriteButton
-                    buttonType="mini"
-                    product={product}
-                    className="w-10 h-10"
-                />
                 <AddToCartButton
                     buttonType="regular"
                     product={product}
                     quantity={quantity}
                     disabled={quantity === 0} // ✅ disable when 0
                     className="max-w-40"
+                />
+                <AddToFavoriteButton
+                    buttonType="mini"
+                    product={product}
+                    className="w-10 h-10"
                 />
             </div>
             <div>

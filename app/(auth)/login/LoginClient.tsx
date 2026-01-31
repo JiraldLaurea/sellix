@@ -10,12 +10,15 @@ import Link from "next/link";
 import { useState } from "react";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { IoIosAlert, IoIosInformationCircle } from "react-icons/io";
+import { useRouter } from "next/navigation";
+import { Welcome } from "@/components/ui/Welcome";
 
 type Provider = "google" | "github" | "credentials" | null;
 
 export default function LoginClient() {
     const { status } = useSession();
     const [loadingProvider, setLoadingProvider] = useState<Provider>(null);
+    const router = useRouter();
 
     const DEMO_EMAIL = "admin@email.com";
     const DEMO_PASSWORD = "Secret12";
@@ -34,36 +37,8 @@ export default function LoginClient() {
     return (
         <PageContainer className="py-0! max-w-full sm:px-0!">
             <div className="grid min-h-screen grid-cols-1 md:grid-cols-[400px_1fr] lg:grid-cols-[550px_1fr]">
-                {/* LEFT — SIDE CONTENT */}
-                <div className="flex-col items-center justify-center hidden w-full px-8 space-y-10 text-center text-white border-r md:flex bg-accent">
-                    <Image
-                        src="/img/brand_logo_dark.png"
-                        alt="Brand Logo"
-                        width={180}
-                        height={40}
-                        preload
-                        loading="eager"
-                        className="object-contain"
-                    />
-                    <div className="space-y-2">
-                        <h1 className="text-4xl font-semibold">
-                            Welcome to Sellix
-                        </h1>
-
-                        <p className="max-w-md leading-relaxed text-gray-400">
-                            A modern e-commerce platform built to help you
-                            manage orders and payments in one place. Fast,
-                            secure, and designed to scale with your business.
-                        </p>
-                    </div>
-
-                    <div className="flex gap-8 font-medium text-gray-500">
-                        <span>Next.js</span>
-                        <span>Stripe</span>
-                        <span>Prisma</span>
-                        <span>Postgresql</span>
-                    </div>
-                </div>
+                {/* LEFT — WELCOME */}
+                <Welcome />
 
                 {/* RIGHT — LOGIN */}
                 <div className="flex items-center w-full justify-center">
@@ -160,7 +135,7 @@ export default function LoginClient() {
                                     return;
                                 }
 
-                                window.location.href = "/";
+                                router.push("/");
                             }}
                         >
                             {/* Email */}
@@ -169,11 +144,16 @@ export default function LoginClient() {
                                     Email address
                                 </p>
                                 <input
+                                    disabled={
+                                        !githubEnabled ||
+                                        !!loadingProvider ||
+                                        status === "loading"
+                                    }
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="you@example.com"
-                                    className="w-full text-base text-black leading-10 rounded-lg border px-3 h-10 focus:outline-none transition-all focus:ring-2 focus:border-transparent focus:ring-blue-500"
+                                    className="disabled:hover:bg-inherit disabled:opacity-50 w-full text-base text-black leading-10 rounded-lg border px-3 h-10 focus:outline-none transition-all focus:ring-2 focus:border-transparent focus:ring-blue-500"
                                 />
                             </div>
 
@@ -182,6 +162,11 @@ export default function LoginClient() {
                                 <p className="font-medium mb-1">Password</p>
                                 <div className="relative focus-within:ring-2 border focus-within:border-transparent focus-within:ring-blue-500 transition-all rounded-lg">
                                     <input
+                                        disabled={
+                                            !githubEnabled ||
+                                            !!loadingProvider ||
+                                            status === "loading"
+                                        }
                                         type={
                                             showPassword ? "text" : "password"
                                         }
@@ -189,7 +174,7 @@ export default function LoginClient() {
                                         onChange={(e) =>
                                             setPassword(e.target.value)
                                         }
-                                        className="w-full text-base text-black px-3 h-10 leading-10 focus:outline-none"
+                                        className="disabled:hover:bg-inherit disabled:opacity-50 w-full text-base text-black px-3 h-10 leading-10 focus:outline-none"
                                     />
                                     <button
                                         type="button"
