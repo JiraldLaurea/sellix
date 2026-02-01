@@ -245,6 +245,14 @@ export default function SearchResults({
                                 </p>
                             </div>
                         )}
+
+                        {hasActiveFilters && isFiltering && (
+                            <div className="space-y-2">
+                                <div className="w-60 h-7 bg-gray-200 animate-pulse rounded-lg" />
+                                <div className="text-sm h-4 w-20 bg-gray-200 animate-pulse rounded-lg" />
+                            </div>
+                        )}
+
                         {/* SORT BY BUTTON */}
                         {hasActiveFilters && items.length !== 0 && (
                             <Popover.Root>
@@ -284,12 +292,8 @@ export default function SearchResults({
                         )}
                     </div>
 
-                    {!hasActiveFilters && isFiltering ? (
+                    {hasActiveFilters && isFiltering ? (
                         <>
-                            <div className="mb-6 space-y-2">
-                                <div className="w-60 h-7 bg-gray-200 animate-pulse rounded-lg" />
-                                <div className="text-sm h-4 w-20 bg-gray-200 animate-pulse rounded-lg" />
-                            </div>
                             <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-3">
                                 {Array.from({ length: 6 }).map((_, i) => (
                                     <ProductCardSkeleton key={i} />
