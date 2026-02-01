@@ -6,7 +6,7 @@ import { Header } from "@/components/ui/Header";
 import SectionContainer from "@/components/ui/SectionContainer";
 import { useState } from "react";
 
-const INITIAL_COUNT = 6;
+const INITIAL_COUNT = 5;
 const STEP = 20;
 
 export default function CategorySection({
@@ -22,7 +22,7 @@ export default function CategorySection({
         <SectionContainer className="min-h-auto">
             <Header text="Categories" />
 
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-4 lg:grid-cols-6">
+            <div className="grid grid-cols-2 gap-3 sm:gap-6 sm:grid-cols-4 lg:grid-cols-5">
                 {categories.slice(0, visible).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}

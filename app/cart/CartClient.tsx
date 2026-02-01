@@ -103,7 +103,7 @@ export default function CartClient({ cart }: CartClientProps) {
     }
 
     return (
-        <PageContainer>
+        <PageContainer className="min-h-[calc(100vh-64px)]">
             {/* Back */}
             <BackButton text="Back" />
             <div className="flex flex-col mt-4 sm:gap-6 lg:flex-row">
