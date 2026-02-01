@@ -4,6 +4,13 @@ import HeroCarousel from "./components/HeroCarousel";
 import SpecialOfferSection from "./components/SpecialOfferSection";
 import CategoryPreviewSection from "./components/CategoryPreviewSection";
 
+const FEATURED_PRODUCTS = [
+    "Apple Airpods",
+    "Gucci Bloom Eau de",
+    "New DELL XPS 13 9300 Laptop",
+    "Rolex Submariner Watch",
+];
+
 const SPECIAL_OFFER_PRODUCTS = [
     "iPad Mini 2021 Starlight",
     "Samsung Galaxy S8",
@@ -16,6 +23,20 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
 };
 
 export default async function LandingPage() {
+    const heroProducts = await prisma.product.findMany({
+        where: {
+            name: { in: FEATURED_PRODUCTS, mode: "insensitive" },
+        },
+        orderBy: { name: "asc" },
+        take: 4,
+        select: {
+            id: true,
+            name: true,
+            description: true,
+            images: true,
+        },
+    });
+
     const categories = await prisma.category.findMany({
         select: {
             id: true,
@@ -80,7 +101,7 @@ export default async function LandingPage() {
 
     return (
         <>
-            <HeroCarousel />
+            <HeroCarousel products={heroProducts} />;
             <CategorySection
                 categories={categories.map((c) => ({
                     id: c.id,
@@ -90,7 +111,6 @@ export default async function LandingPage() {
                 }))}
             />
             <SpecialOfferSection products={specialOffers} />
-
             {getCategoryId("Mobile Accessories") && (
                 <CategoryPreviewSection
                     title={CATEGORY_DESCRIPTIONS["Mobile Accessories"]}
@@ -98,7 +118,6 @@ export default async function LandingPage() {
                     products={mobileAccessories}
                 />
             )}
-
             {getCategoryId("Smartphones") && (
                 <CategoryPreviewSection
                     title={CATEGORY_DESCRIPTIONS["Smartphones"]}

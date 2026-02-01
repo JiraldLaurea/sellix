@@ -25,6 +25,13 @@ export type ProductUI = {
     };
 };
 
+export type HeroProduct = {
+    id: string;
+    name: string;
+    description: string | null;
+    images: string[];
+};
+
 export type Category = {
     id: string;
     name: string;

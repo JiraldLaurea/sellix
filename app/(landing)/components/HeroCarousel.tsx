@@ -4,14 +4,17 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Product } from "@/app/types";
+import { HeroProduct, Product } from "@/app/types";
 import PageContainer from "@/components/ui/PageContainer";
 import { useRouter } from "nextjs-toploader/app";
 import { Button } from "@/components/ui/Button";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 
-export default function HeroCarousel() {
-    const [products, setProducts] = useState<Product[]>([]);
+type HeroCarouselProps = {
+    products: HeroProduct[];
+};
+
+export default function HeroCarousel({ products }: HeroCarouselProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const router = useRouter();
 
@@ -56,18 +59,6 @@ export default function HeroCarousel() {
             emblaApi.off("select", onSelect);
         };
     }, [emblaApi]);
-
-    useEffect(() => {
-        async function loadProducts() {
-            const res = await fetch("/api/hero-products");
-
-            const data = await res.json();
-
-            setProducts(data);
-        }
-
-        loadProducts();
-    }, []);
 
     return (
         <PageContainer className="relative max-w-full px-0! justify-center flex items-center bg-accent text-white">
