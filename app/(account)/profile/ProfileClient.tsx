@@ -55,7 +55,8 @@ export default function ProfileClient({ user }: { user: any }) {
                     </div>
 
                     {/* Right: Change photo button */}
-                    <button
+                    {/* TODO */}
+                    {/* <button
                         onClick={() => fileRef.current?.click()}
                         className="flex items-center justify-center w-full h-10 gap-2 px-4 text-sm font-medium text-white transition-colors border rounded-lg bg-linear-to-t from-blue-600 to-blue-500 sm:w-fit hover:from-blue-700 hover:to-blue-500"
                     >
@@ -69,7 +70,7 @@ export default function ProfileClient({ user }: { user: any }) {
                         accept="image/*"
                         className="hidden"
                         onChange={handleImageChange}
-                    />
+                    /> */}
                 </div>
 
                 <hr className="my-6" />
