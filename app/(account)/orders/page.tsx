@@ -21,7 +21,7 @@ export default async function OrdersPage() {
     const orderCount = orders.length;
 
     return (
-        <PageContainer className="p-0! min-h-auto">
+        <PageContainer className="p-0! min-h-[calc(100vh-112px)]">
             <OrdersClient orders={orders} orderCount={orderCount} />
         </PageContainer>
     );
