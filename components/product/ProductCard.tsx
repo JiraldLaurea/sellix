@@ -1,15 +1,15 @@
 "use client";
 
+import { ProductUI } from "@/app/types";
 import { formatMoney } from "@/lib/formatMoney";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import AddToCartButton from "./AddToCartButton";
-import { Product } from "@/app/types";
 import AddToFavoriteButton from "./AddToFavoriteButton";
 
 type Props = {
-    product: Product;
+    product: ProductUI;
 };
 
 export default function ProductCard({ product }: Props) {
@@ -23,7 +23,7 @@ export default function ProductCard({ product }: Props) {
     }, [quantity, product.stock]);
 
     return (
-        <div className="flex flex-col h-full overflow-hidden border">
+        <div className="flex flex-col h-full overflow-hidden border rounded-xl">
             {/* Clickable area */}
             <Link href={`/product/${product.id}`}>
                 <div className="p-4 border-b bg-gray-50">
@@ -55,11 +55,11 @@ export default function ProductCard({ product }: Props) {
                         {product.name}
                     </Link>
                 </div>
-                <div className="flex items-end justify-between">
+                <div className="flex flex-col space-y-1">
                     <p className="font-semibold text-sm text-black sm:text-lg">
                         {formatMoney(product.price)}
                     </p>
-                    <div className="flex space-x-1">
+                    <div className="flex justify-end space-x-1">
                         <AddToFavoriteButton
                             product={product}
                             buttonType="mini"

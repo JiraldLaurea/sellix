@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "@/app/types";
+import { Product, ProductUI } from "@/app/types";
 import { useFavorites } from "@/lib/favorites-context";
 import { showSuccessToast } from "@/lib/toast/showSuccessToast";
 import { showWarningToast } from "@/lib/toast/showWarningToast";
@@ -12,7 +12,7 @@ import { Spinner } from "../ui/Spinner";
 type ButtonType = "regular" | "mini";
 
 type Props = {
-    product: Product;
+    product: ProductUI;
     buttonType: ButtonType;
     className?: string;
 };

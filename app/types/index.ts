@@ -13,6 +13,18 @@ export type Product = {
     updatedAt: Date;
 };
 
+export type ProductUI = {
+    id: string;
+    name: string;
+    price: number;
+    stock: number;
+    images: string[];
+    category: {
+        id: string;
+        name: string;
+    };
+};
+
 export type Category = {
     id: string;
     name: string;

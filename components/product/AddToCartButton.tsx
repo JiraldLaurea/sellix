@@ -7,12 +7,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { Spinner } from "../ui/Spinner";
-import { Product } from "@/app/types";
+import { Product, ProductUI } from "@/app/types";
 
 type ButtonType = "regular" | "mini";
 
 type AddToCartButtonProps = {
-    product: Product;
+    product: ProductUI;
     quantity: number;
     className?: string;
     buttonType: ButtonType;
