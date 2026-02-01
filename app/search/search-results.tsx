@@ -11,6 +11,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { RxCaretSort } from "react-icons/rx";
 import { Product } from "../types";
 import { MdOutlineSearchOff } from "react-icons/md";
+import ProductCardContainer from "@/components/ui/ProductCardContainer";
 
 type Category = {
     id: string;
@@ -200,6 +201,7 @@ export default function SearchResults({
                 </div>
                 {/* RESULTS */}
                 <section className="flex-1 md:p-6 flex flex-col">
+                    {/* HEADER */}
                     <div className="flex lg:flex-row flex-col justify-between space-y-4 lg:space-y-0 lg:items-end mb-6">
                         {/* ALL PRODUCTS */}
                         {!category && !query && (
@@ -282,7 +284,7 @@ export default function SearchResults({
                         )}
                     </div>
 
-                    {hasActiveFilters && isFiltering ? (
+                    {!hasActiveFilters && isFiltering ? (
                         <>
                             <div className="mb-6 space-y-2">
                                 <div className="w-60 h-7 bg-gray-200 animate-pulse rounded-lg" />
@@ -314,14 +316,14 @@ export default function SearchResults({
                         </div>
                     ) : (
                         <>
-                            <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <ProductCardContainer className="md:grid-cols-2! lg:grid-cols-3! ">
                                 {visibleProducts.map((product) => (
                                     <ProductCard
                                         key={product.id}
                                         product={product}
                                     />
                                 ))}
-                            </div>
+                            </ProductCardContainer>
                             {!category && !query && hasMore && (
                                 <div ref={loaderRef} className="h-10" />
                             )}

@@ -80,7 +80,7 @@ export default function CartClient({ cart }: CartClientProps) {
     // EMPTY CART
     if (items.length === 0) {
         return (
-            <PageContainer className="flex flex-col items-center justify-center space-y-6 text-center">
+            <PageContainer className="flex flex-col items-center justify-center space-y-6 text-center min-h-[calc(100vh-64px)]">
                 <div className="p-4 bg-gray-100 rounded-lg">
                     <HiOutlineTrash size={30} className="text-gray-400" />
                 </div>

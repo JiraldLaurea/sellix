@@ -14,8 +14,8 @@ export default function ProductCardSkeleton() {
                 <div className="mt-auto flex items-end justify-between">
                     <div className="h-7 w-20 rounded bg-gray-300" />
                     <div className="flex space-x-1">
-                        <div className="h-10 w-10 rounded bg-gray-300" />
-                        <div className="h-10 w-10 rounded bg-gray-300" />
+                        <div className="h-9 w-9 sm:h-10 sm:w-10 rounded bg-gray-300" />
+                        <div className="h-9 w-9 sm:h-10 sm:w-10 rounded bg-gray-300" />
                     </div>
                 </div>
             </div>

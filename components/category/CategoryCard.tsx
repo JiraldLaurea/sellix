@@ -13,9 +13,9 @@ export default function CategoryCard({
         <Link
             key={category.id}
             href={`/search?category=${category.id}`}
-            className="flex flex-col h-full overflow-hidden border"
+            className="flex flex-col h-full overflow-hidden border rounded-xl"
         >
-            <div className="p-4 bg-gray-50">
+            <div className="p-8 bg-gray-50">
                 <div className="relative w-full aspect-square">
                     {category.image && (
                         <Image

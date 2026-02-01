@@ -4,6 +4,7 @@ import { Product } from "@/app/types";
 import ProductCard from "@/components/product/ProductCard";
 import { Header } from "@/components/ui/Header";
 import PageContainer from "@/components/ui/PageContainer";
+import ProductCardContainer from "@/components/ui/ProductCardContainer";
 import { useFavorites } from "@/lib/favorites-context";
 import Link from "next/link";
 import { LuHeart } from "react-icons/lu";
@@ -21,7 +22,7 @@ export default function FavoritesClient({ products, favoriteIds }: Props) {
 
     if (visibleProducts.length === 0) {
         return (
-            <PageContainer className="p-0! -my-6 flex flex-col items-center justify-center text-center space-y-6">
+            <PageContainer className="p-0! -my-6 flex flex-col items-center justify-center text-center space-y-6 min-h-[calc(100vh-64px)] ">
                 <div className="p-4 bg-gray-100 rounded-lg">
                     <LuHeart size={30} className="text-gray-400" />
                 </div>
@@ -48,11 +49,11 @@ export default function FavoritesClient({ products, favoriteIds }: Props) {
         <section className="max-w-6xl">
             <Header text="Favorites" />
 
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-2 lg:grid-cols-3">
+            <ProductCardContainer className="md:grid-cols-2! lg:grid-cols-3! ">
                 {visibleProducts.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}
-            </div>
+            </ProductCardContainer>
         </section>
     );
 }
