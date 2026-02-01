@@ -32,7 +32,9 @@ export default async function AccountLayout({
                         favoritesCount={favoritesCount}
                     />
                 </div>
-                <main className="flex-1 px-4 py-6 sm:p-6">{children}</main>
+                <main className="flex-1 px-4 py-6 sm:p-6 min-h-[calc(100vh-64px)]">
+                    {children}
+                </main>
             </div>
         </PageContainer>
     );

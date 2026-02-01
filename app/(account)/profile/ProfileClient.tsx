@@ -4,7 +4,6 @@ import { Header } from "@/components/ui/Header";
 import { showSuccessToast } from "@/lib/toast/showSuccessToast";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { MdCameraAlt } from "react-icons/md";
 
 export default function ProfileClient({ user }: { user: any }) {
     const fileRef = useRef<HTMLInputElement | null>(null);
