@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import CategoryClient from "./components/CategoryClient";
 
-export default async function CategoriesPage() {
+export default async function CategoriesSection() {
     const categories = await prisma.category.findMany({
         select: {
             id: true,
