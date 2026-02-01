@@ -3,7 +3,8 @@
 import { Product } from "@/app/types";
 import ProductCard from "@/components/product/ProductCard";
 import { Header } from "@/components/ui/Header";
-import PageContainer from "@/components/ui/PageContainer";
+import ProductCardContainer from "@/components/ui/ProductCardContainer";
+import SectionContainer from "@/components/ui/SectionContainer";
 import { useEffect, useRef, useState } from "react";
 
 type ShopClientProps = {
@@ -45,10 +46,10 @@ export default function ShopClient({
     }, [cursor, loading]);
 
     return (
-        <PageContainer>
+        <SectionContainer>
             <Header text="Products Catalog" />
 
-            <div className="grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <ProductCardContainer>
                 {products.map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}
@@ -60,9 +61,9 @@ export default function ShopClient({
                             className="bg-gray-100 border h-107 animate-pulse"
                         />
                     ))}
-            </div>
+            </ProductCardContainer>
 
             {cursor && <div ref={loadMoreRef} className="h-1" />}
-        </PageContainer>
+        </SectionContainer>
     );
 }
