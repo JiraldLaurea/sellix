@@ -246,8 +246,7 @@ export default function CartClient({ cart }: CartClientProps) {
                 </div>
 
                 {/* RIGHT: SUMMARY */}
-                <Container className="p-0 pt-6 border-t rounded-none sm:border sm:rounded-xl lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
-                    {/* <div className="p-8 text-sm border rounded-lg h-fit sm:sticky sm:top-24"> */}
+                <Container className="p-0 pt-6 sm:border border-t rounded-none! sm:rounded-xl! lg:max-w-sm sm:p-6 lg:sticky lg:top-24 h-fit">
                     <h2 className="mb-4 text-2xl font-semibold">Summary</h2>
                     <OrderBreakdown
                         subtotal={subtotal}
