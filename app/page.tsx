@@ -1,9 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import HeroCarousel from "./(marketing)/components/HeroCarousel";
-import ShopPage from "./(shop)/shop/page";
-import CategoriesSection from "./(marketing)/page";
+import LandingPage from "./(landing)/page";
 
 export default async function Home() {
     const session = await getServerSession(authOptions);
@@ -12,12 +10,5 @@ export default async function Home() {
         redirect("/login");
     }
 
-    return (
-        <>
-            <HeroCarousel />
-            <CategoriesSection />
-
-            <ShopPage />
-        </>
-    );
+    return <LandingPage />;
 }
