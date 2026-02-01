@@ -3,13 +3,13 @@
 import { CategoryCardProps } from "@/app/types";
 import CategoryCard from "@/components/category/CategoryCard";
 import { Header } from "@/components/ui/Header";
-import PageContainer from "@/components/ui/PageContainer";
+import SectionContainer from "@/components/ui/SectionContainer";
 import { useState } from "react";
 
 const INITIAL_COUNT = 6;
 const STEP = 20;
 
-export default function CategoryClient({
+export default function CategorySection({
     categories,
 }: {
     categories: CategoryCardProps[];
@@ -19,8 +19,8 @@ export default function CategoryClient({
     const showMore = () => setVisible((v) => v + STEP);
 
     return (
-        <PageContainer className="min-h-auto">
-            <Header text="Browse Categories" />
+        <SectionContainer className="min-h-auto">
+            <Header text="Categories" />
 
             <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-4 lg:grid-cols-6">
                 {categories.slice(0, visible).map((category) => (
@@ -38,6 +38,6 @@ export default function CategoryClient({
                     </button>
                 </div>
             )}
-        </PageContainer>
+        </SectionContainer>
     );
 }
