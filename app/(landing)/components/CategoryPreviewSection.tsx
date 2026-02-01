@@ -21,7 +21,7 @@ export default function CategoryPreviewSection({
 
                 <Link
                     href={`/search?category=${categoryId}`}
-                    className="text-blue-500 text-sm font-medium hover:underline"
+                    className="text-blue-500 hover:underline"
                 >
                     Show more
                 </Link>
