@@ -203,7 +203,11 @@ export default function LoginClient() {
 
                             <Button
                                 className="w-full"
-                                disabled={!!loadingProvider}
+                                disabled={
+                                    !githubEnabled ||
+                                    !!loadingProvider ||
+                                    status === "loading"
+                                }
                             >
                                 {loadingProvider === "credentials"
                                     ? "Signing in…"
