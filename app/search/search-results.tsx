@@ -54,6 +54,7 @@ export default function SearchResults({
     const [isLoading, setIsLoading] = useState(false);
 
     const loaderRef = useRef<HTMLDivElement | null>(null);
+    const loadingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const hasActiveFilters = Boolean(category || query || minParam || maxParam);
 
@@ -66,10 +67,13 @@ export default function SearchResults({
         SORT_OPTIONS.find((o) => o.value === sort)?.label ??
         "Alphabetical (A-Z)";
 
-    // 🔹 MAIN FETCH
+    // MAIN FETCH
     useEffect(() => {
         const fetchProducts = async () => {
-            setIsLoading(true);
+            // delay loading to avoid flicker
+            loadingTimeoutRef.current = setTimeout(() => {
+                setIsLoading(true);
+            }, 500); // 👈 sweet spot (120–180ms)
 
             const params = new URLSearchParams();
             if (category) params.set("category", category);
@@ -90,7 +94,7 @@ export default function SearchResults({
         fetchProducts();
     }, [category, query, minParam, maxParam, sort]);
 
-    // 🔹 INFINITE SCROLL
+    // INFINITE SCROLL
     const loadMore = async () => {
         if (!hasMore || !cursor || isLoading) return;
 
@@ -190,12 +194,14 @@ export default function SearchResults({
 
                         {items.length > 0 && (
                             <Popover.Root>
-                                <Popover.Trigger className="h-10 px-4 border rounded-lg flex items-center gap-1">
-                                    <span className="text-sm">
-                                        {activeSortLabel}
-                                    </span>
-                                    <RxCaretSort size={18} />
-                                </Popover.Trigger>
+                                <div className="flex justify-end mb-0">
+                                    <Popover.Trigger className="pr-3 w-fit pl-4 mb-0 h-10 border flex space-x-1 items-center rounded-lg hover:bg-gray-100 transition-colors">
+                                        <p className="text-sm">
+                                            {activeSortLabel}
+                                        </p>
+                                        <RxCaretSort size={18} />
+                                    </Popover.Trigger>
+                                </div>
 
                                 <Popover.Content
                                     align="end"
@@ -225,12 +231,12 @@ export default function SearchResults({
                     </div>
 
                     {/* CONTENT */}
-                    {isLoading ? (
-                        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+                    {!isLoading ? (
+                        <ProductCardContainer className="md:grid-cols-2! lg:grid-cols-3!">
                             {Array.from({ length: 6 }).map((_, i) => (
                                 <ProductCardSkeleton key={i} />
                             ))}
-                        </div>
+                        </ProductCardContainer>
                     ) : hasActiveFilters && items.length === 0 ? (
                         <div className="flex flex-col items-center justify-center grow text-gray-500 py-20">
                             <div className="p-4 bg-gray-100 rounded-lg">

@@ -6,8 +6,8 @@ import { Header } from "@/components/ui/Header";
 import SectionContainer from "@/components/ui/SectionContainer";
 import { useState } from "react";
 
-const INITIAL_COUNT = 5;
-const STEP = 20;
+const INITIAL_COUNT = 10;
+const STEP = 12;
 
 export default function CategorySection({
     categories,

@@ -28,7 +28,7 @@ export default function CategoryCard({
                     )}
                 </div>
             </div>
-            <div className="w-full p-3 text-left border-t">
+            <div className="w-full p-3 border-t text-center">
                 <p className="text-sm font-medium">{category.name}</p>
                 <p className="text-xs text-gray-500">
                     {category.itemCount} items
