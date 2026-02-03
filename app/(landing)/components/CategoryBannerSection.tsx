@@ -24,13 +24,13 @@ export default function CategoryBannerSection({
                 >
                     {/* Image container */}
                     <div className="absolute inset-0 flex items-center justify-end pr-6">
-                        <div className="relative h-[85%] aspect-[3/4] max-w-[220px] sm:max-w-[260px]">
+                        <div className="relative sm:h-full h-[85%] aspect-3/4 max-w-55 sm:max-w-65">
                             <Image
                                 src={item.image}
                                 alt={item.title}
                                 fill
                                 className="object-contain"
-                                sizes="(max-width: 640px) 180px, 260px"
+                                sizes="(max-width: 640px) 220px, 260px"
                                 priority
                             />
                         </div>
@@ -52,7 +52,7 @@ export default function CategoryBannerSection({
 
                         <Link
                             href={item.href}
-                            className="inline-block w-fit rounded-lg bg-accent px-6 py-3 text-white font-medium hover:bg-neutral-800 transition-colors"
+                            className="inline-block w-fit rounded-lg bg-accent px-6 py-3 text-white font-medium hover:bg-neutral-700 transition-colors"
                         >
                             Shop Now
                         </Link>

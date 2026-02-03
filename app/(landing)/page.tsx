@@ -19,7 +19,7 @@ const SPECIAL_OFFER_PRODUCTS = [
 ];
 
 const CATEGORY_TITLE: Record<string, string> = {
-    "Mobile Accessories": "Mobile accessories",
+    "Mobile Accessories": "Mobile Accessories",
     Smartphones: "Smartphones",
     "Mens Shirts": "Mens Shirts",
     "Womens Dresses": "Womens Dresses",
