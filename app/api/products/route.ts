@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getProducts } from "@/lib/getProducts";
+import { Prisma } from "@prisma/client";
+
+type SortKey = "name_asc" | "name_desc" | "price_asc" | "price_desc";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -10,7 +13,6 @@ export async function GET(req: Request) {
     const query = searchParams.get("q");
     const autocomplete = searchParams.get("autocomplete") === "true";
 
-    // ✅ IMPORTANT: only treat min/max as active if present
     const minParam = searchParams.get("min");
     const maxParam = searchParams.get("max");
 
@@ -19,7 +21,17 @@ export async function GET(req: Request) {
 
     const hasFilters = Boolean(category || query || minParam || maxParam);
 
-    // 🔹 FILTERED QUERY (category / search / price)
+    const sort = (searchParams.get("sort") ?? "name_asc") as SortKey;
+
+    const ORDER_BY: Record<SortKey, Prisma.ProductOrderByWithRelationInput[]> =
+        {
+            name_asc: [{ name: "asc" }, { id: "asc" }],
+            name_desc: [{ name: "desc" }, { id: "asc" }],
+            price_asc: [{ price: "asc" }, { id: "asc" }],
+            price_desc: [{ price: "desc" }, { id: "asc" }],
+        };
+
+    // 🔹 FILTERED QUERY
     if (hasFilters && !cursor) {
         const items = await prisma.product.findMany({
             where: {
@@ -36,19 +48,15 @@ export async function GET(req: Request) {
                       }
                     : {}),
             },
-            include: {
-                category: true,
-            },
+            include: { category: true },
             take: autocomplete ? 6 : undefined,
-            orderBy: {
-                createdAt: "asc",
-            },
+            orderBy: ORDER_BY[sort],
         });
 
         return NextResponse.json({ items });
     }
 
     // 🔹 INFINITE SCROLL (All Products)
-    const data = await getProducts(cursor);
+    const data = await getProducts(cursor, sort);
     return NextResponse.json(data);
 }
