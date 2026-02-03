@@ -18,14 +18,17 @@ type Category = {
 type SearchSidebarProps = {
     categories: Category[];
     activeCategory?: string | null;
-
     updateParam: (params: Record<string, string | undefined>) => void;
+    forceMobile?: boolean;
+    onClose?: () => void;
 };
 
 export default function SearchSidebar({
     categories,
     activeCategory,
     updateParam,
+    forceMobile = false,
+    onClose,
 }: SearchSidebarProps) {
     const [open, setOpen] = useState(false);
     // const [priceRange, setPriceRange] = useState<[number, number]>([min, max]);
@@ -58,8 +61,14 @@ export default function SearchSidebar({
     }, [filters.priceRange]);
 
     return (
-        <div className="sticky top-16 hidden w-72 pr-4 shrink-0 md:block">
-            <div className="space-y-0 pl-8 pt-6">
+        <div
+            className={`sticky  w-72 shrink-0 md:block ${
+                forceMobile
+                    ? "block w-full"
+                    : "hidden md:block w-64 pr-4 top-16"
+            }`}
+        >
+            <div className={`space-y-0 ${forceMobile ? "" : "pl-8 pt-6"}`}>
                 {/* Categories */}
                 <div>
                     <h2 className="mb-2 text-xs font-medium">CATEGORY</h2>
@@ -99,6 +108,7 @@ export default function SearchSidebar({
                                         });
                                         resetPriceRange();
                                         setOpen(false);
+                                        onClose?.();
                                     }}
                                     className={cn(
                                         "w-full flex items-center h-10 px-4 text-sm rounded-lg text-gray-700 hover:bg-gray-100 transition-colors",
@@ -120,6 +130,7 @@ export default function SearchSidebar({
                                                     sort: "name_asc",
                                                 });
                                                 resetPriceRange();
+                                                onClose?.();
                                                 setOpen(false);
                                             }}
                                             className={cn(
@@ -223,13 +234,15 @@ export default function SearchSidebar({
                 <hr className="my-6" />
 
                 {/* APPLY AND CLEAR FILTER BUTTONS */}
-                <div>
+                <div className="space-y-2">
                     <Button
                         onClick={() => {
                             updateParam({
                                 min: min !== 0 ? min.toString() : undefined,
                                 max: max.toString(),
                             });
+
+                            onClose?.();
 
                             showSuccessToast(
                                 "Filter Applied",
@@ -242,17 +255,23 @@ export default function SearchSidebar({
 
                     <Button
                         variant="secondary"
-                        className="mt-2"
                         onClick={() => {
                             resetPriceRange();
                             updateParam({
                                 min: undefined,
                                 max: undefined,
                             });
+
+                            onClose?.();
+
                             showSuccessToast("Filter Cleared");
                         }}
                     >
                         Clear Filter
+                    </Button>
+
+                    <Button variant="secondary" onClick={onClose}>
+                        Close Filter
                     </Button>
                 </div>
             </div>

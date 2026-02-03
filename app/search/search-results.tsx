@@ -11,6 +11,10 @@ import ProductCardSkeleton from "@/components/product/ProductCardSkeleton";
 import SearchSidebar from "@/components/search/SearchSidebar";
 import PageContainer from "@/components/ui/PageContainer";
 import ProductCardContainer from "@/components/ui/ProductCardContainer";
+import * as Dialog from "@radix-ui/react-dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { FiSliders } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
 
 import { Product } from "../types";
 
@@ -41,6 +45,7 @@ export default function SearchResults({
 }: SearchResultsProps) {
     const searchParams = useSearchParams();
     const router = useRouter();
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const query = searchParams.get("q") ?? "";
     const category = searchParams.get("category");
@@ -193,40 +198,92 @@ export default function SearchResults({
                         </div>
 
                         {items.length > 0 && (
-                            <Popover.Root>
-                                <div className="flex justify-end mb-0">
-                                    <Popover.Trigger className="pr-3 w-fit pl-4 mb-0 h-10 border flex space-x-1 items-center rounded-lg hover:bg-gray-100 transition-colors">
+                            <div className="flex justify-end gap-2">
+                                {/* MOBILE FILTER (FULLSCREEN) */}
+                                <Dialog.Root
+                                    open={isFilterOpen}
+                                    onOpenChange={setIsFilterOpen}
+                                >
+                                    <Dialog.Trigger
+                                        onClick={() => setIsFilterOpen(true)}
+                                        className="md:hidden h-10 px-4 border rounded-lg flex items-center gap-2 hover:bg-gray-100"
+                                    >
+                                        <FiSliders size={16} />
+                                        <span className="text-sm">Filters</span>
+                                    </Dialog.Trigger>
+
+                                    <Dialog.Portal>
+                                        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40" />
+
+                                        <Dialog.Content className="fixed inset-0 z-50 bg-white flex flex-col">
+                                            {/* REQUIRED a11y title */}
+                                            <VisuallyHidden.Root>
+                                                <Dialog.Title>
+                                                    Filters
+                                                </Dialog.Title>
+                                            </VisuallyHidden.Root>
+
+                                            {/* TOP BAR */}
+                                            <div className="h-14 px-4 border-b flex items-center justify-between sticky top-0 bg-white">
+                                                <h2 className="text-base font-semibold">
+                                                    Filters
+                                                </h2>
+
+                                                <Dialog.Close className="p-2 rounded-full hover:bg-gray-100">
+                                                    <IoClose size={20} />
+                                                </Dialog.Close>
+                                            </div>
+
+                                            {/* SCROLLABLE CONTENT */}
+                                            <div className="flex-1 overflow-y-auto px-4 py-6">
+                                                <SearchSidebar
+                                                    categories={categories}
+                                                    activeCategory={category}
+                                                    updateParam={updateParam}
+                                                    forceMobile
+                                                    onClose={() =>
+                                                        setIsFilterOpen(false)
+                                                    }
+                                                />
+                                            </div>
+                                        </Dialog.Content>
+                                    </Dialog.Portal>
+                                </Dialog.Root>
+
+                                {/* SORT (unchanged) */}
+                                <Popover.Root>
+                                    <Popover.Trigger className="h-10 px-4 border rounded-lg flex items-center gap-1 hover:bg-gray-100">
                                         <p className="text-sm">
                                             {activeSortLabel}
                                         </p>
                                         <RxCaretSort size={18} />
                                     </Popover.Trigger>
-                                </div>
 
-                                <Popover.Content
-                                    align="end"
-                                    sideOffset={4}
-                                    className="z-50 w-52 rounded-lg border bg-white shadow p-2 space-y-1"
-                                >
-                                    {SORT_OPTIONS.map((option) => (
-                                        <Popover.Close
-                                            key={option.value}
-                                            onClick={() =>
-                                                updateParam({
-                                                    sort: option.value,
-                                                })
-                                            }
-                                            className={`w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-gray-100 ${
-                                                sort === option.value
-                                                    ? "bg-gray-100"
-                                                    : ""
-                                            }`}
-                                        >
-                                            {option.label}
-                                        </Popover.Close>
-                                    ))}
-                                </Popover.Content>
-                            </Popover.Root>
+                                    <Popover.Content
+                                        align="end"
+                                        sideOffset={4}
+                                        className="z-50 w-52 rounded-lg border bg-white shadow p-2 space-y-1"
+                                    >
+                                        {SORT_OPTIONS.map((option) => (
+                                            <Popover.Close
+                                                key={option.value}
+                                                onClick={() =>
+                                                    updateParam({
+                                                        sort: option.value,
+                                                    })
+                                                }
+                                                className={`w-full text-left px-3 py-2 text-sm rounded-lg hover:bg-gray-100 ${
+                                                    sort === option.value
+                                                        ? "bg-gray-100"
+                                                        : ""
+                                                }`}
+                                            >
+                                                {option.label}
+                                            </Popover.Close>
+                                        ))}
+                                    </Popover.Content>
+                                </Popover.Root>
+                            </div>
                         )}
                     </div>
 
