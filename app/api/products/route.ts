@@ -5,8 +5,13 @@ import { Prisma } from "@prisma/client";
 
 type SortKey = "name_asc" | "name_desc" | "price_asc" | "price_desc";
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
+
+    // ARTIFICIAL DELAY
+    await sleep(500);
 
     const cursor = searchParams.get("cursor") ?? undefined;
     const category = searchParams.get("category");

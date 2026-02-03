@@ -75,10 +75,7 @@ export default function SearchResults({
     // MAIN FETCH
     useEffect(() => {
         const fetchProducts = async () => {
-            // delay loading to avoid flicker
-            loadingTimeoutRef.current = setTimeout(() => {
-                setIsLoading(true);
-            }, 500); // 👈 sweet spot (120–180ms)
+            setIsLoading(true);
 
             const params = new URLSearchParams();
             if (category) params.set("category", category);
@@ -288,7 +285,7 @@ export default function SearchResults({
                     </div>
 
                     {/* CONTENT */}
-                    {!isLoading ? (
+                    {isLoading ? (
                         <ProductCardContainer className="md:grid-cols-2! lg:grid-cols-3!">
                             {Array.from({ length: 6 }).map((_, i) => (
                                 <ProductCardSkeleton key={i} />
