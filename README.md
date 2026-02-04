@@ -9,12 +9,37 @@ It focuses on performance, scalability, clean architecture, and polished user ex
 
 ## 📸 Preview
 
-![Landing Page](public/assets/sellix_landing1.png)
-![Search Results](public/assets/sellix_search_results.png)
-![Payment](public/assets/sellix_payment.png)
-![Order Success](public/assets/sellix_order_success.png)
-![Product Details](public/assets/sellix_product_details.png)
-![Mobile](public/assets/sellix_mobile.jpg)
+> Key user flows across desktop and mobile, including browsing, search, checkout, and order completion.
+
+<p align="center">
+  <strong>Landing Page</strong><br/>
+  <img src="public/assets/sellix_landing1.png" width="80%" />
+</p>
+
+<p align="center">
+  <strong>Search Results</strong><br/>
+  <img src="public/assets/sellix_search_results.png" width="80%" />
+</p>
+
+<p align="center">
+  <strong>Product Details</strong><br/>
+  <img src="public/assets/sellix_product_details.png" width="80%" />
+</p>
+
+<p align="center">
+  <strong>Checkout / Payment</strong><br/>
+  <img src="public/assets/sellix_payment.png" width="80%" />
+</p>
+
+<p align="center">
+  <strong>Order Success</strong><br/>
+  <img src="public/assets/sellix_order_success.png" width="80%" />
+</p>
+
+<p align="center">
+  <strong>Mobile View</strong><br/>
+  <img src="public/assets/sellix_mobile.jpg" width="45%" />
+</p>
 
 ---
 
