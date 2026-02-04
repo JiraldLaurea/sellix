@@ -37,8 +37,12 @@ It focuses on performance, scalability, clean architecture, and a polished user 
 - **Server-side rendering & data fetching** for SEO and performance
 - **Authentication & authorization** with NextAuth + Prisma
 - **Full Stripe payment flow** (client + server integration)
+- **Shopping experience**
+    - Add to cart with persistent state
+    - Favorites functionality
+    - Dedicated cart and favorites pages
 - **Advanced product browsing**
-    - Search
+    - Debounced search
     - Category filtering
     - Sorting
     - Infinite scroll
@@ -78,7 +82,7 @@ It focuses on performance, scalability, clean architecture, and a polished user 
 - Type-safe environment
 - Modular folder structure
 - Prisma seeding
-- Debounced search & optimized effects
+- Optimized effects
 
 ---
 
