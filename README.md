@@ -9,11 +9,12 @@ It focuses on performance, scalability, clean architecture, and polished user ex
 
 ## 📸 Preview
 
-![Landing Page](public/assets/sellix_landing1.png)(public/assets/sellix_landing2.png)
-![Sign In](public/assets/sellix_signin.png)
-![Cart](public/assets/sellix_cart.png)
-![Order Success](public/assets/sellix_order_success.png)
+![Landing Page](public/assets/sellix_landing1.png)
 ![Search Results](public/assets/sellix_search_results.png)
+![Payment](public/assets/sellix_payment.png)
+![Order Success](public/assets/sellix_order_success.png)
+![Product Details](public/assets/sellix_product_details.png)
+![Mobile](public/assets/sellix_mobile.png)
 
 ---
 
