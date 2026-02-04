@@ -195,7 +195,7 @@ export default function SearchResults({
                         </div>
 
                         {items.length > 0 && (
-                            <div className="flex justify-end gap-2">
+                            <div className="flex justify-between gap-2">
                                 {/* MOBILE FILTER (FULLSCREEN) */}
                                 <Dialog.Root
                                     open={isFilterOpen}
