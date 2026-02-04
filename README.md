@@ -1,7 +1,7 @@
 # Sellix — Modern Full-Stack E-Commerce Platform
 
 Sellix is a production-grade e-commerce web application built to demonstrate real-world frontend and full-stack development skills.  
-It focuses on performance, scalability, clean architecture, and polished user experience — the same constraints found in professional teams.
+It focuses on performance, scalability, clean architecture, and a polished user experience.
 
 🔗 Live Demo: https://sellix-ecommerce.vercel.app/
 
@@ -11,35 +11,23 @@ It focuses on performance, scalability, clean architecture, and polished user ex
 
 > Key user flows across desktop and mobile, including browsing, search, checkout, and order completion.
 
-<p align="center">
-  <strong>Landing Page</strong><br/>
-  <img src="public/assets/sellix_landing1.png" width="80%" />
-</p>
+**Landing Page**  
+![Landing Page](public/assets/sellix_landing1.png)
 
-<p align="center">
-  <strong>Search Results</strong><br/>
-  <img src="public/assets/sellix_search_results.png" width="80%" />
-</p>
+**Search Results**  
+![Search Results](public/assets/sellix_search_results.png)
 
-<p align="center">
-  <strong>Product Details</strong><br/>
-  <img src="public/assets/sellix_product_details.png" width="80%" />
-</p>
+**Product Details**  
+![Product Details](public/assets/sellix_product_details.png)
 
-<p align="center">
-  <strong>Checkout / Payment</strong><br/>
-  <img src="public/assets/sellix_payment.png" width="80%" />
-</p>
+**Checkout / Payment**  
+![Payment](public/assets/sellix_payment.png)
 
-<p align="center">
-  <strong>Order Success</strong><br/>
-  <img src="public/assets/sellix_order_success.png" width="80%" />
-</p>
+**Order Success**  
+![Order Success](public/assets/sellix_order_success.png)
 
-<p align="center">
-  <strong>Mobile View</strong><br/>
-  <img src="public/assets/sellix_mobile.jpg" width="45%" />
-</p>
+**Mobile View**  
+![Mobile](public/assets/sellix_mobile.jpg)
 
 ---
 
