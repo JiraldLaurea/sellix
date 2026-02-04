@@ -14,7 +14,7 @@ It focuses on performance, scalability, clean architecture, and polished user ex
 ![Payment](public/assets/sellix_payment.png)
 ![Order Success](public/assets/sellix_order_success.png)
 ![Product Details](public/assets/sellix_product_details.png)
-![Mobile](public/assets/sellix_mobile.png)
+![Mobile](public/assets/sellix_mobile.jpg)
 
 ---
 
