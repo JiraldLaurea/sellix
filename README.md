@@ -1,4 +1,4 @@
-# Sellix — Modern Full-Stack E-Commerce Platform
+# Sellix - Modern Full-Stack E-Commerce Platform
 
 Sellix is a production-grade e-commerce web application built to demonstrate real-world frontend and full-stack development skills.  
 It focuses on performance, scalability, clean architecture, and a polished user experience.
