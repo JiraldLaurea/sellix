@@ -155,22 +155,24 @@ export default function SearchSidebar({
                     {/* <h3 className="mb-3 text-sm font-medium">Price Range</h3> */}
 
                     {/* Slider */}
-                    <Slider
-                        size="small"
-                        value={localRange}
-                        min={0}
-                        max={500}
-                        onChange={(_, newValue) => {
-                            setLocalRange(newValue as [number, number]); // instant
-                            debouncedSetPriceRange(
-                                newValue as [number, number],
-                            ); // debounced
-                        }}
-                        valueLabelDisplay="auto"
-                        sx={{
-                            color: "#2b7fff",
-                        }}
-                    />
+                    <div className={`${forceMobile && "px-4"}`}>
+                        <Slider
+                            size="small"
+                            value={localRange}
+                            min={0}
+                            max={500}
+                            onChange={(_, newValue) => {
+                                setLocalRange(newValue as [number, number]); // instant
+                                debouncedSetPriceRange(
+                                    newValue as [number, number],
+                                ); // debounced
+                            }}
+                            valueLabelDisplay="auto"
+                            sx={{
+                                color: "#2b7fff",
+                            }}
+                        />
+                    </div>
 
                     {/* Inputs */}
                     <div className="grid grid-cols-[116px_116px] gap-6 text-gray-500 my-1">
@@ -269,10 +271,11 @@ export default function SearchSidebar({
                     >
                         Clear Filter
                     </Button>
-
-                    <Button variant="secondary" onClick={onClose}>
-                        Close Filter
-                    </Button>
+                    {forceMobile && (
+                        <Button variant="secondary" onClick={onClose}>
+                            Close Filter
+                        </Button>
+                    )}
                 </div>
             </div>
         </div>
