@@ -3,13 +3,13 @@
 Sellix is a production-grade e-commerce web application built to demonstrate real-world frontend and full-stack development skills.  
 It focuses on performance, scalability, clean architecture, and polished user experience — the same constraints found in professional teams.
 
-> Built specifically as a portfolio project to showcase job-ready web development skills.
+🔗 Live Demo: https://sellix-ecommerce.vercel.app/
 
 ---
 
-## 🚀 Live Demo
+## 📸 Preview
 
-🎥 Demo video included in this repository
+![Video Demo](./public/assets/sellix-demo.mp4)
 
 ---
 
