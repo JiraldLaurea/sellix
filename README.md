@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sellix — Modern Full-Stack E-Commerce Platform
 
-## Getting Started
+Sellix is a production-grade e-commerce web application built to demonstrate real-world frontend and full-stack development skills.  
+It focuses on performance, scalability, clean architecture, and polished user experience — the same constraints found in professional teams.
 
-First, run the development server:
+> Built specifically as a portfolio project to showcase job-ready web development skills.
+
+---
+
+## 🚀 Live Demo
+
+🎥 Demo video included in this repository
+
+---
+
+## 🧩 Key Features
+
+- **Modern App Router architecture (Next.js 16)**
+- **Server-side rendering & data fetching** for SEO and performance
+- **Authentication & authorization** with NextAuth + Prisma
+- **Full Stripe payment flow** (client + server integration)
+- **Advanced product browsing**
+    - Search
+    - Category filtering
+    - Sorting
+    - Infinite scroll
+- **Optimized UX**
+    - Skeleton loaders
+    - Delayed loading states to prevent flicker
+    - Mobile-first responsive layout
+- **Reusable component system**
+- **Type-safe database access** with Prisma
+- **Dockerized development setup**
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+
+- **Next.js 16 (App Router)**
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS**
+- **Radix UI**
+- **Material UI (selective usage)**
+- **Embla Carousel**
+
+### Backend / Infrastructure
+
+- **NextAuth** (authentication)
+- **Prisma ORM**
+- **PostgreSQL**
+- **Stripe API**
+- **Docker / Docker Compose**
+
+### Developer Experience
+
+- ESLint (strict)
+- Type-safe environment
+- Modular folder structure
+- Prisma seeding
+- Debounced search & optimized effects
+
+---
+
+## 🏗 Architecture Overview
+
+- **App Router + Server Components** for scalable rendering
+- **Client components only where interaction is required**
+- **Clear separation of concerns**
+    - `app/` — routing & layouts
+    - `components/` — reusable UI
+    - `lib/` — utilities, auth, prisma
+    - `prisma/` — schema & seed data
+- **Optimistic UX patterns** to avoid layout shift and flicker
+- **State derived from URL params** for shareable, SEO-friendly pages
+
+---
+
+## 💳 Payments
+
+- Secure Stripe checkout flow
+- Client + server validation
+- Production-ready payment architecture
+
+---
+
+## 🧪 Running Locally
+
+### Prerequisites
+
+- Node.js 20+
+- Docker
+
+### Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/sellix.git
+cd sellix
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 👤 Author
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Built by Jirald Calusay  
+Web Developer focused on modern React, Next.js, and scalable frontend and backend systems.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- GitHub: https://github.com/JiraldLaurea
+- LinkedIn: https://www.linkedin.com/in/jirald-calusay-064b09220/
+- Portfolio: https://jiraldcalusay.vercel.app
+- Email: jiraldcalusay@gmail.com
