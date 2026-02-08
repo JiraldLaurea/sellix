@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { Spinner } from "../ui/Spinner";
-import { Product, ProductUI } from "@/app/types";
+import { ProductUI } from "@/app/types";
 
 type ButtonType = "regular" | "mini";
 

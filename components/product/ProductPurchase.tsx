@@ -69,7 +69,6 @@ export default function ProductPurchase({ product }: Props) {
                 />
             </div>
             <div>
-                <div className="flex flex-col items-center gap-2 sm:flex-row"></div>
                 {remainingStock === 0 && (
                     <p className="p-4 mt-2 text-xs text-center rounded-lg bg-amber-50 text-amber-500 sm:text-left">
                         You have reached the maximum quantity available for this

@@ -1,8 +1,7 @@
 "use client";
 
-import { Product, ProductUI } from "@/app/types";
+import { ProductUI } from "@/app/types";
 import { useFavorites } from "@/lib/favorites-context";
-import { showSuccessToast } from "@/lib/toast/showSuccessToast";
 import { showWarningToast } from "@/lib/toast/showWarningToast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
