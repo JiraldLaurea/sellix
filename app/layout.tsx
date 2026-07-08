@@ -1,7 +1,7 @@
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import { CartProvider } from "@/lib/cart-context";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
@@ -13,15 +13,39 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { FilterProvider } from "@/lib/filter-context";
+import ServiceWorkerRegister from "@/components/layout/ServiceWorkerRegister";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     icons: {
-        icon: "/favicon.ico",
+        icon: [
+            { url: "/favicon.ico" },
+            {
+                url: "/icons/icon-192x192.png",
+                sizes: "192x192",
+                type: "image/png",
+            },
+            {
+                url: "/icons/icon-512x512.png",
+                sizes: "512x512",
+                type: "image/png",
+            },
+        ],
+        apple: "/icons/apple-touch-icon.png",
     },
     title: "Sellix",
     description: "Quality in every order",
+    manifest: "/manifest.webmanifest",
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "default",
+        title: "Sellix",
+    },
+};
+
+export const viewport: Viewport = {
+    themeColor: "#000000",
 };
 
 export default async function RootLayout({
@@ -45,6 +69,7 @@ export default async function RootLayout({
                 <link rel="preconnect" href="https://fonts.gstatic.com" />
             </head>
             <body className={`min-h-screen`}>
+                <ServiceWorkerRegister />
                 <NextTopLoader
                     color="#0088FF"
                     height={2}
